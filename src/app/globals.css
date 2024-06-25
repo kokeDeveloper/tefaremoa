@@ -1,6 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&display=swap');
 
 :root {
   --foreground-rgb: 0, 0, 0;
@@ -8,13 +9,14 @@
   --background-end-rgb: 255, 255, 255;
 }
 
-@media (prefers-color-scheme: dark) {
+@media (prefers-color-scheme: white) {
   :root {
     --foreground-rgb: 255, 255, 255;
     --background-start-rgb: 0, 0, 0;
     --background-end-rgb: 0, 0, 0;
   }
 }
+
 
 body {
   color: rgb(var(--foreground-rgb));
@@ -24,6 +26,7 @@ body {
       rgb(var(--background-end-rgb))
     )
     rgb(var(--background-start-rgb));
+    font-family: 'Oswald', sans-serif;
 }
 
 @layer utilities {
@@ -31,3 +34,24 @@ body {
     text-wrap: balance;
   }
 }
+
+/* Tipografía*/
+
+h1 {
+  font-size: 50px;
+  font-optical-sizing: auto;
+  font-style: normal;
+  font-weight: 100;
+}
+
+P {
+  font-size: 20px;
+  font-weight: 300;
+}
+
+.title-section {
+  font-weight: 300 !important;
+}
+
+/*Botón Whatsapp*/
+
