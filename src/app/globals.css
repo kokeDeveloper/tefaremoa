@@ -17,6 +17,16 @@
   }
 }
 
+@font-face {
+  font-family: 'aloha';
+  src: url('/fonts/aloha.otf') format('opentype');
+}
+
+@font-face {
+  font-family: 'oswald';
+  src: url('/fonts/oswald.ttf ') format('truetype');
+}
+
 
 body {
   color: rgb(var(--foreground-rgb));
@@ -26,7 +36,7 @@ body {
       rgb(var(--background-end-rgb))
     )
     rgb(var(--background-start-rgb));
-    font-family: 'Oswald', sans-serif;
+  font-family: 'aloha', sans-serif;
 }
 
 @layer utilities {
@@ -45,12 +55,16 @@ h1 {
 }
 
 P {
-  font-size: 20px;
-  font-weight: 300;
+  font-size: 16px;
+  
 }
 
 .title-section {
   font-weight: 300 !important;
+}
+
+.main-title {
+  font-family: 'oswald', sans-serif;
 }
 
 /*Botón Whatsapp*/

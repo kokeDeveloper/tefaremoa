@@ -5,7 +5,7 @@ export default function NosotrosContent() {
         <section className="text-gray-600 body-font bg-black">
             <div className="container px-5 py-24 mx-auto">
                 <div className="flex flex-col text-center w-full mb-20">
-                    <h1 className="mb-4 text-white tracking-widest uppercase">Equipo</h1>
+                    <h1 className="mb-4 text-white tracking-widest uppercase main-title">Equipo</h1>
                     <p className="lg:w-2/3 mx-auto leading-relaxed text-base">Whatever cardigan tote bag tumblr hexagon brooklyn asymmetrical gentrify, subway tile poke farm-to-table. Franzen you probably haven't heard of them.</p>
                 </div>
                 <div className="flex flex-wrap -m-4">
@@ -18,7 +18,7 @@ export default function NosotrosContent() {
                                 alt="TeFareLogo"
                             />
                             <div className="flex-grow sm:pl-8">
-                                <h2 className="title-font font-medium text-2xl text-white">Ángela Ortiz Morales</h2>
+                                <h2 className="title-font font-medium text-2xl text-white main-title">Ángela Ortiz Morales</h2>
                                 <h3 className="text-gray-500 mb-3">Directora / Danza / Contenido </h3>
                                 <p className="mb-4">Ullamco fugiat veniam irure esse qui nostrud occaecat duis labore deserunt ullamco labore. Dolor nisi occaecat fugiat duis mollit consequat eiusmod labore enim elit incididunt. Sint et esse nostrud sint laborum dolor proident laborum ex nisi cupidatat dolor proident. Reprehenderit culpa ullamco laboris laborum sunt Lorem. Aliqua exercitation enim et commodo occaecat ad occaecat consectetur officia esse fugiat aliqua excepteur.</p>
                                 <span className="inline-flex">
@@ -50,7 +50,7 @@ export default function NosotrosContent() {
                                 alt="TeFareLogo"
                             />
                             <div className="flex-grow sm:pl-8">
-                                <h2 className="title-font font-medium text-2xl text-white">Jorge Toledo Carvajal</h2>
+                                <h2 className="title-font font-medium text-2xl text-white main-title">Jorge Toledo Carvajal</h2>
                                 <h3 className="text-gray-500 mb-3">Director / Música / Comunicaciones </h3>
                                 <p className="mb-4">Ullamco fugiat veniam irure esse qui nostrud occaecat duis labore deserunt ullamco labore. Dolor nisi occaecat fugiat duis mollit consequat eiusmod labore enim elit incididunt. Sint et esse nostrud sint laborum dolor proident laborum ex nisi cupidatat dolor proident. Reprehenderit culpa ullamco laboris laborum sunt Lorem. Aliqua exercitation enim et commodo occaecat ad occaecat consectetur officia esse fugiat aliqua excepteur.</p>
                                 <span className="inline-flex">

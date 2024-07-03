@@ -2,7 +2,7 @@ const Welcome = () => {
     return (
         <section className="text-gray-600 bg-black body-font">
             <div className="container px-5 py-24 mx-auto">
-                <h1 className="sm:text-4xl text-2xl title-font text-center text-white mb-20">
+                <h1 className="sm:text-4xl text-2xl title-font text-center text-white mb-20 main-title">
                     TE FARE MO'A
                     <br className="hidden sm:block" />Academia de danzas y cultura polinesia
                 </h1>

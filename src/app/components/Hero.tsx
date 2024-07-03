@@ -21,7 +21,7 @@ const HeroBanner = () => {
                             alt="TeFareLogo"
                         />
                         <div className="container mx-auto text-white">
-                            <h1 className="uppercase">
+                            <h1 className="uppercase main-title">
                                 Academia de danzas polinesias
                             </h1>
                             <p className = "mt-5">

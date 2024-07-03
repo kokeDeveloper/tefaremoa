@@ -5,7 +5,7 @@ export default function ContentClass() {
         <section className="text-gray-600 body-font bg-black">
             <div className="container px-5 py-24 mx-auto flex flex-wrap">
             <div className="flex flex-col text-center w-full mb-20">
-                    <h1 className="mb-4 text-white tracking-widest uppercase">Nuestras Clases</h1>
+                    <h1 className="mb-4 text-white tracking-widest uppercase main-title">Nuestras Clases</h1>
                     <p className="lg:w-2/3 mx-auto leading-relaxed text-base">Whatever cardigan tote bag tumblr hexagon brooklyn asymmetrical gentrify, subway tile poke farm-to-table. Franzen you probably heard of them.</p>
                 </div>
                 <div className="flex w-full mb-20 flex-wrap text-white">
