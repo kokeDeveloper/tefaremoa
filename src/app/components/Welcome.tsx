@@ -3,7 +3,7 @@ const Welcome = () => {
         <section className="text-gray-600 bg-black body-font">
             <div className="container px-5 py-24 mx-auto">
                 <h1 className="sm:text-4xl text-2xl title-font text-center text-white mb-20 main-title">
-                    TE FARE MO'A
+                    TE FARE MO&apos;A
                     <br className="hidden sm:block" />Academia de danzas y cultura polinesia
                 </h1>
                 <div className="flex flex-wrap sm:-m-4 -mx-4 -mb-10 -mt-4 md:space-y-0 space-y-6">

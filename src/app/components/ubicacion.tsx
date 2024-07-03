@@ -36,7 +36,7 @@ const FeedbackSection: React.FC = () => {
                 <div className="lg:w-1/4 md:w-1/2 bg-white rounded-lg p-8 flex flex-col md:ml-auto w-full mt-10 md:mt-0 relative z-10 shadow-md text-center">
                     <h2 className="text-gray-900 text-2xl mb-1 font-medium title-font uppercase">Horarios</h2>
                     <p className="leading-relaxed mb-5 text-red-600 uppercase">
-                        'Ori Tahiti - Mujeres - Multinivel
+                        &apos;Ori Tahiti - Mujeres - Multinivel
                     </p>
                     <div className="relative mb-4">
                         <label htmlFor="email" className="leading-7 text-sm text-gray-600">Día</label>

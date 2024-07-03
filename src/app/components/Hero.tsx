@@ -25,7 +25,7 @@ const HeroBanner = () => {
                                 Academia de danzas polinesias
                             </h1>
                             <p className = "mt-5">
-                                Bienvenidos a nuestra casa sagrada. Si ya eres parte de Te Fare Mo'a inicia sesión.
+                                Bienvenidos a nuestra casa sagrada. Si ya eres parte de Te Fare Mo&apos;a inicia sesión.
                             </p>
                         </div>
                         <div className="flex flex-col items-center justify-center text-center mt-10">
