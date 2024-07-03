@@ -9,7 +9,7 @@ const HeroBanner = () => {
             <>
                 <Vortex                
                     rangeY={300}
-                    particleCount={500}
+                    particleCount={300}
                     baseHue={1}
                     rangeHue={3}
                 >
