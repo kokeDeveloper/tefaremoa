@@ -1,0 +1,31 @@
+[
+  {
+    "id": 1,
+    "name": "Ranitea Laughlin",
+    "year": "2024",
+    "src": "/RaniteaWorkshop.jpg",
+    "description": "Minim pariatur laboris ex aute Lorem dolor aliquip fugiat qui minim. Irure adipisicing exercitation in cupidatat voluptate tempor velit commodo velit reprehenderit aliqua ad. Deserunt laboris culpa sint amet exercitation sint aliqua do aute quis excepteur. Qui ipsum ut enim cupidatat duis et culpa enim fugiat. Exercitation sint dolor sint nostrud consequat irure excepteur proident."
+  },
+  {
+    "id": 2,
+    "name": "Ángela Ortiz",
+    "year": "2022",
+    "src": "/angieWorkshop.jpg",
+    "description": "Minim pariatur laboris ex aute Lorem dolor aliquip fugiat qui minim. Irure adipisicing exercitation in cupidatat voluptate tempor velit commodo velit reprehenderit aliqua ad. Deserunt laboris culpa sint amet exercitation sint aliqua do aute quis excepteur. Qui ipsum ut enim cupidatat duis et culpa enim fugiat. Exercitation sint dolor sint nostrud consequat irure excepteur proident."
+  },  
+  {
+    "id": 3,
+    "name": "Ángela Ortiz",
+    "year": "2022",
+    "src": "/angieWorkshop2.jpg",
+    "description": "Minim pariatur laboris ex aute Lorem dolor aliquip fugiat qui minim. Irure adipisicing exercitation in cupidatat voluptate tempor velit commodo velit reprehenderit aliqua ad. Deserunt laboris culpa sint amet exercitation sint aliqua do aute quis excepteur. Qui ipsum ut enim cupidatat duis et culpa enim fugiat. Exercitation sint dolor sint nostrud consequat irure excepteur proident."
+  },
+  {
+    "id": 4,
+    "name": "Ángela Ortiz",
+    "year": "2022",
+    "src": "/angieWorkshop2.jpg",
+    "description": "Minim pariatur laboris ex aute Lorem dolor aliquip fugiat qui minim. Irure adipisicing exercitation in cupidatat voluptate tempor velit commodo velit reprehenderit aliqua ad. Deserunt laboris culpa sint amet exercitation sint aliqua do aute quis excepteur. Qui ipsum ut enim cupidatat duis et culpa enim fugiat. Exercitation sint dolor sint nostrud consequat irure excepteur proident."
+  }
+]
+
