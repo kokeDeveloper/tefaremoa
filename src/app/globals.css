@@ -28,6 +28,14 @@
   src: url('/fonts/oswald.ttf ') format('truetype');
 }
 
+@font-face {
+  font-family: 'adorage';
+  src: url('/fonts/adorage.ttf ') format('truetype');
+}
+
+
+
+
 
 body {
   color: rgb(var(--foreground-rgb));
@@ -66,6 +74,10 @@ P {
 
 .main-title {
   font-family: 'oswald', sans-serif;
+}
+
+.title-moon{
+  font-family: 'adorage', sans-serif;
 }
 
 /*Botón Whatsapp*/

@@ -1,8 +1,7 @@
-import Navbar from "./components/Navbar";
 import HeroBanner from "./components/Hero";
-import Welcome from "./components/Welcome";
-import Footer from "./components/Footer";
+import { Welcome } from "./components/Welcome";
 import { BannerClases } from "./components/bannerClases";
+import { BannerMoon } from "./components/bannerMoon";
 
 
 export default function Home() {
@@ -10,8 +9,8 @@ export default function Home() {
     <>
       <main>
         <HeroBanner />
+        <BannerMoon />
         <Welcome />
-        <BannerClases />
       </main>
     </>
   );
