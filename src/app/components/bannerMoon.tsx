@@ -11,13 +11,12 @@ export function BannerMoon() {
                     <p className="title-font lg:text-left lg:text-2xl text-center text-lg mb-4 font-medium text-black title-moon uppercase">&apos;ori tahiti workshop - chile 2024</p>
                     <h2 className="title-font lg:text-left lg:text-9xl text-center text-6xl mb-4 font-medium text-black title-moon uppercase">moontahiti</h2>
                     <div className="flex justify-center">
-                        <HoverBorderGradient containerClassName="rounded-full" as="button" className="dark:bg-black bg-white text-black dark:text-white flex items-center space-x-2">
+                        <button className="btn-donate">
                             <Link href="/pages/moon" className="uppercase">inscripción</Link>
-                        </HoverBorderGradient>
+                        </button>
                     </div>
                 </div>
                 <div className="lg:max-w-lg lg:w-full md:w-1/2 w-5/6">
-
                 </div>
             </div>
             {/* <div className="absolute inset-0 bg-black opacity-50 z-0"></div>*/}
