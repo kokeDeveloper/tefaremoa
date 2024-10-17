@@ -1,6 +1,4 @@
 "use client";
-import Image from "next/image";
-import { HoverBorderGradient } from "./hover-border-gradient";
 import Link from "next/link";
 
 export function BannerMoon() {
@@ -11,9 +9,11 @@ export function BannerMoon() {
                     <p className="title-font lg:text-left lg:text-2xl text-center text-lg mb-4 font-medium text-black title-moon uppercase">&apos;ori tahiti workshop - chile 2024</p>
                     <h2 className="title-font lg:text-left lg:text-9xl text-center text-6xl mb-4 font-medium text-black title-moon uppercase">moontahiti</h2>
                     <div className="flex justify-center">
-                        <button className="btn-donate">
-                            <Link href="/pages/moon" className="uppercase">inscripción</Link>
-                        </button>
+                        <Link href="/pages/moon" className="uppercase">
+                            <button className="btn-donate">
+                                <p>Inscripción</p>
+                            </button>
+                        </Link>
                     </div>
                 </div>
                 <div className="lg:max-w-lg lg:w-full md:w-1/2 w-5/6">

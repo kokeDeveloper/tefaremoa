@@ -9,8 +9,8 @@ export default function Home() {
     <>
       <main>
         <HeroBanner />
-        <BannerMoon />
         <Welcome />
+        <BannerMoon />
       </main>
     </>
   );
