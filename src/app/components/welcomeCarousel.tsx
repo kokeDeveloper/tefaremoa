@@ -71,11 +71,7 @@ export const Carousel = ({ items, initialScroll = 0 }: CarouselProps) => {
 
   const handleCardClose = (index: number) => {
     if (carouselRef.current) {
-      const cardWidth = isMobile() ? 230 : 384; // (md:w-96)
-      const gap = isMobile() ? 4 : 8;
-      const scrollPosition = (cardWidth + gap) * (index + 1);
       carouselRef.current.scrollTo({
-        left: scrollPosition,
         behavior: "smooth",
       });
       setCurrentIndex(index);
@@ -125,28 +121,12 @@ export const Carousel = ({ items, initialScroll = 0 }: CarouselProps) => {
                   },
                 }}
                 key={"card" + index}
-                className="last:pr-[5%] md:last:pr-[33%]  rounded-3xl"
+                className="last:pr-[5%] md:last:pr-[33%] rounded-3xl"
               >
                 {item}
               </motion.div>
             ))}
           </div>
-        </div>
-        <div className="flex justify-end gap-2 mr-10">
-          <button
-            className="relative z-40 h-10 w-10 rounded-full bg-gray-100 flex items-center justify-center disabled:opacity-50"
-            onClick={scrollLeft}
-            disabled={!canScrollLeft}
-          >
-            <IconArrowNarrowLeft className="h-6 w-6 text-gray-500" />
-          </button>
-          <button
-            className="relative z-40 h-10 w-10 rounded-full bg-gray-100 flex items-center justify-center disabled:opacity-50"
-            onClick={scrollRight}
-            disabled={!canScrollRight}
-          >
-            <IconArrowNarrowRight className="h-6 w-6 text-gray-500" />
-          </button>
         </div>
       </div>
     </CarouselContext.Provider>
@@ -211,7 +191,7 @@ export const Card = ({
               exit={{ opacity: 0, scale: 0.9 }}
               ref={containerRef}
               layoutId={layout ? `card-${card.title}` : undefined}
-              className="max-w-5xl mx-auto bg-white dark:bg-neutral-900 h-fit z-[60] p-4 md:p-10 rounded-3xl  relative"
+              className="max-w-5xl mx-auto bg-white dark:bg-neutral-900 h-fit z-[60] p-4 md:p-10 rounded-3xl relative"
             >
               <button
                 className="absolute top-4 right-4 h-8 w-8 bg-black dark:bg-white rounded-full flex items-center justify-center"

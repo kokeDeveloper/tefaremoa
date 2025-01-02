@@ -3,6 +3,7 @@
 import { Banner2 } from "@/app/components/banner2"
 import ContentClass from "@/app/components/contentClases"
 import { LayoutGridDemo } from "@/app/components/galeriaClases"
+import Pircing from "@/app/components/Pircing"
 import ClassLocation from "@/app/components/ubicacion"
 import UbicacionClases from "@/app/components/ubicacion"
 
@@ -12,7 +13,7 @@ export default function Clases() {
         <>
         <Banner2 title="'Ori Tahiti" subtitle="con Ángela Ortiz" />
         <ContentClass />
-        <LayoutGridDemo />
+        <Pircing />
         <ClassLocation />
         </>
     )

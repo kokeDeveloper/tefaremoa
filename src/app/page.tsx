@@ -1,3 +1,4 @@
+import AboutClass from "./components/AboutClass";
 import HeroBanner from "./components/Hero";
 import { Welcome } from "./components/Welcome";
 import { BannerClases } from "./components/bannerClases";
@@ -10,6 +11,7 @@ export default function Home() {
       <main>
         <HeroBanner />
         <Welcome />
+        <AboutClass />
         <BannerMoon />
       </main>
     </>
