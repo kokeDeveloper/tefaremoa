@@ -1,6 +1,7 @@
 "use client"
 
 import { Banner2 } from "@/app/components/banner2"
+import BannerVideoSection from "@/app/components/BannerVideoSection"
 import ContentClass from "@/app/components/contentClases"
 import { LayoutGridDemo } from "@/app/components/galeriaClases"
 import Pircing from "@/app/components/Pircing"

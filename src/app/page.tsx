@@ -1,4 +1,5 @@
 import AboutClass from "./components/AboutClass";
+import BannerVideo from "./components/BannerVideo";
 import HeroBanner from "./components/Hero";
 import { Welcome } from "./components/Welcome";
 import { BannerClases } from "./components/bannerClases";
@@ -9,7 +10,7 @@ export default function Home() {
   return (
     <>
       <main>
-        <HeroBanner />
+        <BannerVideo />
         <Welcome />
         <AboutClass />
         <BannerMoon />
