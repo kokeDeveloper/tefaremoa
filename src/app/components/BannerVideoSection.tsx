@@ -1,17 +1,20 @@
-import Image from 'next/image'
 import React from 'react'
 
-const BannerVideoSection = () => {
+interface BannerVideoSectionProps {
+  title: string;
+  height?: string;
+}
+
+const BannerVideoSection = ({title, height = '50vh'}: BannerVideoSectionProps) => {
   return (
-    <div className="relative w-full h-screen overflow-hidden">
+    <div className="relative w-full overflow-hidden" style={{height}}>
       <video autoPlay loop muted className="absolute top-0 left-0 w-full h-full object-cover">
-        <source src="/banner1_2.mp4" type="video/mp4" />
+        <source src="/banner1_3.mp4" type="video/mp4" />
         Your browser does not support the video tag.
       </video>
       <div className="absolute bottom-0 left-0 w-full h-1/6 bg-gradient-to-t from-black to-transparent"></div>
-      <div className="relative z-10 flex flex-col items-center justify-center h-full text-white text-center">
-        <Image src="/tefaremoa.svg" width={200} height={200} alt="TeFareLogo" />
-        <p className="mt-4 text-2xl">Academia de Danzas Polinesias<br/>From Chile</p>
+      <div className="relative flex flex-col items-center justify-center h-full text-white text-center">
+        <h2 className="mt-4 text-8xl">{title}</h2>
       </div>
     </div>
   )

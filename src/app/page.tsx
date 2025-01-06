@@ -13,7 +13,6 @@ export default function Home() {
         <BannerVideo />
         <Welcome />
         <AboutClass />
-        <BannerMoon />
       </main>
     </>
   );

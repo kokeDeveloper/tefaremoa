@@ -1,14 +1,17 @@
 "use client"
 
-import { Banner2 } from "@/app/components/banner2";
+import BannerVideoSection from "@/app/components/BannerVideoSection";
 import NosotrosContent from "@/app/components/nosotros";
+import TimeLineTeFare from "@/app/components/TimeLine";
+
 
 
 export default function Nosotros () {
     return (
         <>
-                <Banner2 title="La Casa Sagrada" subtitle="¿Quíenes somos?" />
+                <BannerVideoSection title="Nosotros" />
                 <NosotrosContent />
+                <TimeLineTeFare />
         </>
     )
 }
