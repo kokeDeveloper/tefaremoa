@@ -12,7 +12,7 @@ import UbicacionClases from "@/app/components/ubicacion"
 export default function Clases() {
     return (
         <>
-        <Banner2 title="'Ori Tahiti" subtitle="con Ángela Ortiz" />
+        <BannerVideoSection title="Clases de Danza" />
         <ContentClass />
         <Pircing />
         <ClassLocation />
