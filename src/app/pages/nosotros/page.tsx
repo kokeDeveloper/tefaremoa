@@ -6,12 +6,12 @@ import TimeLineTeFare from "@/app/components/TimeLine";
 
 
 
-export default function Nosotros () {
+export default function Nosotros() {
     return (
         <>
-                <BannerVideoSection title="Nosotros" />
-                <NosotrosContent />
-                <TimeLineTeFare />
+            <BannerVideoSection title="Nosotros" />
+            <NosotrosContent />
+            <TimeLineTeFare />
         </>
     )
 }

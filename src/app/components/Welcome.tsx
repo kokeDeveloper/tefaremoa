@@ -9,12 +9,16 @@ export function Welcome() {
     // Estado para manejar la carta seleccionada
     const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
 
+    const handleCardClick = (index: number) => {
+        setSelectedIndex(selectedIndex === index ? null : index);
+    };
+
     const cards = data.map((card, index) => (
         <Card
             key={card.src}
             card={card}
             index={index}
-            onClick={() => setSelectedIndex(index)} // Actualizamos el índice seleccionado
+            onClick={() => handleCardClick(index)} // Pass onClick prop
         />
     ));
 

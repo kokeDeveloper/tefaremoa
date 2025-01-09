@@ -137,10 +137,12 @@ export const Card = ({
   card,
   index,
   layout = false,
+  onClick, // Add onClick prop
 }: {
   card: Card;
   index: number;
   layout?: boolean;
+  onClick?: () => void; // Define onClick type
 }) => {
   const [open, setOpen] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -167,6 +169,7 @@ export const Card = ({
 
   const handleOpen = () => {
     setOpen(true);
+    if (onClick) onClick(); // Call onClick if provided
   };
 
   const handleClose = () => {

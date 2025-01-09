@@ -1,4 +1,5 @@
 import Image from "next/image"
+import TimeLineKoke from "./TimeLineKoke"
 
 export default function NosotrosContent() {
     return (
@@ -52,7 +53,13 @@ export default function NosotrosContent() {
                             <div className="flex-grow sm:pl-8">
                                 <h2 className="title-font font-medium text-2xl text-white main-title">Jorge Toledo Carvajal</h2>
                                 <h3 className="text-gray-500 mb-3">Director / Música / Comunicaciones </h3>
-                                <p className="mb-4">Ullamco fugiat veniam irure esse qui nostrud occaecat duis labore deserunt ullamco labore. Dolor nisi occaecat fugiat duis mollit consequat eiusmod labore enim elit incididunt. Sint et esse nostrud sint laborum dolor proident laborum ex nisi cupidatat dolor proident. Reprehenderit culpa ullamco laboris laborum sunt Lorem. Aliqua exercitation enim et commodo occaecat ad occaecat consectetur officia esse fugiat aliqua excepteur.</p>
+                                <p className="mb-4">Ullamco fugiat veniam irure esse qui nostrud occaecat duis labore deserunt ullamco labore. 
+                                    Dolor nisi occaecat fugiat duis mollit consequat eiusmod labore enim elit incididunt. Sint et esse nostrud 
+                                    sint laborum dolor proident laborum ex nisi cupidatat dolor proident. Reprehenderit culpa ullamco laboris 
+                                    laborum sunt Lorem. Aliqua exercitation enim et commodo occaecat ad occaecat consectetur officia esse fugiat 
+                                    aliqua excepteur.
+                                </p>
+                                <TimeLineKoke />
                                 <span className="inline-flex">
                                     <a className="text-gray-500">
                                         <svg fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" className="w-5 h-5" viewBox="0 0 24 24">
