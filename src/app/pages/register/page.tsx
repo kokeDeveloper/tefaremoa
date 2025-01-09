@@ -11,7 +11,7 @@ const Register = () => {
     const [confirmPassword, setConfirmPassword] = useState('');
 
 
-    const handleSubmit = (e) => {
+    const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         // Handle form submission logic here
         console.log({ name, lastName, email, password, confirmPassword });
