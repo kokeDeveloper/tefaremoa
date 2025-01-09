@@ -59,7 +59,7 @@ export default function NosotrosContent() {
                                     laborum sunt Lorem. Aliqua exercitation enim et commodo occaecat ad occaecat consectetur officia esse fugiat 
                                     aliqua excepteur.
                                 </p>
-                                <TimeLineKoke />
+                          
                                 <span className="inline-flex">
                                     <a className="text-gray-500">
                                         <svg fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" className="w-5 h-5" viewBox="0 0 24 24">
