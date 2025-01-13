@@ -11,7 +11,7 @@ const BannerVideo = () => {
       <div className="absolute bottom-0 left-0 w-full h-1/6 bg-gradient-to-t from-black to-transparent"></div>
       <div className="relative z-10 flex flex-col items-center justify-center h-full text-white text-center">
         <Image src="/tefaremoa.svg" width={200} height={200} alt="TeFareLogo" />
-        <p className="mt-4 text-2xl">Academia de Danzas Polinesias <br />Santiago - Chile</p>
+        <p className="mt-4 text-2xl">Academia de &apos;Ori Tahiti<br />Santiago - Chile</p>
       </div>
     </div>
   )
