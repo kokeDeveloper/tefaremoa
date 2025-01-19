@@ -1,12 +1,12 @@
 import Image from "next/image"
-import TimeLineKoke from "./TimeLineKoke"
+
 
 export default function NosotrosContent() {
     return (
         <section className="text-gray-600 body-font bg-black">
             <div className="container px-5 py-24 mx-auto">
                 <div className="flex flex-col text-center w-full mb-20">
-                    <h1 className="mb-4 text-white tracking-widest uppercase main-title">Equipo</h1>
+                    <h2 className="mb-4 text-white tracking-widest text-7xl uppercase">Equipo</h2>
                     <p className="lg:w-2/3 mx-auto leading-relaxed text-base">Whatever cardigan tote bag tumblr hexagon brooklyn asymmetrical gentrify, subway tile poke farm-to-table. Franzen you probably heard of them.</p>
                 </div>
                 <div className="flex flex-wrap -m-4">
