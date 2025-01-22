@@ -20,6 +20,14 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="es">
+      <head>
+        <meta charSet="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="preload" href="/fonts/aloha.otf" as="font" type="font/otf"  />
+        <link rel="preload" href="/fonts/aloha.otf" as="font" type="font/otf"  />
+        <link rel="preload" href="/fonts/oswald.ttf" as="font" type="font/ttf" />
+        <link rel="preload" href="/fonts/adorage.ttf" as="font" type="font/ttf" />
+      </head>
       <body>
         <Navbar />
         {children}
