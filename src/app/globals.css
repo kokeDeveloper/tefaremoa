@@ -10,7 +10,6 @@
   --background-end-rgb: 0, 0, 0;
 }
 
-
 @font-face {
   font-family: 'aloha';
   src: url('/fonts/aloha.otf') format('opentype');
@@ -18,17 +17,13 @@
 
 @font-face {
   font-family: 'oswald';
-  src: url('/fonts/oswald.ttf ') format('truetype');
+  src: url('/fonts/oswald.ttf') format('truetype');
 }
 
 @font-face {
   font-family: 'adorage';
-  src: url('/fonts/adorage.ttf ') format('truetype');
+  src: url('/fonts/adorage.ttf') format('truetype');
 }
-
-
-
-
 
 html, body {
   color: rgb(var(--foreground-rgb));
@@ -48,7 +43,7 @@ html, body {
   }
 }
 
-/* Tipografía*/
+/* Tipografía */
 
 h1 {
   font-size: 50px;
@@ -57,9 +52,8 @@ h1 {
   font-weight: 100;
 }
 
-P {
+p {
   font-size: 16px;
-  
 }
 
 .title-section {
@@ -70,17 +64,16 @@ P {
   font-family: 'oswald', sans-serif;
 }
 
-.title-moon{
+.title-moon {
   font-family: 'adorage', sans-serif;
 }
 
 .highlight {
   background-color: black;
   color: white;
-
 }
 
-/*Shine Button*/
+/* Shine Button */
 
 .btn-donate {
   --clr-font-main: hsla(0 0% 20% / 100);
