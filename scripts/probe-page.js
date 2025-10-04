@@ -1,0 +1,1 @@
+(async()=>{ try{ const r = await fetch('http://localhost:3000/admin/students'); console.log('status', r.status); const text = await r.text(); console.log('len', text.length); }catch(e){ console.error('err', e.message) } })();

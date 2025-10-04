@@ -2,7 +2,7 @@
 
 import BannerVideoSection from "@/app/components/BannerVideoSection";
 import NosotrosContent from "@/app/components/nosotros";
-import TimeLineTeFare from "@/app/components/TimeLine";
+import { TimelineTFM } from "@/app/components/timeline2";
 
 
 
@@ -11,7 +11,7 @@ export default function Nosotros() {
         <>
             <BannerVideoSection title="Nosotros" />
             <NosotrosContent />
-            <TimeLineTeFare />
+            <TimelineTFM />            
         </>
     )
 }

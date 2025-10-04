@@ -15,6 +15,10 @@ const config: Config = {
         "gradient-conic":
           "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
       },
+      fontFamily: {
+        sansation: ['Sansation', 'system-ui', '-apple-system', "Segoe UI", 'Roboto', 'Helvetica Neue', 'Arial', 'Noto Sans', 'Oswald', 'sans-serif'],
+        sans: ['Sansation', 'system-ui', '-apple-system', "Segoe UI", 'Roboto', 'Helvetica Neue', 'Arial', 'Noto Sans', 'Oswald', 'sans-serif']
+      }
     },
   },
   plugins: [addDynamicIconSelectors()],

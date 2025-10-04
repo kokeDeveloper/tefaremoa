@@ -1,0 +1,120 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/app/generated/prisma"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Student {
+  id            Int          @id @default(autoincrement())
+  name          String
+  lastName      String
+  email         String       @unique
+  phone         String? // Opcional
+  nickname      String? // Opcional
+  address       String? // Opcional
+  city          String? // Opcional
+  birthDate     DateTime? // Opcional
+  planStartDate DateTime?
+  planEndDate   DateTime?
+  planType      String       @default("Basic") // Valor predeterminado
+  planStatus    String       @default("Active") // Valor predeterminado
+  password      String
+  createdAt     DateTime     @default(now())
+  plans         Plan[]       @relation("StudentPlans")
+  enrollments   Enrollment[]
+  payments      Payment[]
+  attendances   Attendance[]
+}
+
+//Diferentes tipos de planes (Básico - Regular)
+model Plan {
+  id          Int       @id @default(autoincrement())
+  name        String // Nombre del plan
+  price       Float // Precio del plan
+  description String? // Descripción opcional
+  createdAt   DateTime  @default(now())
+  students    Student[] @relation("StudentPlans")
+}
+
+//Gestión de clases, horarios y asistencia
+model Class {
+  id           Int          @id @default(autoincrement())
+  name         String // Nombre de la clase
+  schedule     DateTime // Horario de la clase
+  capacity     Int // Capacidad máxima
+  instructor   Instructor   @relation(fields: [instructorId], references: [id])
+  instructorId Int
+  enrollments  Enrollment[]
+  attendances  Attendance[] @relation("ClassAttendances")
+
+  Attendance Attendance[]
+}
+
+//Profesores
+model Instructor {
+  id      Int     @id @default(autoincrement())
+  name    String // Nombre del instructor
+  email   String  @unique // Correo electrónico único
+  phone   String? // Teléfono opcional
+  classes Class[]
+}
+
+//Inscripciones
+model Enrollment {
+  id        Int      @id @default(autoincrement())
+  student   Student  @relation(fields: [studentId], references: [id])
+  studentId Int
+  class     Class    @relation(fields: [classId], references: [id])
+  classId   Int
+  createdAt DateTime @default(now())
+}
+
+//Pagos
+model Payment {
+  id        Int      @id @default(autoincrement())
+  student   Student  @relation(fields: [studentId], references: [id])
+  studentId Int
+  amount    Float // Monto del pago
+  date      DateTime @default(now()) // Fecha del pago
+}
+
+//Asistencia
+model Attendance {
+  id        Int      @id @default(autoincrement())
+  student   Student  @relation(fields: [studentId], references: [id])
+  studentId Int
+  class     Class    @relation(fields: [classId], references: [id])
+  classId   Int
+  date      DateTime @default(now()) // Fecha de asistencia
+
+  Class Class[] @relation("ClassAttendances")
+}
+
+// Administradores del sistema
+enum AdminRole {
+  SUPERADMIN
+  ADMIN
+  MODERATOR
+}
+
+model Admin {
+  id        Int       @id @default(autoincrement())
+  email     String    @unique
+  name      String
+  role      AdminRole @default(ADMIN)
+  password  String
+  isActive  Boolean   @default(true)
+  lastLogin DateTime?
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+}

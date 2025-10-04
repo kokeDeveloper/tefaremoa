@@ -9,34 +9,36 @@ const data = [
     src: "/bnw_bt1.jpg",
   },
   {
-    category: "Percusión y 'Aparima",
-    title: "Música en vivo",
-    src: "/bnw_bt3.jpg",
-  },
-  {
-    category: "Espectáculos",
-    title: "Presentaciones",
+    category: "Acompañamiento",
+    title: "Improvisación",
     src: "/bnw_bt2.jpg",
+  },
+    {
+    category: "Clases",
+    title: "Música en Vivo",
+    src: "/bnw_bt3.jpg",
   },
   {
     category: "Eventos",
     title: "Workshop's",
     src: "/bnw_bt4.jpg",
   },
+
 ];
 
 const CarouselTefare = () => {
   return (
     <>
       <section className="mx-auto py-10 overflow-x-hidden">
-        <div className='flex justify-center text-center'>
-          <h2 className="text-3xl md:text-5xl">Conoce nuestra casa Sagrada</h2>
+        <div className='flex-col justify-center text-center'>
+          <h2 className="text-3xl md:text-5xl">Bienvenida</h2>
+          <p className="text-sm md:text-base text-gray-500 mt-2">Enseñamos danza de Tahiti</p>
         </div>
         <div className="flex justify-center items-center py-10">
           <div className="flex space-x-4 overflow-x-auto md:overflow-x-visible scrollbar-hide">
             {/* Carousel */}
             {data.map((item, index) => (
-              <div key={index} className="relative w-56 h-80 md:w-96 md:h-[40rem] bg-gray-300 rounded-3xl flex-shrink-0 overflow-hidden">
+              <div key={index} className="relative w-56 h-80 md:w-96 md:h-[40rem] rounded-3xl flex-shrink-0 overflow-hidden">
                 <div className="absolute h-full top-0 inset-x-0 bg-gradient-to-b from-black/50 via-transparent to-transparent z-30 pointer-events-none" />
                 <div className="relative p-8 z-40">
                   <p className="text-white text-sm md:text-base font-medium text-left">
