@@ -2,6 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
+@import url('https://fonts.googleapis.com/css2?family=Sansation:wght@300;400;700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&display=swap');
 
 :root {
@@ -10,19 +11,21 @@
   --background-end-rgb: 0, 0, 0;
 }
 
+
 @font-face {
-  font-family: 'aloha';
-  src: url('/fonts/aloha.otf') format('opentype');
+  font-family: 'Oswald';
+  src: url('/fonts/Oswald.ttf') format('truetype');
+  font-weight: 200 700;
+  font-style: normal;
+  font-display: swap;
 }
 
 @font-face {
-  font-family: 'oswald';
-  src: url('/fonts/oswald.ttf') format('truetype');
-}
-
-@font-face {
-  font-family: 'adorage';
-  src: url('/fonts/adorage.ttf') format('truetype');
+  font-family: 'Adorage';
+  src: url('/fonts/Adorage.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
 }
 
 html, body {
@@ -33,7 +36,7 @@ html, body {
       rgb(var(--background-end-rgb))
     )
     rgb(var(--background-start-rgb));
-  font-family: 'aloha', sans-serif;
+  font-family: 'Sansation', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', 'Oswald', sans-serif;
   overflow-x: hidden;
 }
 
@@ -120,4 +123,40 @@ p {
   .btn-donate {
     transition: linear;
   }
+}
+
+.sansation-light {
+  font-family: "Sansation", sans-serif;
+  font-weight: 300;
+  font-style: normal;
+}
+
+.sansation-regular {
+  font-family: "Sansation", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.sansation-bold {
+  font-family: "Sansation", sans-serif;
+  font-weight: 700;
+  font-style: normal;
+}
+
+.sansation-light-italic {
+  font-family: "Sansation", sans-serif;
+  font-weight: 300;
+  font-style: italic;
+}
+
+.sansation-regular-italic {
+  font-family: "Sansation", sans-serif;
+  font-weight: 400;
+  font-style: italic;
+}
+
+.sansation-bold-italic {
+  font-family: "Sansation", sans-serif;
+  font-weight: 700;
+  font-style: italic;
 }

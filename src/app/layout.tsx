@@ -1,9 +1,8 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import Footer from "./components/Footer";
-import Navbar from "./components/Navbar";
-import Navbar2 from "./components/Navbar2";
+import ConditionalShell from "./components/ConditionalShell";
+
 
 
 const inter = Inter({ subsets: ["latin"] });
@@ -29,9 +28,7 @@ export default function RootLayout({
         <link rel="preload" href="/fonts/adorage.ttf" as="font" type="font/ttf" />
       </head>
       <body>
-        <Navbar />
-        {children}
-        <Footer />        
+        <ConditionalShell>{children}</ConditionalShell>
       </body>
     </html>
   );

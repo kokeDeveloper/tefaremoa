@@ -56,6 +56,17 @@ const WokshopLogin = () => {
                     />
                 </div>
                 <div>
+                    <label htmlFor="email" className="block text-sm font-medium">Correo Electrónico</label>
+                    <input
+                        type="email"
+                        id="email"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        required
+                        className="mt-1 block w-full border border-neutral-800 bg-neutral-900 rounded-md p-2"
+                    />
+                </div>
+                <div>
                     <label htmlFor="password" className="block text-sm font-medium">Contraseña</label>
                     <input
                         type="password"
