@@ -15,6 +15,8 @@ export default function AdminStudentsPage(){
   const [alerts, setAlerts] = React.useState<PlanAlertsResponse | null>(null);
   const [alertsLoading, setAlertsLoading] = React.useState(false);
   const [alertsError, setAlertsError] = React.useState<string|null>(null);
+  const [alertThreshold, setAlertThreshold] = React.useState(7);
+  const [includeNoPlan, setIncludeNoPlan] = React.useState(true);
   const pageSize = 10;
 
   const fetchStudents = React.useCallback(async ()=>{
@@ -29,11 +31,15 @@ export default function AdminStudentsPage(){
     setLoading(false);
   }, [page, pageSize, search]);
 
-  const fetchAlerts = React.useCallback(async ()=>{
+  const fetchAlerts = React.useCallback(async (options?: { thresholdDays?: number; includeNoPlan?: boolean })=>{
     setAlertsLoading(true);
     setAlertsError(null);
     try{
-      const res = await fetch(`/api/alerts/plan-expiring?days=7&includeNoPlan=true`, {
+      const threshold = options?.thresholdDays ?? alertThreshold;
+      const include = options?.includeNoPlan ?? includeNoPlan;
+      setAlertThreshold(threshold);
+      setIncludeNoPlan(include);
+      const res = await fetch(`/api/alerts/plan-expiring?days=${threshold}&includeNoPlan=${include}`, {
         headers: { 'Content-Type': 'application/json' },
         credentials: 'include',
       });
@@ -48,7 +54,7 @@ export default function AdminStudentsPage(){
       setAlertsError(String(e.message || e));
     }
     setAlertsLoading(false);
-  }, []);
+  }, [alertThreshold, includeNoPlan]);
 
   React.useEffect(()=>{ fetchStudents() }, [fetchStudents]);
   React.useEffect(()=>{ fetchAlerts() }, [fetchAlerts]);
@@ -64,7 +70,15 @@ export default function AdminStudentsPage(){
           </div>
           <StudentForm onSaved={()=>{ fetchStudents(); fetchAlerts(); }} />
         </div>
-        <PlanAlertsPanel data={alerts} loading={alertsLoading} error={alertsError} onRefresh={fetchAlerts} />
+        <PlanAlertsPanel
+          data={alerts}
+          loading={alertsLoading}
+          error={alertsError}
+          onRefresh={() => fetchAlerts()}
+          thresholdDays={alertThreshold}
+          includeNoPlan={includeNoPlan}
+          onOptionsChange={(options) => fetchAlerts(options)}
+        />
         <div className="flex-1 overflow-auto">
           {loading ? <div>Cargando...</div> : <>
             <StudentList students={students} onDeleted={()=>{ fetchStudents(); fetchAlerts(); }} />

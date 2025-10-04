@@ -43,6 +43,9 @@ interface Props {
   loading: boolean;
   error: string | null;
   onRefresh: () => void;
+  thresholdDays: number;
+  includeNoPlan: boolean;
+  onOptionsChange: (options: { thresholdDays: number; includeNoPlan: boolean }) => void;
 }
 
 const badgeColors: Record<PlanStatus, string> = {
@@ -69,7 +72,20 @@ function formatRemainingDays(days: number | null) {
   return `Vence en ${days} días`;
 }
 
-export default function PlanAlertsPanel({ data, loading, error, onRefresh }: Props) {
+export default function PlanAlertsPanel({ data, loading, error, onRefresh, thresholdDays, includeNoPlan, onOptionsChange }: Props) {
+  const [localThreshold, setLocalThreshold] = React.useState(thresholdDays);
+  const [localIncludeNoPlan, setLocalIncludeNoPlan] = React.useState(includeNoPlan);
+
+  React.useEffect(() => {
+    setLocalThreshold(thresholdDays);
+    setLocalIncludeNoPlan(includeNoPlan);
+  }, [thresholdDays, includeNoPlan]);
+
+  const handleSubmit = (event: React.FormEvent) => {
+    event.preventDefault();
+    onOptionsChange({ thresholdDays: Math.max(localThreshold, 0), includeNoPlan: localIncludeNoPlan });
+  };
+
   return (
     <div className="border border-neutral-200 dark:border-neutral-700 rounded-xl p-4 bg-neutral-50 dark:bg-neutral-950 mb-8">
       <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-3 mb-4">
@@ -81,15 +97,44 @@ export default function PlanAlertsPanel({ data, loading, error, onRefresh }: Pro
             </p>
           )}
         </div>
-        <div className="flex gap-2">
-          <button
-            onClick={onRefresh}
-            className="btn-donate px-3 py-1 rounded text-sm"
-            disabled={loading}
-          >
-            {loading ? "Actualizando..." : "Actualizar"}
-          </button>
-        </div>
+        <form onSubmit={handleSubmit} className="flex flex-col md:flex-row gap-3 items-start md:items-center">
+          <label className="flex items-center gap-2 text-sm">
+            Umbral (días):
+            <input
+              type="number"
+              min={0}
+              max={90}
+              value={localThreshold}
+              onChange={(event) => setLocalThreshold(Number(event.target.value))}
+              className="w-20 border border-neutral-300 dark:border-neutral-600 rounded px-2 py-1 bg-white dark:bg-neutral-900"
+            />
+          </label>
+          <label className="flex items-center gap-2 text-sm">
+            <input
+              type="checkbox"
+              checked={localIncludeNoPlan}
+              onChange={(event) => setLocalIncludeNoPlan(event.target.checked)}
+            />
+            Incluir sin fecha fin
+          </label>
+          <div className="flex gap-2">
+            <button
+              type="submit"
+              className="px-3 py-1 rounded border border-neutral-300 dark:border-neutral-600 text-sm"
+              disabled={loading}
+            >
+              Aplicar
+            </button>
+            <button
+              type="button"
+              onClick={onRefresh}
+              className="btn-donate px-3 py-1 rounded text-sm"
+              disabled={loading}
+            >
+              {loading ? "Actualizando..." : "Actualizar"}
+            </button>
+          </div>
+        </form>
       </div>
 
       {error && (
@@ -154,7 +199,8 @@ function AlertGroup({ title, students, state }: AlertGroupProps) {
               <th className="px-3 py-2 text-left font-semibold">Correo</th>
               <th className="px-3 py-2 text-left font-semibold">Plan</th>
               <th className="px-3 py-2 text-left font-semibold">Fin del plan</th>
-              <th className="px-3 py-2 text-left font-semibold">Estado</th>
+              <th className="px-3 py-2 text-left font-semibold">Estado calculado</th>
+              <th className="px-3 py-2 text-left font-semibold">Estado en sistema</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-neutral-100 dark:divide-neutral-800">
@@ -173,6 +219,14 @@ function AlertGroup({ title, students, state }: AlertGroupProps) {
                     {formatRemainingDays(student.alert.daysRemaining)}
                   </span>
                 </td>
+                <td className="px-3 py-2">
+                  <span className="text-xs font-semibold uppercase tracking-wide">
+                    {student.planStatus ?? "—"}
+                  </span>
+                  {student.planStatus && student.planStatus !== badgeStateToLabel(state) && (
+                    <span className="ml-2 text-xs text-amber-600 dark:text-amber-400">(desactualizado)</span>
+                  )}
+                </td>
               </tr>
             ))}
           </tbody>
@@ -180,4 +234,17 @@ function AlertGroup({ title, students, state }: AlertGroupProps) {
       </div>
     </div>
   );
+}
+
+function badgeStateToLabel(state: PlanStatus): string {
+  switch (state) {
+    case "EXPIRED":
+      return "Expired";
+    case "EXPIRING_SOON":
+      return "ExpiringSoon";
+    case "NO_PLAN":
+      return "NoPlan";
+    default:
+      return "Active";
+  }
 }

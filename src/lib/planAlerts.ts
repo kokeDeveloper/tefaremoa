@@ -1,4 +1,5 @@
 export type PlanStatus = "EXPIRED" | "EXPIRING_SOON" | "ACTIVE" | "NO_PLAN";
+export type PlanStatusLabel = "Expired" | "ExpiringSoon" | "Active" | "NoPlan";
 
 export interface PlanAlertInfo {
   status: PlanStatus;
@@ -60,4 +61,26 @@ export function calculatePlanAlert(
 
 export function shouldIncludeInAlerts(info: PlanAlertInfo) {
   return info.status === "EXPIRED" || info.status === "EXPIRING_SOON";
+}
+
+export function mapAlertToPlanStatus(alert: PlanAlertInfo): PlanStatusLabel {
+  switch (alert.status) {
+    case "EXPIRED":
+      return "Expired";
+    case "EXPIRING_SOON":
+      return "ExpiringSoon";
+    case "NO_PLAN":
+      return "NoPlan";
+    default:
+      return "Active";
+  }
+}
+
+export function calculatePlanAlertWithStatus(
+  planEndDate: Date | string | null | undefined,
+  options: { expiringSoonThresholdDays?: number } = {}
+) {
+  const alert = calculatePlanAlert(planEndDate, options);
+  const status = mapAlertToPlanStatus(alert);
+  return { alert, status };
 }
