@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { PrismaClient } from '@/app/generated/prisma';
 import { verifyToken } from '@/lib/jwt';
 import bcrypt from 'bcryptjs';
+import { calculatePlanAlertWithStatus } from '@/lib/planAlerts';
 
 const prisma = new PrismaClient();
 
@@ -41,7 +42,13 @@ export async function PUT(req: Request, { params }: { params: { id: string } }) 
     if (body.planStartDate) update.planStartDate = new Date(body.planStartDate);
     if (body.planEndDate) update.planEndDate = new Date(body.planEndDate);
 
-    const student = await prisma.student.update({ where: { id }, data: update });
+    let student = await prisma.student.update({ where: { id }, data: update });
+
+    const { status } = calculatePlanAlertWithStatus(student.planEndDate);
+    if (student.planStatus !== status) {
+      student = await prisma.student.update({ where: { id }, data: { planStatus: status } });
+    }
+
     return NextResponse.json(student);
   } catch (err) {
     return NextResponse.json({ error: String(err) }, { status: 500 });

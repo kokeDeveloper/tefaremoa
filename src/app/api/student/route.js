@@ -1,11 +1,20 @@
 import prisma from '@/app/lib/prisma';
 import { NextResponse } from 'next/server';
+import { calculatePlanAlertWithStatus } from '@/lib/planAlerts';
 
 export async function POST(request) {
     try {
         const data = await request.json();
+        const planEnd = data.planEndDate ? new Date(data.planEndDate) : null;
+        const { status } = calculatePlanAlertWithStatus(planEnd);
         const student = await prisma.student.create({
-            data: data
+            data: {
+                ...data,
+                birthDate: data.birthDate ? new Date(data.birthDate) : undefined,
+                planStartDate: data.planStartDate ? new Date(data.planStartDate) : undefined,
+                planEndDate: planEnd || undefined,
+                planStatus: status,
+            }
         });
         return NextResponse.json(student, {
             status: 201,
