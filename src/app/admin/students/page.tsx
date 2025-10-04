@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import StudentList from './components/StudentList';
 import StudentForm from './components/StudentForm';
+import PlanAlertsPanel, { PlanAlertsResponse } from './components/PlanAlertsPanel';
 
 export default function AdminStudentsPage(){
   const [students, setStudents] = useState<any[]>([]);
@@ -11,6 +12,9 @@ export default function AdminStudentsPage(){
 
   const [search, setSearch] = React.useState('');
   const [page, setPage] = React.useState(1);
+  const [alerts, setAlerts] = React.useState<PlanAlertsResponse | null>(null);
+  const [alertsLoading, setAlertsLoading] = React.useState(false);
+  const [alertsError, setAlertsError] = React.useState<string|null>(null);
   const pageSize = 10;
 
   const fetchStudents = React.useCallback(async ()=>{
@@ -25,7 +29,29 @@ export default function AdminStudentsPage(){
     setLoading(false);
   }, [page, pageSize, search]);
 
+  const fetchAlerts = React.useCallback(async ()=>{
+    setAlertsLoading(true);
+    setAlertsError(null);
+    try{
+      const res = await fetch(`/api/alerts/plan-expiring?days=7&includeNoPlan=true`, {
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+      });
+      if(!res.ok){
+        const err = await res.json().catch(()=>({ error: res.statusText }));
+        throw new Error(err.error || `Error ${res.status}`);
+      }
+      const data: PlanAlertsResponse = await res.json();
+      setAlerts(data);
+    }catch(e:any){
+      console.error(e);
+      setAlertsError(String(e.message || e));
+    }
+    setAlertsLoading(false);
+  }, []);
+
   React.useEffect(()=>{ fetchStudents() }, [fetchStudents]);
+  React.useEffect(()=>{ fetchAlerts() }, [fetchAlerts]);
 
   return (
     <div className="flex flex-1">
@@ -34,13 +60,14 @@ export default function AdminStudentsPage(){
         <div className="mb-6">
           <div className="flex items-center gap-2 mb-4">
             <input placeholder="Buscar por nombre o email" value={search} onChange={e=>setSearch(e.target.value)} className="border p-2 rounded flex-1" />
-            <button onClick={()=>{ setPage(1); fetchStudents(); }} className="btn-donate px-3 py-2 rounded">Buscar</button>
+            <button onClick={()=>{ setPage(1); fetchStudents(); fetchAlerts(); }} className="btn-donate px-3 py-2 rounded">Buscar</button>
           </div>
-          <StudentForm onSaved={fetchStudents} />
+          <StudentForm onSaved={()=>{ fetchStudents(); fetchAlerts(); }} />
         </div>
+        <PlanAlertsPanel data={alerts} loading={alertsLoading} error={alertsError} onRefresh={fetchAlerts} />
         <div className="flex-1 overflow-auto">
           {loading ? <div>Cargando...</div> : <>
-            <StudentList students={students} onDeleted={()=>fetchStudents()} />
+            <StudentList students={students} onDeleted={()=>{ fetchStudents(); fetchAlerts(); }} />
             <div className="flex justify-between items-center mt-4">
               <div />
               <div className="flex gap-2">
