@@ -90,13 +90,9 @@ export function AdminDashboard() {
                 label: adminName ?? "Usuario",
                 href: "#",
                 icon: (
-                  <img
-                    src=""
-                    className="h-7 w-7 shrink-0 rounded-full"
-                    width={50}
-                    height={50}
-                    alt="Avatar"
-                  />
+                  <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-emerald-500 text-xs font-semibold uppercase text-white dark:bg-emerald-600">
+                    {(adminName ?? "U").slice(0, 2)}
+                  </span>
                 ),
               }}
             />
