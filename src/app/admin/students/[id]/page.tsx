@@ -1,5 +1,5 @@
 "use client"
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import StudentForm from '../components/StudentForm'
 
@@ -8,18 +8,23 @@ export default function StudentDetailPage({ params }:{ params:{ id:string } }){
   const [loading, setLoading] = useState(false);
   const router = useRouter();
 
-  const fetchStudent = async ()=>{
+  const fetchStudent = useCallback(async () => {
     setLoading(true);
-    try{
+    try {
       const res = await fetch('/api/students/' + params.id);
-      if(!res.ok) return;
+      if (!res.ok) return;
       const j = await res.json();
       setStudent(j);
-    }catch(e){ console.error(e); }
-    setLoading(false);
-  }
+    } catch (e) {
+      console.error(e);
+    } finally {
+      setLoading(false);
+    }
+  }, [params.id]);
 
-  useEffect(()=>{ fetchStudent() }, []);
+  useEffect(() => {
+    fetchStudent();
+  }, [fetchStudent]);
 
   if(loading) return <div>Cargando...</div>
   if(!student) return <div>No encontrado</div>
