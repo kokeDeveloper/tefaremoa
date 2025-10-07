@@ -1,28 +1,36 @@
-import { cookies } from 'next/headers'
-import { redirect } from 'next/navigation'
-import { verifyToken } from '../../lib/jwt'
-import AdminDashboardClient from './AdminDashboardClient'
+import { redirect } from 'next/navigation';
 
-export default async function AdminPage() {
-  // Server-side orchestration: check token cookie and redirect to SSO if missing/invalid.
-  const cookieStore = cookies()
-  const token = cookieStore.get('token')?.value
+interface Props {
+  searchParams: { from?: string };
+}
 
-  // If no token or invalid, redirect to SSO entry point
-  if (!token) {
-    const url = new URL('/admin/sso', process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000')
-    url.searchParams.set('from', '/admin')
-    redirect(url.toString())
+export default function AdminSSOPage({ searchParams }: Props) {
+  const from = searchParams.from || '/admin';
+  const ssoBase = process.env.NEXT_PUBLIC_SSO_URL;
+
+  // Si no está configurada la URL del proveedor SSO, mostrar fallback manual
+  if (!ssoBase) {
+    return (
+      <main style={{ fontFamily: 'sans-serif', padding: 32, maxWidth: 600 }}>
+        <h1>SSO no configurado</h1>
+        <p>
+          Falta la variable <code>NEXT_PUBLIC_SSO_URL</code>. Para pruebas locales puedes apuntarla al
+          callback interno:
+        </p>
+        <pre style={{ background: '#eee', padding: 12, borderRadius: 4 }}>
+{`NEXT_PUBLIC_SSO_URL=http://localhost:3000/api/auth/sso?email=admin%40example.com`}
+        </pre>
+        <p>
+          Luego vuelve a <a href="/admin">/admin</a>.
+        </p>
+      </main>
+    );
   }
 
-  const payload = verifyToken(token)
-  if (!payload) {
-    const url = new URL('/admin/sso', process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000')
-    url.searchParams.set('from', '/admin')
-    url.searchParams.set('reason', 'invalid_token')
-    redirect(url.toString())
+  // Redirige al proveedor (o callback simulado) añadiendo 'from' si no existe
+  const url = new URL(ssoBase);
+  if (!url.searchParams.get('from')) {
+    url.searchParams.set('from', from);
   }
-
-  // If token valid, render the client dashboard component
-  return <AdminDashboardClient />
+  redirect(url.toString());
 }

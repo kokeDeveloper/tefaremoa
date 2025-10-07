@@ -1,27 +1,27 @@
-import { PrismaClient } from "../app/generated/prisma";
-import bcrypt from "bcryptjs";
-import jwt from "jsonwebtoken";
+import jwt from 'jsonwebtoken';
 
-const prisma = new PrismaClient();
+const JWT_SECRET = process.env.JWT_SECRET || 'dev-secret';
 
-const JWT_SECRET = process.env.JWT_SECRET || "dev-secret";
+// Ajustable si deseas cambiar expiración
+const DEFAULT_EXP = '7d';
 
-export async function verifyAdminCredentials(email: string, password: string) {
-  const admin = await prisma.admin.findUnique({ where: { email } });
-  if (!admin) return null;
-  const match = await bcrypt.compare(password, admin.password);
-  if (!match) return null;
-  return { id: admin.id, email: admin.email, name: admin.name, role: admin.role };
+export interface AdminTokenPayload {
+  id: number;
+  email: string;
+  role?: string;
+  name?: string;
+  iat?: number;
+  exp?: number;
 }
 
-export function signToken(payload: object) {
-  return jwt.sign(payload, JWT_SECRET, { expiresIn: "7d" });
+export function signToken(payload: Omit<AdminTokenPayload, 'iat' | 'exp'>) {
+  return jwt.sign(payload, JWT_SECRET, { expiresIn: DEFAULT_EXP });
 }
 
-export function verifyToken(token: string) {
+export function verifyToken(token: string): AdminTokenPayload | null {
   try {
-    return jwt.verify(token, JWT_SECRET);
-  } catch (e) {
+    return jwt.verify(token, JWT_SECRET) as AdminTokenPayload;
+  } catch {
     return null;
   }
 }
