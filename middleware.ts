@@ -4,18 +4,25 @@ import { verifyToken } from './src/lib/jwt';
 
 export function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
-  const forceEnv = (process.env.FORCE_SSO || process.env.NEXT_PUBLIC_FORCE_SSO) === '1' || (process.env.FORCE_SSO || process.env.NEXT_PUBLIC_FORCE_SSO) === 'true'
-  const forceParam = req.nextUrl.searchParams.get('force_sso')
-  const forceParamEnabled = forceParam === '1' || forceParam === 'true'
+  const forceEnv =
+    (process.env.FORCE_SSO || process.env.NEXT_PUBLIC_FORCE_SSO) === '1' ||
+    (process.env.FORCE_SSO || process.env.NEXT_PUBLIC_FORCE_SSO) === 'true';
+  const forceParam = req.nextUrl.searchParams.get('force_sso');
+  const forceParamEnabled = forceParam === '1' || forceParam === 'true';
 
   // Only protect admin routes (but allow the login page and API routes)
   if (pathname.startsWith('/admin')) {
-    if (pathname === '/admin/login' || pathname.startsWith('/api') || pathname.includes('.')) {
+    const publicAdminPaths = ['/admin/login', '/admin/sso'];
+    if (
+      publicAdminPaths.includes(pathname) ||
+      pathname.startsWith('/api') ||
+      pathname.includes('.')
+    ) {
       return NextResponse.next();
     }
 
     // If FORCE_SSO is enabled, force SSO for the exact /admin entry or via ?force_sso=1
-    if ((pathname === '/admin' && (forceEnv || forceParamEnabled)) ) {
+    if (pathname === '/admin' && (forceEnv || forceParamEnabled)) {
       const url = req.nextUrl.clone();
       url.pathname = '/admin/sso';
       url.search = `from=${encodeURIComponent(pathname)}`;
