@@ -1,30 +1,36 @@
-"use client"
-import { useEffect } from 'react'
-import { useSearchParams, useRouter } from 'next/navigation'
+import { redirect } from 'next/navigation';
 
-export default function AdminSSO() {
-  const search = useSearchParams()
-  const router = useRouter()
-  const from = search?.get('from') || '/admin'
+interface Props {
+  searchParams: { from?: string };
+}
 
-  useEffect(() => {
-    const sso = process.env.NEXT_PUBLIC_SSO_URL
-    if (sso) {
-      // Attach original path so SSO can redirect back
-      const sep = sso.includes('?') ? '&' : '?'
-      window.location.href = `${sso}${sep}from=${encodeURIComponent(from)}`
-      return
-    }
-    // fallback to local login
-    router.replace(`/admin/login?from=${encodeURIComponent(from)}`)
-  }, [from, router, search])
+export default function AdminSSOPage({ searchParams }: Props) {
+  const from = searchParams.from || '/admin';
+  const ssoBase = process.env.NEXT_PUBLIC_SSO_URL;
 
-  return (
-    <div className="min-h-screen flex items-center justify-center">
-      <div className="text-center">
-        <p className="mb-2">Redirigiendo al proveedor SSO…</p>
-        <p className="text-sm text-neutral-500">Si no se redirige, <a href={`/admin/login?from=${encodeURIComponent(from)}`} className="underline">usa el login local</a>.</p>
-      </div>
-    </div>
-  )
+  // Si no está configurada la URL del proveedor SSO, mostrar fallback manual
+  if (!ssoBase) {
+    return (
+      <main style={{ fontFamily: 'sans-serif', padding: 32, maxWidth: 600 }}>
+        <h1>SSO no configurado</h1>
+        <p>
+          Falta la variable <code>NEXT_PUBLIC_SSO_URL</code>. Para pruebas locales puedes apuntarla al
+          callback interno:
+        </p>
+        <pre style={{ background: '#eee', padding: 12, borderRadius: 4 }}>
+{`NEXT_PUBLIC_SSO_URL=http://localhost:3000/api/auth/sso?email=admin%40example.com`}
+        </pre>
+        <p>
+          Luego vuelve a <a href="/admin">/admin</a>.
+        </p>
+      </main>
+    );
+  }
+
+  // Redirige al proveedor (o callback simulado) añadiendo 'from' si no existe
+  const url = new URL(ssoBase);
+  if (!url.searchParams.get('from')) {
+    url.searchParams.set('from', from);
+  }
+  redirect(url.toString());
 }
