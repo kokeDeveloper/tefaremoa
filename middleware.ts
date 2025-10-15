@@ -58,10 +58,10 @@ export function middleware(req: NextRequest) {
   const token = req.cookies.get('token')?.value;
 
   const redirectTo = (target: string, params: Record<string, string | undefined> = {}) => {
-    const url = req.nextUrl.clone();
-    url.pathname = target;
-    const sp = new URLSearchParams();
-    sp.set('from', pathname);
+    const base = req.nextUrl.clone();
+    const url = new URL(target, base.origin);
+    const sp = new URLSearchParams(url.search);
+    if (!sp.get('from')) sp.set('from', pathname);
     Object.entries(params).forEach(([k, v]) => v && sp.set(k, v));
     url.search = sp.toString();
     return NextResponse.redirect(url);

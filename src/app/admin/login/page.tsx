@@ -1,5 +1,6 @@
 "use client"
 import React, { useState } from 'react'
+import Image from 'next/image'
 import { useRouter, useSearchParams } from 'next/navigation'
 import Input from '@/components/ui/Input'
 import Button from '@/components/ui/Button'
@@ -46,8 +47,21 @@ export default function AdminLoginPage() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center  bg-neutral-900">
-      <form onSubmit={handleSubmit} className="p-6 bg-neutral-800 rounded shadow-md w-80">
+    <div className="min-h-screen flex items-center justify-center bg-neutral-900 px-4">
+      <div className="flex w-full max-w-sm flex-col items-center gap-5">
+        {/* Logo */}
+        <div className="flex items-center justify-center">
+          <Image
+            src="/tefaremoa.svg"
+            alt="Te Fare Mo'a"
+            width={140}
+            height={140}
+            priority
+            className="opacity-90"
+          />
+        </div>
+
+        <form onSubmit={handleSubmit} className="w-full p-6 bg-neutral-800 rounded-lg shadow-md">
         <h2 className="text-lg font-medium mb-4">Acceso de administrador</h2>
         {error && <div className="text-red-600 mb-2">{error}</div>}
         <label className="block text-sm text-neutral-200 mb-1">Email</label>
@@ -58,7 +72,8 @@ export default function AdminLoginPage() {
         <div className="mt-4">
           <Button type="submit" className="w-full" disabled={loading}>{loading ? 'Ingresando...' : 'Entrar'}</Button>
         </div>
-      </form>
+        </form>
+      </div>
     </div>
   )
 }
