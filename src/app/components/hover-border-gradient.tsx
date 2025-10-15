@@ -6,23 +6,22 @@ import { cn } from "@/util/cn";
 
 type Direction = "TOP" | "LEFT" | "BOTTOM" | "RIGHT";
 
-export function HoverBorderGradient({
+export function HoverBorderGradient<T extends React.ElementType = "button">({
     children,
     containerClassName,
     className,
-    as: Tag = "button",
+    as,
     duration = 1,
     clockwise = true,
     ...props
-}: React.PropsWithChildren<
-    {
-        as?: React.ElementType;
-        containerClassName?: string;
-        className?: string;
-        duration?: number;
-        clockwise?: boolean;
-    } & React.HTMLAttributes<HTMLElement>
->) {
+}: {
+    as?: T;
+    containerClassName?: string;
+    className?: string;
+    duration?: number;
+    clockwise?: boolean;
+} & React.ComponentPropsWithoutRef<T>) {
+    const Tag = (as || "button") as any;
     const [hovered, setHovered] = useState<boolean>(false);
     const [direction, setDirection] = useState<Direction>("TOP");
 
@@ -56,7 +55,7 @@ export function HoverBorderGradient({
     }, [hovered, duration, rotateDirection]);
     return (
         <Tag
-            onMouseEnter={(event: React.MouseEvent<HTMLDivElement>) => {
+            onMouseEnter={(event: React.MouseEvent<HTMLElement>) => {
                 setHovered(true);
             }}
             onMouseLeave={() => setHovered(false)}

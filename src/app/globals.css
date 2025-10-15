@@ -1,9 +1,9 @@
+@import url('https://fonts.googleapis.com/css2?family=Sansation:wght@300;400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-@import url('https://fonts.googleapis.com/css2?family=Sansation:wght@300;400;700&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&display=swap');
 
 :root {
   --foreground-rgb: 255, 255, 255;
@@ -46,7 +46,7 @@ html, body {
   }
 }
 
-/* Tipografía */
+/* Tipografia */
 
 h1 {
   font-size: 50px;
