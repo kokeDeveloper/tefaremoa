@@ -1,9 +1,11 @@
 "use client"
 import React, { useCallback, useEffect, useState } from 'react'
-import { useRouter } from 'next/navigation'
+import { useRouter, useParams } from 'next/navigation'
 import StudentForm from '../components/StudentForm'
 
-export default function StudentDetailPage({ params }:{ params:{ id:string } }){
+export default function StudentDetailPage(){
+  const params = useParams();
+  const id = params.id as string;
   const [student, setStudent] = useState<any|null>(null);
   const [loading, setLoading] = useState(false);
   const router = useRouter();
@@ -11,7 +13,7 @@ export default function StudentDetailPage({ params }:{ params:{ id:string } }){
   const fetchStudent = useCallback(async () => {
     setLoading(true);
     try {
-      const res = await fetch('/api/students/' + params.id);
+      const res = await fetch('/api/students/' + id);
       if (!res.ok) return;
       const j = await res.json();
       setStudent(j);
@@ -20,7 +22,7 @@ export default function StudentDetailPage({ params }:{ params:{ id:string } }){
     } finally {
       setLoading(false);
     }
-  }, [params.id]);
+  }, [id]);
 
   useEffect(() => {
     fetchStudent();

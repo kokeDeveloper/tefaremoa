@@ -53,6 +53,8 @@ export function middleware(req: NextRequest) {
 
   const forceParam = isTrue(req.nextUrl.searchParams.get('force_sso'));
 
+  const isDev = process.env.NODE_ENV === 'development';
+
   const token = req.cookies.get('token')?.value;
 
   const redirectTo = (target: string, params: Record<string, string | undefined> = {}) => {
@@ -67,10 +69,21 @@ export function middleware(req: NextRequest) {
 
   // Si no hay token → redirigir
   if (!token) {
-    if (forceEnv || forceParam || pathname === '/admin') {
+    // Si estamos forzando SSO explícitamente, honrarlo siempre.
+    if (forceEnv || forceParam) {
       return redirectTo('/admin/sso', { reason: 'no_token' });
     }
-    // Si en un futuro quieres /admin/login como alternativa local
+
+    // En desarrollo permitimos usar el formulario local.
+    if (isDev) {
+      return redirectTo('/admin/login', { reason: 'no_token' });
+    }
+
+    // En producción, redirigir al flujo SSO por defecto.
+    if (pathname === '/admin') {
+      return redirectTo('/admin/sso', { reason: 'no_token' });
+    }
+
     return redirectTo('/admin/sso', { reason: 'no_token' });
   }
 

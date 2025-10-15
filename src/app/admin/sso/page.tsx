@@ -1,14 +1,24 @@
 import { redirect } from 'next/navigation';
 
-interface Props {
-  searchParams: { from?: string };
-}
+type SearchParams = {
+  from?: string | string[];
+};
 
-export default function AdminSSOPage({ searchParams }: Props) {
-  const from = searchParams.from || '/admin';
+type Props = {
+  params: Promise<Record<string, string | string[]>>;
+  searchParams: Promise<SearchParams>;
+};
+
+const coerceString = (value: string | string[] | undefined): string | undefined =>
+  Array.isArray(value) ? value[0] : value;
+
+
+export default async function AdminSSOPage({ searchParams }: Props) {
+  const params = await searchParams;
+  const from = coerceString(params.from) || '/admin';
   const ssoBase = process.env.NEXT_PUBLIC_SSO_URL;
 
-  // Si no está configurada la URL del proveedor SSO, mostrar fallback manual
+  // Si no esta configurada la URL del proveedor SSO, mostrar fallback manual
   if (!ssoBase) {
     return (
       <main style={{ fontFamily: 'sans-serif', padding: 32, maxWidth: 600 }}>
@@ -27,7 +37,7 @@ export default function AdminSSOPage({ searchParams }: Props) {
     );
   }
 
-  // Redirige al proveedor (o callback simulado) añadiendo 'from' si no existe
+  // Redirige al proveedor (o callback simulado) anadiendo 'from' si no existe
   const url = new URL(ssoBase);
   if (!url.searchParams.get('from')) {
     url.searchParams.set('from', from);

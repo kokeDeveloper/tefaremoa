@@ -1,5 +1,6 @@
 "use client"
 import React, { useState, useEffect, useMemo, useCallback } from 'react'
+import { useSearchParams } from 'next/navigation'
 import { cn } from "@/util/cn";
 import { Sidebar, SidebarBody, SidebarLink } from "./components/sidebar";
 import {
@@ -10,9 +11,10 @@ import {
   IconCashRegister,
   IconRefresh,
 } from "@tabler/icons-react";
-import { motion } from "motion/react";
+import { motion, AnimatePresence } from "motion/react";
 import { PaymentReminderPanel } from "./components/payment-reminder-panel";
 import { FinancialOverviewPanel } from "./components/financial-overview-panel";
+import { StudentManagementSection } from "./components/student-management-section";
 import type { DashboardSummary } from "@/lib/dashboardMetrics";
 
 type SummaryFetchState = "idle" | "loading" | "error" | "loaded";
@@ -27,19 +29,38 @@ interface DashboardCardDefinition {
 }
 
 export function AdminDashboard() {
-    const links = [
+  const searchParams = useSearchParams();
+  const sectionParam = searchParams?.get("section")?.toLowerCase() ?? "dashboard";
+  const activeSection = sectionParam === "students" ? "students" : "dashboard";
+
+  const dashboardIconClass = cn(
+    "h-5 w-5 shrink-0",
+    activeSection === "dashboard"
+      ? "text-emerald-600 dark:text-emerald-300"
+      : "text-neutral-700 dark:text-neutral-200"
+  );
+  const studentsIconClass = cn(
+    "h-5 w-5 shrink-0",
+    activeSection === "students"
+      ? "text-emerald-600 dark:text-emerald-300"
+      : "text-neutral-700 dark:text-neutral-200"
+  );
+
+  const links = [
     {
       label: "Dashboard",
-      href: "/admin",
+      href: "/admin?section=dashboard",
+      isActive: activeSection === "dashboard",
       icon: (
-        <IconBrandTabler className="h-5 w-5 shrink-0 text-neutral-700 dark:text-neutral-200" />
+        <IconBrandTabler className={dashboardIconClass} />
       ),
     },
     {
       label: "Inscripción",
-      href: "/admin/students",
+      href: "/admin?section=students",
+      isActive: activeSection === "students",
       icon: (
-        <IconUserBolt className="h-5 w-5 shrink-0 text-neutral-700 dark:text-neutral-200" />
+        <IconUserBolt className={studentsIconClass} />
       ),
     },
     {
@@ -114,7 +135,35 @@ export function AdminDashboard() {
           </div>
         </SidebarBody>
       </Sidebar>
-      <Dashboard />
+      <main className="flex flex-1 overflow-hidden">
+        <AnimatePresence mode="wait" initial={false}>
+          {activeSection === "dashboard" && (
+            <motion.div
+              key="dashboard"
+              className="flex w-full"
+              initial={{ opacity: 0, x: -12 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: 12 }}
+              transition={{ duration: 0.18, ease: "easeOut" }}
+            >
+              <DashboardOverview />
+            </motion.div>
+          )}
+
+          {activeSection === "students" && (
+            <motion.div
+              key="students"
+              className="flex w-full"
+              initial={{ opacity: 0, x: 12 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -12 }}
+              transition={{ duration: 0.18, ease: "easeOut" }}
+            >
+              <StudentManagementSection id="students" variant="page" />
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </main>
     </div>
   );
 }
@@ -147,7 +196,7 @@ export const LogoIcon = () => {
   );
 };
 
-const Dashboard = () => {
+const DashboardOverview = () => {
   const [summaryState, setSummaryState] = useState<SummaryFetchState>("idle");
   const [summaryData, setSummaryData] = useState<DashboardSummary | null>(null);
   const [summaryError, setSummaryError] = useState<string | null>(null);
@@ -314,8 +363,8 @@ const Dashboard = () => {
   }
 
   return (
-    <div className="flex flex-1 overflow-y-auto">
-      <div className="flex h-full w-full flex-1 flex-col gap-6 rounded-tl-2xl border border-neutral-200 bg-gray-50 p-4 md:p-10 dark:border-neutral-700 dark:bg-neutral-900">
+    <div className="w-full overflow-y-auto">
+      <div className="flex w-full flex-col gap-6 rounded-tl-2xl border border-neutral-200 bg-gray-50 p-4 md:p-10 dark:border-neutral-700 dark:bg-neutral-900">
         <section className="flex flex-col gap-4">
           <header className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
             <div>

@@ -7,7 +7,8 @@ import { IconMenu2, IconX } from "@tabler/icons-react";
 interface Links {
     label: string;
     href: string;
-    icon: React.JSX.Element | React.ReactNode;
+    icon: React.ReactElement | React.ReactNode;
+    isActive?: boolean;
 }
 
 interface SidebarContextProps {
@@ -175,12 +176,18 @@ export const SidebarLink = ({
         }
     };
 
+    const activeStyles = link.isActive
+        ? "bg-neutral-200/80 text-neutral-900 dark:bg-neutral-700/60 dark:text-white"
+        : "text-neutral-700 dark:text-neutral-200";
+
     return (
         <a
             href={link.href}
             onClick={handleClick}
+            aria-current={link.isActive ? "page" : undefined}
             className={cn(
-                "flex items-center justify-start gap-2  group/sidebar py-2",
+                "flex items-center justify-start gap-2 group/sidebar rounded-lg px-3 py-2 transition hover:bg-neutral-200/60 dark:hover:bg-neutral-700/40",
+                activeStyles,
                 className
             )}
             {...props}
@@ -192,7 +199,7 @@ export const SidebarLink = ({
                     display: animate ? (open ? "inline-block" : "none") : "inline-block",
                     opacity: animate ? (open ? 1 : 0) : 1,
                 }}
-                className="text-neutral-700 dark:text-neutral-200 text-sm group-hover/sidebar:translate-x-1 transition duration-150 whitespace-pre inline-block !p-0 !m-0"
+                className="text-sm group-hover/sidebar:translate-x-1 transition duration-150 whitespace-pre inline-block !p-0 !m-0"
             >
                 {link.label}
             </motion.span>
