@@ -1,5 +1,6 @@
 "use client"
 import React, { useState, useEffect, useMemo, useCallback } from 'react'
+import Image from 'next/image'
 import { useSearchParams } from 'next/navigation'
 import { cn } from "@/util/cn";
 import { Sidebar, SidebarBody, SidebarLink } from "./components/sidebar";
@@ -173,7 +174,7 @@ export const Logo = () => {
       href="#"
       className="relative z-20 flex items-center space-x-2 py-1 text-sm font-normal text-black"
     >
-      <div className="h-5 w-6 shrink-0 rounded-tl-lg rounded-tr-sm rounded-br-lg rounded-bl-sm bg-black dark:bg-white" />
+      <Image src="/tefaremoa.svg" alt="Te Fare Mo'a" width={28} height={28} className="shrink-0" />
       <motion.span
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
@@ -191,7 +192,7 @@ export const LogoIcon = () => {
   className="relative z-20 flex items-center space-x-2 py-1 text-sm font-normal text-black"
   aria-label="Acet Labs"
     >
-      <div className="h-5 w-6 shrink-0 rounded-tl-lg rounded-tr-sm rounded-br-lg rounded-bl-sm bg-black dark:bg-white" />
+      <Image src="/tefaremoa.svg" alt="Te Fare Mo'a" width={28} height={28} className="shrink-0" />
     </a>
   );
 };
@@ -380,7 +381,18 @@ const DashboardOverview = () => {
                 </p>
               )}
             </div>
-            <button
+            <div className="flex items-center gap-3">
+              {/* Academy Logo top-right */}
+              <div className="hidden sm:block">
+                <Image
+                  src="/tefaremoa.svg"
+                  alt="Te Fare Mo'a"
+                  width={36}
+                  height={36}
+                  className="opacity-90"
+                />
+              </div>
+              <button
               type="button"
               onClick={() => void loadSummary()}
               className={cn(
@@ -391,7 +403,8 @@ const DashboardOverview = () => {
             >
               <IconRefresh className={cn("h-4 w-4", isSummaryLoading && "animate-spin")} aria-hidden />
               Actualizar
-            </button>
+              </button>
+            </div>
           </header>
 
           {summaryState === "error" && (

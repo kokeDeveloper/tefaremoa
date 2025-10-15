@@ -1,7 +1,7 @@
 // @ts-ignore: playwright not installed in this environment
 import { test, expect } from '@playwright/test';
 
-const base = 'http://localhost:3000';
+const base = process.env.E2E_BASE_URL || 'http://localhost:3000';
 
 test('auth -> create -> delete student (API)', async ({ request }: any) => {
   // login

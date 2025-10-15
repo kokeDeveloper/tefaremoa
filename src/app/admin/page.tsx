@@ -1,5 +1,5 @@
 import { redirect } from 'next/navigation';
-import { cookies } from 'next/headers';
+import { cookies, headers } from 'next/headers';
 import { verifyToken } from '@/lib/auth';
 import AdminDashboardClientPage from './AdminDashboardClient';
 
@@ -71,7 +71,7 @@ export default async function AdminSSOPage({ searchParams }: Props) {
           callback interno:
         </p>
         <pre style={{ background: '#eee', padding: 12, borderRadius: 4 }}>
-{`NEXT_PUBLIC_SSO_URL=http://localhost:3000/api/auth/sso?email=admin%40example.com`}
+{`NEXT_PUBLIC_SSO_URL=/api/auth/sso?email=admin%40example.com`}
         </pre>
         <p>
           Luego vuelve a <a href="/admin">/admin</a>.
@@ -80,8 +80,35 @@ export default async function AdminSSOPage({ searchParams }: Props) {
     );
   }
 
+  // Normaliza la URL de SSO para respetar el host/puerto actual en entornos locales
+  const hdrs = await headers();
+  const host = hdrs.get('x-forwarded-host') ?? hdrs.get('host') ?? 'localhost:3000';
+  const proto = (hdrs.get('x-forwarded-proto') ?? 'http').replace(/:$/, '');
+  const origin = `${proto}://${host}`;
+
+  let finalSSO: string;
+  try {
+    if (ssoBase.startsWith('/')) {
+      // Ruta relativa: úsala con el origin actual.
+      finalSSO = origin + ssoBase;
+    } else {
+      const candidate = new URL(ssoBase);
+      // Si apunta a localhost/127.0.0.1, ajusta al host/puerto actuales
+      if (candidate.hostname === 'localhost' || candidate.hostname === '127.0.0.1') {
+        candidate.protocol = proto + ':';
+        candidate.host = host; // conserva puerto actual
+        finalSSO = candidate.toString();
+      } else {
+        finalSSO = candidate.toString();
+      }
+    }
+  } catch {
+    // Si la variable es inválida, cae a una ruta local por defecto
+    finalSSO = origin + '/api/auth/sso';
+  }
+
   // Redirige al proveedor (o callback simulado) añadiendo 'from' si no existe
-  const url = new URL(ssoBase);
+  const url = new URL(finalSSO);
   if (!url.searchParams.get('from')) {
     url.searchParams.set('from', from);
   }
