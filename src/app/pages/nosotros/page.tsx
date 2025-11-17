@@ -1,8 +1,10 @@
 "use client"
 
 import BannerVideoSection from "@/app/components/BannerVideoSection";
-import NosotrosContent from "@/app/components/nosotros";
+import Team from "@/app/components/Team";
+import MisionVision from "@/app/components/MisionVision";
 import { TimelineTFM } from "@/app/components/timeline2";
+
 
 
 
@@ -10,8 +12,8 @@ export default function Nosotros() {
     return (
         <>
             <BannerVideoSection title="Nosotros" />
-            <NosotrosContent />
-            <TimelineTFM />            
+            <MisionVision />
+            <Team />                    
         </>
     )
 }

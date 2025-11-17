@@ -5,22 +5,22 @@ import React from 'react'
 const data = [
   {
     category: "Clases de Danza",
-    title: "'Ori Tahiti",
+    title: "'Ōte'a y 'Aparima ",
     src: "/bnw_bt1.jpg",
   },
   {
     category: "Acompañamiento",
     title: "Improvisación",
-    src: "/bnw_bt2.jpg",
+    src: "/bnw_bt2.JPG",
   },
     {
     category: "Clases",
     title: "Música en Vivo",
-    src: "/bnw_bt3.jpg",
+    src: "/bnw_bt3.jpg", 
   },
   {
     category: "Eventos",
-    title: "Workshop's",
+    title: "Actividades",
     src: "/bnw_bt4.jpg",
   },
 
@@ -31,8 +31,7 @@ const CarouselTefare = () => {
     <>
       <section className="mx-auto py-10 overflow-x-hidden">
         <div className='flex-col justify-center text-center'>
-          <h2 className="text-3xl md:text-5xl">Bienvenida</h2>
-          <p className="text-sm md:text-base text-gray-500 mt-2">Enseñamos danza de Tahiti</p>
+          <h2 className="text-3xl md:text-5xl">Bienvenida a nuestras clases</h2>
         </div>
         <div className="flex justify-center items-center py-10">
           <div className="flex space-x-4 overflow-x-auto md:overflow-x-visible scrollbar-hide">

@@ -2,29 +2,33 @@ import Image from "next/image";
 
 const AboutClass = () => {
   return (
-    <div className="container mx-auto p-8">
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
-        <div className="flex flex-col items-start space-y-6">
-          <h2 className="text-4xl md:text-5xl xl:text-7xl uppercase leading-tight">
-            El <br /> lenguaje del cuerpo revela el alma
-          </h2>
-          <p className="text-lg leading-relaxed">
-            En nuestra academia, el &apos;Ori Tahiti es más que una danza: es una conexión con la cultura, el cuerpo y la expresión personal. A través de movimientos tradicionales, trabajamos técnica, ritmo y energía, respetando la esencia del legado polinesio.<br />
-            Nuestras clases combinan enseñanza estructurada con exploración corporal, permitiendo a cada alumna desarrollar fuerza, flexibilidad y confianza. Buscamos que la danza sea una herramienta de crecimiento y autoconocimiento, en un ambiente que celebra la identidad y la historia del &apos;Ori Tahiti.
-          </p>
-        </div>
-        <div className="relative">
-          <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent rounded-lg"></div>
-          <Image
-            src="/abouthome.jpg"
-            alt="Danza"
-            width={500}
-            height={500}
-            className="rounded-lg shadow-lg"
-          />
-        </div>
+    <section className="relative w-full min-h-[70vh] bg-black overflow-hidden">
+      <div className="absolute inset-0">
+        <Image
+          src="/bannerHome.jpg"
+          alt="Danza"
+          fill
+          priority
+          sizes="100vw"
+          className="object-cover"
+        />
+        <div className="absolute inset-0 bg-gradient-to-r from-black via-black/70 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/30" />
       </div>
-    </div>
+
+      <div className="relative z-10 max-w-5xl mx-auto px-6 py-20 md:py-28">
+        <p className="text-xs md:text-sm uppercase tracking-[0.5em] text-orange-400 mb-6">&apos;Ori Tahiti</p>
+        <h2 className="text-4xl md:text-5xl xl:text-7xl uppercase leading-tight text-white">
+          ¿Qué <br /> ofrecemos en nuestras clases?
+        </h2>
+        <div className="w-20 h-1 bg-orange-400 mt-6 mb-8" />
+        <p className="text-lg leading-relaxed text-gray-200 max-w-3xl">
+          En nuestra academia, el &apos;Ori Tahiti es más que una danza: es una conexión con la cultura, el cuerpo y la expresión personal. 
+          A través del movimiento tradicional, cultivamos técnica, ritmo y energía, honrando el legado polinésico. 
+          Nuestras clases promueven el desarrollo físico y emocional, fortaleciendo la confianza y celebrando la identidad de cada bailarina.
+        </p>
+      </div>
+    </section>
   );
 };
 
