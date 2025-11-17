@@ -1,7 +1,9 @@
 import AboutClass from "./components/AboutClass";
-import { BannerMoon } from "./components/bannerMoon";
 import BannerVideo from "./components/BannerVideo";
 import CarouselTefare from "./components/CarouselTefare";
+import TrialCTA from "./components/TrialCTA";
+import UpcomingWorkshops from "./components/UpcomingWorkshops";
+import Testimonials from "./components/Testimonials";
 
 
 export default function Home() {
@@ -10,6 +12,9 @@ export default function Home() {
       <main>
         <BannerVideo />
         <CarouselTefare />
+        <TrialCTA />
+        {/*<UpcomingWorkshops /> */}
+        {/*<Testimonials />*/}
         <AboutClass />
       </main>
     </>

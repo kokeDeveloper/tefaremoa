@@ -23,56 +23,7 @@ const Footer = () => {
                         </a>
                         <p className="mt-2 text-sm text-white">Explorando la riqueza cultural del mundo polinesio a través de la creatividad y la investigación</p>
                     </div>
-                    <div className="flex-grow flex flex-wrap md:pl-20 -mb-10 md:mt-0 mt-10 md:text-left text-center lg:contents">
-                        <div className="lg:w-1/3 md:w-1/2 w-full px-4">
-                            <h2 className="title-font font-medium text-white tracking-widest text-sm mb-3 uppercase">Secciones</h2>
-                            <nav className="list-none mb-10">
-                                <ul>
-                                    <li>
-                                        <a className="text-gray-600 hover:text-gray-800">Nosotros</a>
-                                    </li>
-                                    <li>
-                                        <a className="text-gray-600 hover:text-gray-800">Clases</a>
-                                    </li>
-                                    <li>
-                                        <a className="text-gray-600 hover:text-gray-800">Workshop</a>
-                                    </li>
-                                </ul>
-                            </nav>
-                        </div>
-                        <div className="lg:w-1/3 md:w-1/2 w-full px-4">
-                            <h2 className="title-font font-medium text-white tracking-widest text-sm mb-3 uppercase">Sitios de Interés</h2>
-                            <nav className="list-none mb-10">
-                                <ul>
-                                    <li>
-                                        <a className="text-gray-600 hover:text-gray-800">Kaipeka Tattoo</a>
-                                    </li>
-                                    <li>
-                                        <a className="text-gray-600 hover:text-gray-800">Kari Kari</a>
-                                    </li>
-                                    <li>
-                                        <Link href="https://www.tahitiheritage.pf/ " className="text-gray-600 hover:text-gray-800">Tahiti Heritage</Link>
-                                    </li>
-                                    <li>
-                                        <a className="text-gray-600 hover:text-gray-800">Marketing Digital</a>
-                                    </li>
-                                </ul>
-                            </nav>
-                        </div>
-                        <div className="lg:w-1/3 md:w-1/2 w-full px-4">
-                            <h2 className="title-font font-medium text-white tracking-widest text-sm mb-3 uppercase">Contacto</h2>
-                            <nav className="list-none mb-10">
-                                <ul>
-                                    <li>
-                                        <a className="text-gray-600 hover:text-gray-800">WhatsApp</a>
-                                    </li>
-                                    <li>
-                                        <a className="text-gray-600 hover:text-gray-800">contacto@tefaremoa.com</a>
-                                    </li>
-                                </ul>
-                            </nav>
-                        </div>
-                    </div>
+
                 </div>
                 <div className="bg-black">
                     <div className="container mx-auto py-4 px-5 flex flex-wrap flex-col sm:flex-row">

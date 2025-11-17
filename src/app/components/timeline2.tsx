@@ -1,425 +1,190 @@
-import Image from "next/image";
-import React from "react";
-import { Timeline } from "./timelineTFM";
+﻿import React from "react";
+import { TimelineCompact, TimelineYear } from "./TimelineCompact";
 
 export function TimelineTFM() {
-    const data = [
+    const data: TimelineYear[] = [
         {
-            title: "2017",
-            content: (
-                <div>
-                    <h3 className="text-neutral-800 dark:text-neutral-200 text-xs md:text-3xl mb-8">Fundación de Te Fare Mo&apos;a</h3>
-                    <p className="text-neutral-800 dark:text-neutral-200 text-xs md:text-sm font-normal mb-8">
-                        Deserunt consectetur cupidatat consequat cillum magna veniam. Cillum voluptate ad ipsum nisi pariatur amet dolor ea eiusmod ea.
-                        Non sunt consectetur pariatur anim.
-                    </p>
-                    <div className="grid grid-cols-2 gap-4">
-                        <Image
-                            src="/misalumnas2017.jpg"
-                            alt="startup template"
-                            width={500}
-                            height={500}
-                            className="rounded-lg object-cover h-20 md:h-44 lg:h-60 w-full shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset]"
-                        />
-                    </div>
-                </div>
-            ),
+            year: "2017",
+            events: [
+                {
+                    title: "Fundación de Te Fare Mo'a",
+                    description: "Mujeres de la familia, junto con un grupo de coaches ontológicos de Newfield Network nos acompañaron en el proceso para darle forma a la identidad de la academia. Fueron aprendices por el mes de enero y posteriormente abrimos en marzo del mismo año, partiendo de cero.",
+                    images: [
+                        { src: "/misalumnas2017.jpg", alt: "Alumnas 2017" }
+                    ]
+                }
+            ]
         },
         {
-            title: "2018",
-            content: (
-                <>
-                    <div className="mb-10">
-                        <p className="text-neutral-500 text-sm md:text-lg font-normal uppercase mb-2">
-                            abril
-                        </p>
-                        <h3 className="text-neutral-800 dark:text-neutral-200 text-xs md:text-3xl mb-8">
-                            1er Flashmob &apos;Ori Tahiti, Santiago de Chile
-                        </h3>
-                        <p className="text-neutral-800 dark:text-neutral-200 text-xs md:text-sm font-normal mb-8">
-                            Lorem ipsum is for people who are too lazy to write copy. But we are
-                            not. Here are some more example of beautiful designs I built.
-                        </p>
-                        <div className="grid grid-cols-2 gap-4">
-                            <Image
-                                src="/flashmob2018.jpg"
-                                alt="hero template"
-                                width={500}
-                                height={500}
-                                className="rounded-lg object-cover h-20 md:h-44 lg:h-60 w-full shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset]"
-                            />
-                        </div>
-                    </div>
-                    <div className="mb-5">
-                        <p className="text-neutral-500 text-sm md:text-lg font-normal uppercase mb-2">
-                            agosto
-                        </p>
-                        <h3 className="text-neutral-200 text-xs md:text-3xl mb-8">
-                            Workshop MP
-                        </h3>
-                        <p className="text-neutral-800 dark:text-neutral-200 text-xs md:text-sm font-normal mb-8">
-                            Lorem ipsum is for people who are too lazy to write copy. But we are
-                            not. Here are some more example of beautiful designs I built.
-                        </p>
-                        <div className="grid grid-cols-3 gap-3">
-                            <Image
-                                src="/jutzilduque.jpg"
-                                alt="hero template"
-                                width={500}
-                                height={500}
-                                className="rounded-lg object-cover h-20 md:h-44 lg:h-60 w-full shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset]"
-                            />
-                            <Image
-                                src="/claudiohuesca.jpg"
-                                alt="hero template"
-                                width={500}
-                                height={500}
-                                className="rounded-lg object-cover h-20 md:h-44 lg:h-60 w-full shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset]"
-                            />
-                            <Image
-                                src="/mjroman.jpg"
-                                alt="hero template"
-                                width={500}
-                                height={500}
-                                className="rounded-lg object-cover h-20 md:h-44 lg:h-60 w-full shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset]"
-                            />
-                        </div>
-                    </div>
-
-                </>
-
-            ),
+            year: "2018",
+            events: [
+                {
+                    month: "Abril",
+                    title: "1er Flashmob 'Ori Tahiti, Santiago de Chile",
+                    description: "Encuentro que unió a academias de danza polinésica y agrupaciones, con le fin de bailar una coreografía creada por Mareva Boucheaux, organizadora mundial de este evento. La academia hizo una invitación a ser todos parte de esta gran organización",  
+                    images: [
+                        { src: "/flashmob2018.jpg", alt: "Flashmob 2018" }
+                    ]
+                },
+                {
+                    month: "Agosto",
+                    title: "Workshop MP",
+                    description: "Programa de entrenamiento para profesoras, bailarinas y músicos traído desde México, impartido por Yutzil Duque, María José Román y Claudio Huesca.",
+                    images: [
+                        { src: "/jutzilduque.jpg", alt: "Jutzil Duque" },
+                        { src: "/claudiohuesca.jpg", alt: "Claudio Huesca" },
+                        { src: "/mjroman.jpg", alt: "MJ Roman" }
+                    ]
+                }
+            ]
         },
         {
-            title: "2019",
-            content: (
-                <>
-                    <div className="mb-10">
-                        <p className="text-neutral-500 text-sm md:text-lg font-normal uppercase mb-2">
-                            mayo
-                        </p>
-                        <p className="text-neutral-200 text-xs md:text-3xl mb-8">
-                            2do Flashmob &apos;Ori Tahiti, Santiago de Chile
-                        </p>
-                        <div className="grid grid-cols-3 gap-3">
-                            <Image
-                                src="/flashmob2019.jpg"
-                                alt="hero template"
-                                width={500}
-                                height={500}
-                                className="rounded-lg object-cover h-20 md:h-44 lg:h-60 w-full shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset]"
-                            />
-                        </div>
-                    </div>
-                    <div className="mb-10">
-                        <p className="text-neutral-500 text-sm md:text-lg font-normal uppercase mb-2">
-                            julio
-                        </p>
-                        <p className="text-neutral-200 text-xs md:text-3xl mb-8">
-                            1era gala de Te fare mo&apos;a
-                        </p>
-                        <div className="grid grid-cols-3 gap-3">
-                            <Image
-                                src="/gala2019.PNG"
-                                alt="hero template"
-                                width={500}
-                                height={500}
-                                className="rounded-lg object-cover h-20 md:h-44 lg:h-60 w-full shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset]"
-                            />
-                        </div>
-                    </div>
-                    <div className="mb-10">
-                        <p className="text-neutral-500 text-sm md:text-lg font-normal uppercase mb-2">
-                            agosto
-                        </p>
-                        <p className="text-neutral-200 text-xs md:text-3xl mb-8">
-                            Workshop Mareva Boucheaux (Frencia-Tahiti)
-                        </p>
-                        <div className="grid grid-cols-3 gap-3">
-                            <Image
-                                src="/mareva 2019.jpeg"
-                                alt="hero template"
-                                width={500}
-                                height={500}
-                                className="rounded-lg object-cover h-20 md:h-44 lg:h-60 w-full shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset]"
-                            />
-                        </div>
-                    </div>
-                    <div>
-                        <p className="text-neutral-500 text-sm md:text-lg font-normal uppercase mb-2">
-                            noviembre
-                        </p>
-                        <p className="text-neutral-200 text-xs md:text-3xl mb-8">
-                            Workshop Lili Tanematea (México-Tahiti)
-                        </p>
-                        <div className="grid grid-cols-3 gap-3">
-                            <Image
-                                src="/LILI.jpeg"
-                                alt="hero template"
-                                width={500}
-                                height={500}
-                                className="rounded-lg object-cover h-20 md:h-44 lg:h-60 w-full shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset]"
-                            />
-                        </div>
-
-                    </div>
-
-                </>
-
-
-
-            ),
+            year: "2019",
+            events: [
+                {
+                    month: "Mayo",
+                    title: "2do Flashmob 'Ori Tahiti, Santiago de Chile",
+                    description:"Encuentro que convocó a más de 324 personas. En esta segunda versión fuimos la ciudad más numerosa dentro de las 50 que participaron pertenecientes a diferentes lugares de América, Europa y Oceanía",
+                    images: [
+                        { src: "/flashmob2019.jpg", alt: "Flashmob 2019" }
+                    ]
+                },
+                {
+                    month: "Julio",
+                    title: "1era gala de Te Fare Mo'a",
+                    images: [
+                        { src: "/gala2019.PNG", alt: "Gala 2019" }
+                    ]
+                },
+                {
+                    month: "Agosto",
+                    title: "Workshop Mareva Boucheaux (Francia-Tahiti)",
+                    description:"El nivel de participación de bailarines en el Flashmob de ese año generó en Mareva un gran interés por conocernos, por lo que realizamos nuestro primer workshop con una profesora extranjera. Asistieron en total 152 bailarinas.",
+                    images: [
+                        { src: "/mareva 2019.jpeg", alt: "Mareva Boucheaux" }
+                    ]
+                },
+                {
+                    month: "Noviembre",
+                    title: "Workshop Lili Tanematea (México-Tahiti)",
+                    images: [
+                        { src: "/LILI.jpeg", alt: "Lili Tanematea" }
+                    ]
+                }
+            ]
         },
         {
-            title: "2020",
-            content: (
-                <>
-                    <div className="mb-10">
-                        <p className="text-neutral-500 text-sm md:text-lg font-normal uppercase mb-2">
-                            mayo
-                        </p>
-                        <p className="text-neutral-200 text-xs md:text-3xl mb-8">
-                            3er Flashmob Online &apos;Ori Tahiti
-                        </p>
-                        <div className="grid grid-cols-3 gap-3">
-                            <Image
-                                src="/flashmob2020.png"
-                                alt="hero template"
-                                width={500}
-                                height={500}
-                                className="rounded-lg object-cover h-20 md:h-44 lg:h-60 w-full shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset]"
-                            />
-                        </div>
-                    </div>
-                    <div>
-                        <p className="text-neutral-500 text-sm md:text-lg font-normal uppercase mb-2">
-                            junio
-                        </p>
-                        <p className="text-neutral-200 text-xs md:text-3xl mb-8">
-                            3° lugar solista categoría maestra
-                        </p>
-                        <p className="text-neutral-800 dark:text-neutral-200 text-xs md:text-sm font-normal mb-8">
-                            Te Varua o Te &apos;Ori Online 2021
-                        </p>
-                        <div className="grid grid-cols-3 gap-3">
-                            <Image
-                                src="/HeivaVirtual2020.JPG"
-                                alt="hero template"
-                                width={500}
-                                height={500}
-                                className="rounded-lg object-cover h-20 md:h-44 lg:h-60 w-full shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset]"
-                            />
-                        </div>
-                    </div>
-                </>
-
-            ),
+            year: "2020",
+            events: [
+                {
+                    month: "Mayo",
+                    title: "3er Flashmob Online 'Ori Tahiti",
+                    images: [
+                        { src: "/flashmob2020.png", alt: "Flashmob Online 2020" }
+                    ]
+                },
+                {
+                    month: "Junio",
+                    title: "3 lugar solista categoría maestra",
+                    description: "Te Varua o Te 'Ori Online 2021",
+                    images: [
+                        { src: "/HeivaVirtual2020.JPG", alt: "Heiva Virtual 2020" }
+                    ]
+                }
+            ]
         },
         {
-            title: "2021",
-            content: (
-                <>
-                    <div className="mb-10">
-                        <p className="text-neutral-500 text-sm md:text-lg font-normal uppercase mb-2">
-                            febrero
-                        </p>
-                        <p className="text-neutral-200 text-xs md:text-3xl mb-8">
-                            Gala online “Haere mai i te heiva”
-                        </p>
-                        <div className="grid grid-cols-3 gap-3">
-                            <Image
-                                src="/galaonline.jpg"
-                                alt="hero template"
-                                width={500}
-                                height={500}
-                                className="rounded-lg object-cover h-20 md:h-44 lg:h-60 w-full shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset]"
-                            />
-                        </div>
-                    </div>
-                    <div className="mb-10">
-                        <p className="text-neutral-500 text-sm md:text-lg font-normal uppercase mb-2">
-                            mayo
-                        </p>
-                        <p className="text-neutral-200 text-xs md:text-3xl mb-8">
-                            2° lugar solista categoría profesional
-                        </p>
-                        <p className="text-neutral-800 dark:text-neutral-200 text-xs md:text-sm font-normal mb-8">
-                            E Ua No Fetia Online 2021
-                        </p>
-                        <div className="grid grid-cols-3 gap-3">
-                            <Image
-                                src="/euanofetia.jpg"
-                                alt="hero template"
-                                width={500}
-                                height={500}
-                                className="rounded-lg object-cover h-20 md:h-44 lg:h-60 w-full shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset]" />
-                        </div>
-                    </div>
-                    <div className="mb-10">
-                        <p className="text-neutral-500 text-sm md:text-lg font-normal uppercase mb-2">
-                            agosto
-                        </p>
-
-                        <p className="text-neutral-200 text-xs md:text-3xl mb-8">
-                            3° lugar solista categoría maestra y 1° lugar orquesta creación
-                        </p>
-                        <p className="text-neutral-800 dark:text-neutral-200 text-xs md:text-sm font-normal mb-8">
-                            Te Varua o Te &apos;Ori Online 2021
-                        </p>
-                        <div className="grid grid-cols-2 gap-2">
-                            <Image
-                                src="/tevaruaori2021.jpg"
-                                alt="hero template"
-                                width={500}
-                                height={500}
-                                className="rounded-lg object-cover h-20 md:h-44 lg:h-60 w-full shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset]"
-                            />
-                            <Image
-                                src="/orquesta2021.jpg"
-                                alt="hero template"
-                                width={500}
-                                height={500}
-                                className="rounded-lg object-cover h-20 md:h-44 lg:h-60 w-full shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset]"
-                            />
-                        </div>
-
-                    </div>
-                    <div className="mb-10">
-                        <p className="text-neutral-500 text-sm md:text-lg font-normal uppercase mb-2">
-                            septiembre
-                        </p>
-                        <p className="text-neutral-200 text-xs md:text-3xl mb-8">
-                            1° lugar solista categoría profesional 35 +, Heiva I San Diego Online 2021 – USA
-                        </p>
-                        <p className="text-neutral-800 dark:text-neutral-200 text-xs md:text-sm font-normal mb-8">
-                            E Ua No Fetia Online 2021
-                        </p>
-                        <div className="grid grid-cols-3 gap-3">
-                            <Image
-                                src="/heivasandiego.jpg"
-                                alt="hero template"
-                                width={500}
-                                height={500}
-                                className="rounded-lg object-cover h-20 md:h-44 lg:h-60 w-full shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset]" />
-                        </div>
-                    </div>
-                </>
-            ),
+            year: "2021",
+            events: [
+                {
+                    month: "Febrero",
+                    title: "Gala online 'Haere mai i te heiva'",
+                    images: [
+                        { src: "/galaonline.jpg", alt: "Gala Online 2021" }
+                    ]
+                },
+                {
+                    month: "Mayo",
+                    title: "2 lugar solista categoría profesional",
+                    description: "E Ua No Fetia Online 2021",
+                    images: [
+                        { src: "/euanofetia.jpg", alt: "E Ua No Fetia 2021" }
+                    ]
+                },
+                {
+                    month: "Agosto",
+                    title: "3 lugar solista categoría maestra y 1 lugar orquesta creación",
+                    description: "Te Varua o Te 'Ori Online 2021",
+                    images: [
+                        { src: "/tevaruaori2021.jpg", alt: "Te Varua Ori 2021" },
+                        { src: "/orquesta2021.jpg", alt: "Orquesta 2021" }
+                    ]
+                },
+                {
+                    month: "Septiembre",
+                    title: "1 lugar solista categoría profesional 35+",
+                    description: "Heiva I San Diego Online 2021  USA",
+                    images: [
+                        { src: "/heivasandiego.jpg", alt: "Heiva San Diego 2021" }
+                    ]
+                }
+            ]
         },
         {
-            title: "2022",
-            content: (
-                <>
-                    <div className="mb-10">
-                        <p className="text-neutral-500 text-sm md:text-lg font-normal uppercase mb-2">
-                            julio
-                        </p>
-                        <p className="text-neutral-200 text-xs md:text-3xl mb-8">
-                            1° lugar categoría Mehura, &apos;Aito International Competition Online 2022 – México.
-                        </p>
-                        <div className="grid grid-cols-3 gap-3">
-                            <Image
-                                src="/mehura2022.jpg"
-                                alt="hero template"
-                                width={500}
-                                height={500}
-                                className="rounded-lg object-cover h-20 md:h-44 lg:h-60 w-full shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset]"
-                            />
-                        </div>
-                    </div>
-                </>
-            ),
+            year: "2022",
+            events: [
+                {
+                    month: "Julio",
+                    title: "1 lugar categoría Mehura, 'Aito International Competition Online 2022  México",
+                    images: [
+                        { src: "/mehura2022.jpg", alt: "Mehura 2022" }
+                    ]
+                }
+            ]
         },
         {
-            title: "2023",
-            content: (
-                <>
-                    <div className="mb-10">
-                        <p className="text-neutral-500 text-sm md:text-lg font-normal uppercase mb-2">
-                            noviembre
-                        </p>
-                        <p className="text-neutral-200 text-xs md:text-3xl mb-8">
-                            Presentación en el Festival Vívelo
-                        </p>
-                        <div className="grid grid-cols-3 gap-3">
-                            <Image
-                                src="/galaonline.jpg"
-                                alt="hero template"
-                                width={500}
-                                height={500}
-                                className="rounded-lg object-cover h-20 md:h-44 lg:h-60 w-full shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset]"
-                            />
-                        </div>
-                    </div>
-                </>
-            ),
+            year: "2023",
+            events: [
+                {
+                    month: "Noviembre",
+                    title: "Presentación en el Festival Vívelo",
+                    images: [
+                        { src: "/galaonline.jpg", alt: "Festival Vívelo 2023" }
+                    ]
+                }
+            ]
         },
         {
-            title: "2024",
-            content: (
-                <>
-                    <div className="mb-10">
-                        <p className="text-neutral-500 text-sm md:text-lg font-normal uppercase mb-2">
-                            mayo
-                        </p>
-                        <p className="text-neutral-200 text-xs md:text-3xl mb-8">
-                        Workshop Ranitea Laughlin
-                        </p>
-                        <div className="grid grid-cols-3 gap-3">
-                            <Image
-                                src="/ranitea.jpg"
-                                alt="hero template"
-                                width={500}
-                                height={500}
-                                className="rounded-lg object-cover h-20 md:h-44 lg:h-60 w-full shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset]"
-                            />
-                        </div>
-                    </div>
-                    <div className="mb-10">
-                        <p className="text-neutral-500 text-sm md:text-lg font-normal uppercase mb-2">
-                            noviembre
-                        </p>
-                        <p className="text-neutral-200 text-xs md:text-3xl mb-8">
-                            Presentación en el Festival Vívelo
-                        </p>
-                        <div className="grid grid-cols-3 gap-3">
-                            <Image
-                                src="/galaonline.jpg"
-                                alt="hero template"
-                                width={500}
-                                height={500}
-                                className="rounded-lg object-cover h-20 md:h-44 lg:h-60 w-full shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset]"
-                            />
-                        </div>
-                    </div>
-                    <div className="mb-10">
-                        <p className="text-neutral-500 text-sm md:text-lg font-normal uppercase mb-2">
-                            diciembre
-                        </p>
-                        <p className="text-neutral-200 text-xs md:text-3xl mb-8">
-                        Workshop Moon Tahiti
-                        </p>
-                        <div className="grid grid-cols-3 gap-3">
-                            <Image
-                                src="/moonWS-2024.jpg"
-                                alt="hero template"
-                                width={500}
-                                height={500}
-                                className="rounded-lg object-cover h-20 md:h-44 lg:h-60 w-full shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset]"
-                            />
-                        </div>
-                    </div>
-                </>
-            ),
-        },
-
-
-
-
+            year: "2024",
+            events: [
+                {
+                    month: "Mayo",
+                    title: "Workshop Ranitea Laughlin",
+                    images: [
+                        { src: "/ranitea.jpg", alt: "Ranitea Laughlin Workshop" }
+                    ]
+                },
+                {
+                    month: "Noviembre",
+                    title: "Presentación en el Festival Vívelo",
+                    images: [
+                        { src: "/galaonline.jpg", alt: "Festival Vívelo 2024" }
+                    ]
+                },
+                {
+                    month: "Diciembre",
+                    title: "Workshop Moon Tahiti",
+                    images: [
+                        { src: "/moonWS-2024.jpg", alt: "Moon Tahiti Workshop" }
+                    ]
+                }
+            ]
+        }
     ];
+
     return (
         <div className="w-full">
-            <Timeline data={data} />
+            <TimelineCompact data={data} initialOpen={0} />
         </div>
     );
 }

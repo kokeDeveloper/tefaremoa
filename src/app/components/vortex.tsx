@@ -21,24 +21,24 @@ interface VortexProps {
 
 export const Vortex = (props: VortexProps) => {
     const canvasRef = useRef<HTMLCanvasElement>(null);
-    const containerRef = useRef(null);
-    const particleCount = props.particleCount || 700;
+    const containerRef = useRef<HTMLDivElement | null>(null);
+    const particleCount = props.particleCount ?? 700;
     const particlePropCount = 9;
     const particlePropsLength = particleCount * particlePropCount;
-    const rangeY = props.rangeY || 100;
+    let rangeY = props.rangeY ?? 100;
     const baseTTL = 50;
     const rangeTTL = 150;
-    const baseSpeed = props.baseSpeed || 0.0;
-    const rangeSpeed = props.rangeSpeed || 1.5;
-    const baseRadius = props.baseRadius || 1;
-    const rangeRadius = props.rangeRadius || 2;
-    const baseHue = props.baseHue || 220;
-    const rangeHue = props.rangeHue|| 100;
+    const baseSpeed = props.baseSpeed ?? 0.0;
+    const rangeSpeed = props.rangeSpeed ?? 1.5;
+    const baseRadius = props.baseRadius ?? 1;
+    const rangeRadius = props.rangeRadius ?? 2;
+    const baseHue = props.baseHue ?? 220;
+    const rangeHue = props.rangeHue ?? 100;
     const noiseSteps = 3;
     const xOff = 0.00125;
     const yOff = 0.00125;
     const zOff = 0.0005;
-    const backgroundColor = props.backgroundColor || "#000000";
+    const backgroundColor = props.backgroundColor ?? "#000000";
     let tick = 0;
     const noise3D = createNoise3D();
     let particleProps = new Float32Array(particlePropsLength);
@@ -63,7 +63,7 @@ export const Vortex = (props: VortexProps) => {
             const ctx = canvas.getContext("2d");
 
             if (ctx) {
-                resize(canvas, ctx);
+                resize(canvas, container, ctx);
                 initParticles();
                 draw(canvas, ctx);
             }
@@ -187,17 +187,26 @@ export const Vortex = (props: VortexProps) => {
         return x > canvas.width || x < 0 || y > canvas.height || y < 0;
     };
 
+    const updateRangeY = (height: number) => {
+        if (props.rangeY === undefined) {
+            rangeY = Math.max(height * 0.45, 120);
+        }
+    };
+
     const resize = (
         canvas: HTMLCanvasElement,
+        container: HTMLDivElement,
         ctx?: CanvasRenderingContext2D
     ) => {
-        const { innerWidth, innerHeight } = window;
+        const { width, height } = container.getBoundingClientRect();
 
-        canvas.width = innerWidth;
-        canvas.height = innerHeight;
+        canvas.width = Math.max(1, Math.floor(width));
+        canvas.height = Math.max(1, Math.floor(height));
 
         center[0] = 0.5 * canvas.width;
         center[1] = 0.5 * canvas.height;
+
+        updateRangeY(canvas.height);
     };
 
     const renderGlow = (
@@ -230,17 +239,27 @@ export const Vortex = (props: VortexProps) => {
     useEffect(() => {
         const handleResize = () => {
             const canvas = canvasRef.current;
+            const container = containerRef.current;
             const ctx = canvas?.getContext("2d");
-            if (canvas && ctx) {
-                resize(canvas, ctx);
+            if (canvas && container && ctx) {
+                resize(canvas, container, ctx);
             }
         };
 
         setup();
         window.addEventListener("resize", handleResize);
 
+        const observer = typeof ResizeObserver !== "undefined"
+            ? new ResizeObserver(handleResize)
+            : null;
+
+        if (observer && containerRef.current) {
+            observer.observe(containerRef.current);
+        }
+
         return () => {
             window.removeEventListener("resize", handleResize);
+            observer?.disconnect();
         };
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
