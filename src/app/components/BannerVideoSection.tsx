@@ -9,7 +9,16 @@ interface BannerVideoSectionProps {
 const BannerVideoSection = ({title, height = '50vh'}: BannerVideoSectionProps) => {
   return (
     <div className="relative w-full overflow-hidden" style={{height}}>
-      <video autoPlay loop muted className="absolute top-0 left-0 w-full h-full object-cover">
+      <video
+        autoPlay
+        loop
+        muted
+        playsInline
+        // @ts-ignore Safari iOS inline playback hint
+        webkit-playsinline="true"
+        preload="auto"
+        className="absolute top-0 left-0 w-full h-full object-cover"
+      >
         <source src="/banner1_3.mp4" type="video/mp4" />
         Your browser does not support the video tag.
       </video>
