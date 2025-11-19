@@ -53,7 +53,7 @@ export default function EventosPage() {
                         <p className="uppercase text-xs tracking-[0.45em] text-white/70 mb-3">Producción artística</p>
                         <h3 className="text-2xl md:text-3xl font-semibold text-white mb-3">¿Quieres co-crear un evento junto a Te Fare Mo&apos;a?</h3>
                         <p className="text-white/80 text-sm md:text-base leading-relaxed">
-                            Diseñamos experiencias a medida para festivales, instituciones educativas y comunidades creativas. Hablemos de logística, propuestas curatoriales y residencias para llevar el ‘Ori Tahiti a nuevos escenarios.
+                            Diseñamos experiencias a medida para festivales, instituciones educativas y comunidades creativas.
                         </p>
                     </div>
                     <a

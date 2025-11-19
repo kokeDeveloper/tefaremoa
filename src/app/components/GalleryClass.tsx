@@ -44,8 +44,7 @@ const data: GalleryItem[] = [
     { id: 29, src: '/gallery/v%C3%ADvelo%202024.jpg', alt: 'Vivelo 2024 presentacion', size: 'medium' },
     { id: 30, src: '/gallery/_DIJ6244.JPG', alt: 'Paso otea', size: 'medium' },
     { id: 31, src: '/gallery/_DIJ6368.JPG', alt: 'Guardianas del escenario', size: 'xlarge' },
-    { id: 32, src: '/gallery/2.jpg', alt: 'Detalle floral', size: 'medium' },
-    { id: 33, src: '/gallery/vic.jpg', alt: 'Detalle floral', size: 'small' }
+    { id: 32, src: '/gallery/vic.jpg', alt: 'Detalle floral', size: 'small' }
 ]
 
 // Configuración de tamaños para masonry grid

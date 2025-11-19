@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 
 interface BannerVideoSectionProps {
   title: string;
@@ -7,6 +7,29 @@ interface BannerVideoSectionProps {
 }
 
 const BannerVideoSection = ({title, height = '50vh'}: BannerVideoSectionProps) => {
+  const videoRef = useRef<HTMLVideoElement | null>(null);
+
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+
+    const playVideo = () => {
+      video.play().catch(() => {
+        // Autoplay can be blocked on some mobile browsers; in that case we leave the poster frame visible.
+      });
+    };
+
+    if (video.readyState >= 2) {
+      playVideo();
+    } else {
+      video.addEventListener('canplay', playVideo, { once: true });
+    }
+
+    return () => {
+      video.removeEventListener('canplay', playVideo);
+    };
+  }, []);
+
   return (
     <div className="relative w-full overflow-hidden" style={{height}}>
       <video
@@ -17,6 +40,7 @@ const BannerVideoSection = ({title, height = '50vh'}: BannerVideoSectionProps) =
         // @ts-ignore Safari iOS inline playback hint
         webkit-playsinline="true"
         preload="auto"
+        ref={videoRef}
         className="absolute top-0 left-0 w-full h-full object-cover"
       >
         <source src="/banner1_3.mp4" type="video/mp4" />
