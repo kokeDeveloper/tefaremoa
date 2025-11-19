@@ -13,25 +13,39 @@ interface GalleryItem {
 }
 
 const data: GalleryItem[] = [
-    { id: 1, src: '/gallery/abouthome.jpg', alt: 'Te Fare Mo\'a', size: 'large' },
-    { id: 2, src: '/gallery/azul.jpg', alt: 'Vestuario azul', size: 'medium' },
-    { id: 3, src: '/gallery/azul2.JPG', alt: 'Tocado coral', size: 'small' },
-    { id: 4, src: '/gallery/Grupo%20Tefaremoa-178.jpeg', alt: 'Cierre de temporada', size: 'xlarge' },
-    { id: 5, src: '/gallery/Grupo%20Tefaremoa-203.jpeg', alt: 'Saludo final', size: 'medium' },
-    { id: 6, src: '/gallery/Grupo%20Tefaremoa-275.jpeg', alt: 'Círculo de energía', size: 'small' },
-    { id: 7, src: '/gallery/IMG_9503.jpg', alt: 'Ensayo con percusión', size: 'large' },
-    { id: 8, src: '/gallery/IMG_9509.jpg', alt: 'Coreografía sincronizada', size: 'medium' },
-    { id: 9, src: '/gallery/IMG_9518.jpg', alt: 'Mudras polinesios', size: 'small' },
-    { id: 10, src: '/gallery/IMG_9522.jpg', alt: 'Acompañamiento docente', size: 'large' },
-    { id: 11, src: '/gallery/IMG_9536.jpg', alt: 'Técnica tradicional', size: 'medium' },
-    { id: 12, src: '/gallery/IMG_9561.jpg', alt: 'Alegría en escena', size: 'small' },
-    { id: 13, src: '/gallery/IMG_9574.jpg', alt: 'Aparima en vivo', size: 'medium' },
-    { id: 14, src: '/gallery/negro.jpg', alt: 'Luz dorada', size: 'large' },
-    { id: 15, src: '/gallery/_DIJ6244.JPG', alt: 'Paso ote\'a', size: 'medium' },
-    { id: 16, src: '/gallery/_DIJ6249.JPG', alt: 'Líneas escénicas', size: 'medium' },
-    { id: 17, src: '/gallery/_DIJ6297.JPG', alt: 'Compás enérgico', size: 'small' },
-    { id: 18, src: '/gallery/_DIJ6368.JPG', alt: 'Guardianas del escenario', size: 'xlarge' },
-    { id: 19, src: '/gallery/2.jpg', alt: 'Detalle floral', size: 'medium' }
+    { id: 1, src: '/gallery/abouthome.jpg', alt: 'Te Fare Moa al atardecer', size: 'large' },
+    { id: 2, src: '/gallery/aparima%201.jpg', alt: 'Aparima 1', size: 'medium' },
+    { id: 3, src: '/gallery/aparima%202.jpg', alt: 'Aparima 2', size: 'small' },
+    { id: 4, src: '/gallery/azul.jpg', alt: 'Vestuario azul', size: 'medium' },
+    { id: 5, src: '/gallery/azul2.JPG', alt: 'Tocado coralino', size: 'small' },
+    { id: 6, src: '/gallery/chiquillas%202.jpg', alt: 'Grupo de alumnas 2', size: 'large' },
+    { id: 7, src: '/gallery/chiquillas%20lunes.jpg', alt: 'Chiquillas lunes', size: 'medium' },
+    { id: 8, src: '/gallery/chiquillas.jpg', alt: 'Grupo de alumnas', size: 'medium' },
+    { id: 9, src: '/gallery/DSC_0288.jpg', alt: 'Escena en exterior', size: 'small' },
+    { id: 10, src: '/gallery/foto%20chiquillas.jpg', alt: 'Fotografia de alumnas', size: 'large' },
+    { id: 11, src: '/gallery/foto%20clases.jpg', alt: 'Clase en estudio', size: 'medium' },
+    { id: 12, src: '/gallery/Grupo%20Tefaremoa-178.jpeg', alt: 'Elenco celebrando', size: 'xlarge' },
+    { id: 13, src: '/gallery/Grupo%20Tefaremoa-193.jpeg', alt: 'Coreografia grupal 193', size: 'medium' },
+    { id: 14, src: '/gallery/Grupo%20Tefaremoa-203.jpeg', alt: 'Saludo final 203', size: 'medium' },
+    { id: 15, src: '/gallery/Grupo%20Tefaremoa-275.jpeg', alt: 'Círculo de energia', size: 'small' },
+    { id: 16, src: '/gallery/IMG_3958.JPG', alt: 'Ensayo al aire libre', size: 'medium' },
+    { id: 17, src: '/gallery/IMG_9503.jpg', alt: 'Ensayo con percusion', size: 'large' },
+    { id: 18, src: '/gallery/IMG_9509.jpg', alt: 'Coreografia sincronizada', size: 'medium' },
+    { id: 19, src: '/gallery/IMG_9518.jpg', alt: 'Mudras polinesios', size: 'small' },
+    { id: 20, src: '/gallery/IMG_9522.jpg', alt: 'Acompanamiento docente', size: 'large' },
+    { id: 21, src: '/gallery/IMG_9536.jpg', alt: 'Tecnica tradicional', size: 'medium' },
+    { id: 22, src: '/gallery/IMG_9561.jpg', alt: 'Alegria en escena', size: 'small' },
+    { id: 23, src: '/gallery/marcia.jpg', alt: 'Presentacion Marcia', size: 'medium' },
+    { id: 24, src: '/gallery/negro.jpg', alt: 'Escena luz dorada', size: 'large' },
+    { id: 25, src: '/gallery/vivelo%202023%201.jpg', alt: 'Vivelo 2023 1', size: 'medium' },
+    { id: 26, src: '/gallery/vivelo%202024%201.jpg', alt: 'Vivelo 2024 1', size: 'small' },
+    { id: 27, src: '/gallery/vivelo%202024.jpg', alt: 'Vivelo 2024', size: 'medium' },
+    { id: 28, src: '/gallery/v%C3%ADvelo%202023%202.jpg', alt: 'Vivelo 2023 2', size: 'small' },
+    { id: 29, src: '/gallery/v%C3%ADvelo%202024.jpg', alt: 'Vivelo 2024 presentacion', size: 'medium' },
+    { id: 30, src: '/gallery/_DIJ6244.JPG', alt: 'Paso otea', size: 'medium' },
+    { id: 31, src: '/gallery/_DIJ6368.JPG', alt: 'Guardianas del escenario', size: 'xlarge' },
+    { id: 32, src: '/gallery/2.jpg', alt: 'Detalle floral', size: 'medium' },
+    { id: 33, src: '/gallery/vic.jpg', alt: 'Detalle floral', size: 'small' }
 ]
 
 // Configuración de tamaños para masonry grid
@@ -39,7 +53,7 @@ const sizeClasses = {
     small: 'col-span-1 row-span-1',
     medium: 'col-span-1 md:col-span-2 row-span-1',
     large: 'col-span-1 md:col-span-2 row-span-2',
-    xlarge: 'col-span-1 md:col-span-3 row-span-2',
+    xlarge: 'col-span-1 md:col-span-2 lg:col-span-3 row-span-2',
 }
 
 const GalleryClass = () => {
@@ -96,7 +110,7 @@ const GalleryClass = () => {
                     </div>
 
                     {/* Masonry Grid */}
-                    <div className="grid grid-cols-2 md:grid-cols-4 auto-rows-[200px] gap-4">
+                    <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 auto-rows-[180px] md:auto-rows-[220px] grid-flow-row-dense gap-4">
                         {data.map((item, index) => (
                             <motion.div
                                 key={item.id}
@@ -105,7 +119,7 @@ const GalleryClass = () => {
                                 transition={{ delay: index * 0.1, duration: 0.5 }}
                                 className={`
                                     ${sizeClasses[item.size]}
-                                    relative rounded-xl overflow-hidden cursor-pointer group
+                                    relative rounded-xl overflow-hidden cursor-pointer group h-full
                                 `}
                                 onClick={() => openModal(item.id)}
                             >

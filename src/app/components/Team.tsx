@@ -13,7 +13,7 @@ const members: Member[] = [
   {
     name: 'Ángela Ortiz Morales',
     role: 'Directora artística y fundadora',
-    src: '/angieTeam.jpg',
+    src: '/AngieTeam.png',
     curriculum: [
       'Profesora de Lengua y Literatura',
       'Coach Ontológico de Vida (Newfield Network)',
@@ -127,7 +127,7 @@ const Team: React.FC = () => {
               <div className="absolute bottom-0 left-0 p-4 w-full text-left">
                 <p className="text-white font-semibold text-lg leading-tight drop-shadow-sm">{m.name}</p>
                 <p className="text-white/80 text-sm mb-2">{m.role}</p>
-                <span className="inline-block text-xs uppercase tracking-wide bg-white/10 text-white px-3 py-1 rounded-full border border-white/20 group-hover:bg-orange-500/80 group-hover:border-orange-400 transition">Ver currículum</span>
+                <span className="inline-block text-xs uppercase tracking-wide bg-white/10 text-white px-3 py-1 rounded-full border border-white/20 group-hover:bg-orange-500/80 group-hover:border-orange-400 transition">Conoce más</span>
               </div>
             </button>
           ))}

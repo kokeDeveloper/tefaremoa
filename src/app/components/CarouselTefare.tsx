@@ -11,7 +11,7 @@ const data = [
   {
     category: "Acompañamiento",
     title: "Improvisación",
-    src: "/bnw_bt2.JPG",
+    src: "/bnw_bt2.jpg",
   },
     {
     category: "Clases",

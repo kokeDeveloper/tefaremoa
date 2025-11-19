@@ -9,6 +9,7 @@ export interface TimelineEvent {
   title: string;
   description?: string;
   images?: { src: string; alt?: string }[];
+  videoUrl?: string;
 }
 
 export interface TimelineYear {
@@ -20,6 +21,33 @@ interface TimelineCompactProps {
   data: TimelineYear[];
   initialOpen?: number; // index of year to open initially
 }
+
+const getYouTubeEmbedUrl = (url: string) => {
+  try {
+    const parsed = new URL(url);
+    const hostname = parsed.hostname.replace(/^www\./, "");
+
+    if (hostname === "youtu.be") {
+      const id = parsed.pathname.replace("/", "");
+      return id ? `https://www.youtube.com/embed/${id}` : url;
+    }
+
+    if (hostname === "youtube.com" || hostname === "youtube-nocookie.com") {
+      const pathSegments = parsed.pathname.split("/").filter(Boolean);
+      if (pathSegments[0] === "embed" && pathSegments[1]) {
+        return url;
+      }
+      const videoId = parsed.searchParams.get("v");
+      if (videoId) {
+        return `https://www.youtube.com/embed/${videoId}`;
+      }
+    }
+  } catch (error) {
+    // no-op, fallback to original url
+  }
+
+  return url;
+};
 
 // Utility: trap focus inside modal
 function useFocusTrap(active: boolean, ref: React.RefObject<HTMLDivElement | null>, onExit: () => void) {
@@ -115,48 +143,63 @@ export const TimelineCompact: React.FC<TimelineCompactProps> = ({ data, initialO
                       exit={{ height: 0, opacity: 0 }}
                       className="divide-y divide-neutral-800"
                     >
-                      {y.events.map((ev, i) => (
-                        <div key={i} className="px-6 py-5 flex flex-col md:flex-row md:items-start gap-6">
-                          <div className="md:w-1/3">
-                            <p className="uppercase tracking-wide text-xs text-orange-300 mb-2">{ev.month || y.year}</p>
-                            <h3 className="text-white text-lg md:text-xl font-semibold leading-snug mb-2">
-                              {ev.title}
-                            </h3>
-                            {ev.description && (
-                              <p className="text-neutral-300 text-sm leading-relaxed line-clamp-4">
-                                {ev.description}
-                              </p>
-                            )}
-                            <div className="mt-3">
-                              <button
-                                onClick={() => setModalEvent(ev)}
-                                className="text-xs md:text-sm px-3 py-1.5 rounded-md bg-orange-600 hover:bg-orange-500 text-white font-medium shadow focus:outline-none focus:ring-2 focus:ring-orange-400 focus:ring-offset-2 focus:ring-offset-neutral-900"
-                                aria-label={`Ver detalles de ${ev.title}`}
-                              >
-                                Ver más
-                              </button>
+                      {y.events.map((ev, i) => {
+                        const hasImages = (ev.images?.length ?? 0) > 0;
+                        return (
+                          <div key={i} className="px-6 py-5 flex flex-col md:flex-row md:items-start gap-6">
+                            <div className="md:w-1/3">
+                              <p className="uppercase tracking-wide text-xs text-orange-300 mb-2">{ev.month || y.year}</p>
+                              <h3 className="text-white text-lg md:text-xl font-semibold leading-snug mb-2">
+                                {ev.title}
+                              </h3>
+                              {ev.description && (
+                                <p className="text-neutral-300 text-sm leading-relaxed line-clamp-4">
+                                  {ev.description}
+                                </p>
+                              )}
+                              <div className="mt-3">
+                                <button
+                                  onClick={() => setModalEvent(ev)}
+                                  className="text-xs md:text-sm px-3 py-1.5 rounded-md bg-orange-600 hover:bg-orange-500 text-white font-medium shadow focus:outline-none focus:ring-2 focus:ring-orange-400 focus:ring-offset-2 focus:ring-offset-neutral-900"
+                                  aria-label={`Ver detalles de ${ev.title}`}
+                                >
+                                  Ver más
+                                </button>
+                              </div>
+                            </div>
+                            <div className="md:flex-1 grid grid-cols-2 sm:grid-cols-3 gap-3">
+                              {ev.videoUrl && (
+                                <div className="relative col-span-full aspect-video overflow-hidden rounded-2xl border border-neutral-800 bg-neutral-900">
+                                  <iframe
+                                    src={getYouTubeEmbedUrl(ev.videoUrl)}
+                                    title={`Video ${ev.title}`}
+                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                    allowFullScreen
+                                    className="absolute inset-0 h-full w-full"
+                                  />
+                                </div>
+                              )}
+                              {hasImages &&
+                                ev.images?.slice(0, 6).map(img => (
+                                  <div key={img.src} className="relative w-full aspect-[4/5] overflow-hidden rounded-xl bg-neutral-800">
+                                    <Image
+                                      src={img.src}
+                                      alt={img.alt || ev.title}
+                                      fill
+                                      loading="lazy"
+                                      sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 20vw"
+                                      className="object-cover hover:scale-105 transition-transform duration-300"
+                                    />
+                                    <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-black/10 to-transparent opacity-60 pointer-events-none" />
+                                  </div>
+                                ))}
+                              {!hasImages && !ev.videoUrl && (
+                                <div className="text-neutral-600 text-sm italic col-span-full">Sin imágenes</div>
+                              )}
                             </div>
                           </div>
-                          <div className="md:flex-1 grid grid-cols-2 sm:grid-cols-3 gap-3">
-                            {ev.images?.slice(0, 6).map(img => (
-                              <div key={img.src} className="relative w-full aspect-[4/5] overflow-hidden rounded-xl bg-neutral-800">
-                                <Image
-                                  src={img.src}
-                                  alt={img.alt || ev.title}
-                                  fill
-                                  loading="lazy"
-                                  sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 20vw"
-                                  className="object-cover hover:scale-105 transition-transform duration-300"
-                                />
-                                <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-black/10 to-transparent opacity-60 pointer-events-none" />
-                              </div>
-                            ))}
-                            {!ev.images?.length && (
-                              <div className="text-neutral-600 text-sm italic col-span-full">Sin imágenes</div>
-                            )}
-                          </div>
-                        </div>
-                      ))}
+                        );
+                      })}
                     </motion.div>
                   )}
                 </AnimatePresence>
@@ -193,19 +236,31 @@ export const TimelineCompact: React.FC<TimelineCompactProps> = ({ data, initialO
                     {modalEvent.description}
                   </p>
                 )}
+                {modalEvent.videoUrl && (
+                  <div className="relative w-full aspect-video overflow-hidden rounded-2xl border border-neutral-800 bg-neutral-900 mb-6">
+                    <iframe
+                      src={getYouTubeEmbedUrl(modalEvent.videoUrl)}
+                      title={`Video ${modalEvent.title}`}
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                      allowFullScreen
+                      className="absolute inset-0 h-full w-full"
+                    />
+                  </div>
+                )}
                 <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-                  {modalEvent.images?.map(img => (
-                    <div key={img.src} className="relative w-full aspect-[4/5] overflow-hidden rounded-xl bg-neutral-800">
-                      <Image
-                        src={img.src}
-                        alt={img.alt || modalEvent.title}
-                        fill
-                        loading="lazy"
-                        className="object-cover"
-                      />
-                    </div>
-                  ))}
-                  {!modalEvent.images?.length && (
+                  {(modalEvent.images?.length ?? 0) > 0 &&
+                    modalEvent.images?.map(img => (
+                      <div key={img.src} className="relative w-full aspect-[4/5] overflow-hidden rounded-xl bg-neutral-800">
+                        <Image
+                          src={img.src}
+                          alt={img.alt || modalEvent.title}
+                          fill
+                          loading="lazy"
+                          className="object-cover"
+                        />
+                      </div>
+                    ))}
+                  {(modalEvent.images?.length ?? 0) === 0 && !modalEvent.videoUrl && (
                     <div className="text-neutral-600 text-sm italic col-span-full">Sin imágenes</div>
                   )}
                 </div>
