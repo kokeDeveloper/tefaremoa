@@ -26,7 +26,7 @@ const members: Member[] = [
       '3° lugar, categoría maestra Te Varua O Te ‘Ori – Online (2021)',
       '1° lugar, profesional Heiva I San Diego – Online (2021)',
       "1° lugar categoría Mehura, 'Aito International Competition Online (2022)",
-      'Bailarina Ballet Cultural Kari Kari de Santiago (2023 a la fecha)'
+      'Bailarina Ballet Cultural Kari Kari de Santiago (desde 2023)'
     ]
   },
   {
@@ -39,7 +39,7 @@ const members: Member[] = [
       'Ingeniero en Computación e Informática',
       'Músico de ‘Ori Tahiti desde 2017',
       "1° lugar orquesta creación Te Varua o Te 'Ori Online 2021",
-      'Músico en Ballet Cultural Kari Kari de Santiago (2023 a la fecha)'
+      'Músico en Ballet Cultural Kari Kari de Santiago (desde 2023)'
     ]
   },
   {
