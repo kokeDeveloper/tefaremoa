@@ -25,7 +25,7 @@ const AboutClass = () => {
         <p className="text-lg leading-relaxed text-gray-200 max-w-3xl">
           En nuestra academia, el &apos;Ori Tahiti es más que una danza: es una conexión con la cultura, el cuerpo y la expresión personal. 
           A través del movimiento tradicional, cultivamos técnica, ritmo y energía, honrando el legado polinésico. 
-          Nuestras clases promueven el desarrollo físico y emocional, fortaleciendo la confianza y celebrando la identidad de cada bailarina.
+          Nuestras clases promueven el desarrollo físico y emocional, fortaleciendo la confianza y la identidad de cada bailarina.
         </p>
       </div>
     </section>

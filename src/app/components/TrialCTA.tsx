@@ -14,7 +14,7 @@ const TrialCTA = () => {
             Agenda tu primera experiencia
           </h3>
           <p className="text-white/80 mt-3 max-w-2xl">
-            Vive una sesión completa de &apos;Ori Tahiti, conoce la comunidad y descubre tu potencial junto a Te Fare Mo&apos;a.
+            Participa en nuestras clases, conoce la comunidad  y descubre tu potencial junto a Te Fare Mo&apos;a.
           </p>
         </div>
         <a
