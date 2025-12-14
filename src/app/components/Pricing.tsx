@@ -74,7 +74,7 @@ const Pricing = () => {
                 {/* Header */}
                 <div className="text-center mb-12 md:mb-16">
                     <h2 className="text-3xl md:text-5xl font-bold text-white mb-4">
-                        Mensualidades y Planes
+                        Mensualidades y Planes 2025
                     </h2>
                     <p className="text-base md:text-lg text-gray-400 max-w-2xl mx-auto">
                         En todas las clases vemos <span className="text-orange-400 font-semibold">&apos;Ōte&apos;a</span> y <span className="text-orange-400 font-semibold">&apos;Aparima</span>
@@ -236,7 +236,7 @@ const Pricing = () => {
                                 Clase Suelta
                             </h3>
                             <p className="text-sm text-gray-400">
-                                Para estudiantes que no pueden asistir de forma regular
+                                Para quienes no pueden asistir de forma regular
                             </p>
                         </div>
 

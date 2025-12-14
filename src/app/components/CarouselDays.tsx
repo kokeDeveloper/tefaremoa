@@ -1,6 +1,6 @@
 "use client"
 import Image from 'next/image'
-import React from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { Vortex } from '@/app/components/vortex'
 
 interface ClassSchedule {
@@ -34,7 +34,7 @@ const data: ClassSchedule[] = [
         timeClass: "18:30 - 20:00",
         src: "/mier.png",
         extraClass: {
-            title: "Grupo 3",
+            title: "Avanzado",
             descrbe: "Creación e Improvisación",
             timeClass: "20:00 - 21:00",
         }
@@ -65,7 +65,40 @@ const data: ClassSchedule[] = [
     },
 ];
 
+const WHATSAPP_PHONE = '56971075886'
+
 const ClassTime = () => {
+    const [openExtraSchedule, setOpenExtraSchedule] = useState<ClassSchedule | null>(null)
+    const [mounted, setMounted] = useState(false)
+
+    useEffect(() => setMounted(true), [])
+
+    const openExtra = useCallback((schedule: ClassSchedule) => {
+        setOpenExtraSchedule(schedule)
+    }, [])
+
+    const closeExtra = useCallback(() => setOpenExtraSchedule(null), [])
+
+    const handleInterviewRequest = useCallback(() => {
+        if (!openExtraSchedule?.extraClass) return
+        const message = `Hola! Me interesa el módulo avanzado de creación e improvisación del día ${openExtraSchedule.day} a las ${openExtraSchedule.extraClass.timeClass}. ¿Podemos coordinar la entrevista personal?`
+        const encodedMessage = encodeURIComponent(message)
+        const whatsappUrl = `https://wa.me/${WHATSAPP_PHONE}?text=${encodedMessage}`
+        window.open(whatsappUrl, '_blank')
+        closeExtra()
+    }, [openExtraSchedule, closeExtra])
+
+    useEffect(() => {
+        if (!openExtraSchedule) return
+        const onKey = (event: KeyboardEvent) => {
+            if (event.key === 'Escape') {
+                closeExtra()
+            }
+        }
+        document.addEventListener('keydown', onKey)
+        return () => document.removeEventListener('keydown', onKey)
+    }, [openExtraSchedule, closeExtra])
+
     return (
         <section className="mx-auto py-10 px-4">
             <div className='flex-col justify-center text-center mb-8'>
@@ -120,7 +153,13 @@ const ClassTime = () => {
 
                                     {/* Extra class for Miércoles */}
                                     {item.extraClass && (
-                                        <div className="bg-orange-500/20 backdrop-blur-sm rounded-lg p-3 border border-orange-400/30">
+                                        <button
+                                            type="button"
+                                            onClick={() => openExtra(item)}
+                                            className="bg-orange-500/20 backdrop-blur-sm rounded-lg p-3 border border-orange-400/30 text-left focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-400 focus:ring-offset-black"
+                                            aria-haspopup="dialog"
+                                            aria-label={`Ver más detalles del grupo avanzado del ${item.day}`}
+                                        >
                                             <p className="text-orange-300 text-xs font-semibold uppercase tracking-wide mb-1">
                                                 {item.extraClass.title}
                                             </p>
@@ -130,7 +169,10 @@ const ClassTime = () => {
                                             <p className="text-orange-400 text-base md:text-lg font-bold">
                                                 {item.extraClass.timeClass}
                                             </p>
-                                        </div>
+                                            <span className="mt-2 inline-flex text-[10px] uppercase tracking-wide text-orange-200 bg-white/10 rounded-full px-2 py-0.5 border border-white/20">
+                                                Más detalles
+                                            </span>
+                                        </button>
                                     )}
                                 </div>
                             </div>
@@ -153,6 +195,60 @@ const ClassTime = () => {
                     </div>
                 </Vortex>
             </div>
+
+            {mounted && openExtraSchedule?.extraClass && (
+                <div
+                    className="fixed inset-0 z-50 flex items-center justify-center"
+                    role="dialog"
+                    aria-modal="true"
+                    aria-label={`Detalle avanzado del ${openExtraSchedule.day}`}
+                >
+                    <div className="absolute inset-0 bg-black/70 backdrop-blur-sm" onClick={closeExtra} />
+                    <div className="relative w-full max-w-md mx-4 bg-neutral-950 border border-white/10 rounded-3xl shadow-2xl overflow-hidden animate-in fade-in zoom-in-90 duration-200">
+                        <div className="p-6 space-y-4">
+                            <div className="flex items-start justify-between gap-4">
+                                <div>
+                                    <p className="text-sm uppercase tracking-wide text-orange-300 font-semibold">Grupo avanzado</p>
+                                    <h3 className="text-white text-2xl font-semibold">{openExtraSchedule.day}</h3>
+                                    <p className="text-white/70 text-sm">Creación e improvisación</p>
+                                </div>
+                                <button
+                                    onClick={closeExtra}
+                                    aria-label="Cerrar detalles"
+                                    className="text-white/60 hover:text-white transition"
+                                >
+                                    ✕
+                                </button>
+                            </div>
+                            <div className="rounded-2xl bg-white/5 border border-white/10 p-4 space-y-3">
+                                <p className="text-orange-400 text-lg font-semibold">{openExtraSchedule.extraClass.timeClass}</p>
+                                <p className="text-white text-sm">{openExtraSchedule.extraClass.descrbe}</p>
+                                <div className="flex items-center justify-between text-sm text-white/80">
+                                    <span>{openExtraSchedule.teacher}</span>
+                                    <span>{openExtraSchedule.class}</span>
+                                </div>
+                            </div>
+                            <p className="text-sm text-white/80 leading-relaxed">
+                                Dirigido a bailarinas que, con su experiencia previa, desean explorar procesos creativos, composición y libertad expresiva. Solicita tu entrevista personal si estás interesada en participar en este módulo.
+                            </p>
+                        </div>
+                        <div className="px-6 pb-6 pt-2 flex flex-col sm:flex-row sm:justify-end gap-3">
+                            <button
+                                onClick={closeExtra}
+                                className="w-full sm:w-auto px-5 py-2 rounded-md border border-white/20 text-white/80 text-sm hover:bg-white/10 transition"
+                            >
+                                Seguir explorando horarios
+                            </button>
+                            <button
+                                onClick={handleInterviewRequest}
+                                className="w-full sm:w-auto px-5 py-2 rounded-md bg-orange-600 hover:bg-orange-500 text-white text-sm font-medium shadow focus:outline-none focus:ring-2 focus:ring-orange-400 focus:ring-offset-2 focus:ring-offset-neutral-900"
+                            >
+                                Solicitar entrevista
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </section>
     )
 }

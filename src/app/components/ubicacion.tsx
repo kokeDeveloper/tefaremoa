@@ -77,10 +77,10 @@ const Ubicacion: React.FC = () => {
                                 </div>
                                 <div>
                                     <h3 className="text-xl font-bold text-white mb-2 uppercase tracking-wide">
-                                        Dirección
+                                        Caracol Los Leones
                                     </h3>
                                     <p className="text-lg text-gray-300 leading-relaxed">
-                                        Av. Nueva Los Leones 030 - Local 61
+                                        Av. Nueva Los Leones 030 - 030, Local 61
                                     </p>
                                     <p className="text-base text-gray-400">
                                         Providencia, Santiago
