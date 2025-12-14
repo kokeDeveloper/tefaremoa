@@ -19,16 +19,6 @@ export default function EventosPage() {
         <section className="bg-black text-white">
             <BannerVideoSection title="Eventos" />
 
-            <div className="max-w-5xl mx-auto px-4 md:px-8 lg:px-10 pt-16 pb-12 text-center">
-                <p className="uppercase text-xs tracking-[0.45em] text-orange-300 mb-4">Agenda viva</p>
-                <h1 className="text-3xl md:text-5xl font-semibold leading-tight mb-6">
-                    Ritmos que conectan culturas, escenarios y aprendizaje continuo
-                </h1>
-                <p className="text-neutral-300 text-base md:text-lg leading-relaxed">
-                    Tenemos experiencias que van desde workshops técnicos hasta presentaciones masivas para compartir el espíritu del &apos;Ori Tahiti y su comunidad global. Explora lo que está ocurriendo hoy y revive los hitos que han marcado nuestra historia.
-                </p>
-            </div>
-
             {/* //<WorkshopModule /> */}
 
             <div className="relative border-y border-white/5">
@@ -36,12 +26,8 @@ export default function EventosPage() {
                 <div className="relative max-w-6xl mx-auto px-4 md:px-8 lg:px-10 py-16">
                     <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6 mb-10">
                         <div>
-                            <p className="uppercase text-xs tracking-[0.45em] text-orange-300 mb-3">Legado</p>
                             <h2 className="text-2xl md:text-4xl font-semibold">Nuestra línea de tiempo</h2>
-                            <p className="text-neutral-300 mt-3 md:max-w-2xl">
-                                Workshops internacionales, galas, flashmobs y premiaciones que han hecho crecer a nuestra academia. Selecciona un año para recorrer las memorias de Te Fare Mo&apos;a.
-                            </p>
-                        </div>
+                         </div>
                     </div>
                     <TimelineTFM />
                 </div>

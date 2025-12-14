@@ -5,7 +5,6 @@ import BannerVideoSection from "@/app/components/BannerVideoSection"
 import ClassTime from "@/app/components/CarouselDays"
 import ContentClass from "@/app/components/contentClases"
 import GalleryClass from "@/app/components/GalleryClass"
-import Pircing from "@/app/components/Pircing"
 import Pricing from "@/app/components/Pricing"
 import ClassLocation from "@/app/components/ubicacion"
 
