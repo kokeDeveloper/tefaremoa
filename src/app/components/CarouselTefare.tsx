@@ -10,12 +10,12 @@ const data = [
   },
   {
     category: "Acompañamiento",
-    title: "Improvisación",
+    title: "Improvisación y creación",
     src: "/bnw_bt2.jpg",
   },
     {
     category: "Clases",
-    title: "Música en Vivo",
+    title: "Música en vivo",
     src: "/bnw_bt3.jpg", 
   },
   {

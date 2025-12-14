@@ -51,7 +51,7 @@ const members: Member[] = [
       'Bailarina en Ballet Cultural Kari Kari desde 2017 ',
       'Intensivo de Ori Tahiti en Ecole de danse Manohiva (2022)',
       '3° lugar, categoría Hura Tau, grupo Hei Tahiti, Heiva I Tahiti (2025)',
-      '1° lugar ‘Aparima grupal Toahiti, Dir Ranitea Laughlin, Ori Tahiti CompetitionI Matavai (2025)'  
+      '1° lugar ‘Aparima grupal Toahiti, Dir Ranitea Laughlin, ‘Ori Tahiti CompetitionI Matavai (2025)'  
     ]
   },
   {
@@ -62,7 +62,7 @@ const members: Member[] = [
       'Ingeniera en comercio y negocios internacionales ',
       "Alumna Te Fare Mo'a  'Ori Tahiti desde 2024 ",
       "Alumna de ‘Ori Rapa Nui desde 2019",
-      "Bailarina en Ori Manu Hiva desde 2025"
+      "Bailarina en ‘Ori Manu Hiva desde 2025"
     ]
   }
 ]
@@ -94,7 +94,7 @@ const Team: React.FC = () => {
       {/* Párrafo */}
       <div className="max-w-4xl mx-auto px-6">
         <p className="text-base md:text-lg leading-relaxed text-gray-200 text-center">
-          Te Fare Mo’a es dirigida por Ángela y Jorge, ambos comprometidos profundamente con la cultura polinesia, especialmente con la danza y la música. El equipo se complementa con Matarena, destacada bailarina rapanui que aporta con su experiencia, autenticidad y conexión cultural, y Bárbara, encargada del área de comunicaciones, quien contribuye con su experiencia en difusión y desarrollo de proyectos. Juntos, formamos un equipo que une arte, identidad y propósito, fortaleciendo la presencia del ‘Ori Tahiti y su legado en Chile.
+          Te Fare Mo’a es dirigida por Ángela y Jorge, ambos comprometidos profundamente con la cultura polinesia, especialmente con la danza y la música. El equipo se complementa con Matarena, destacada bailarina rapanui que aporta con su experiencia, autenticidad y conexión cultural, y Bárbara, encargada del área de comunicaciones, quien contribuye con su experiencia en difusión y desarrollo de proyectos. Juntos, formamos un equipo que une arte, identidad y propósito, promoviendo la presencia del ‘Ori Tahiti y su legado en Chile.
         </p>
       </div>
 

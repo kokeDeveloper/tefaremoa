@@ -21,7 +21,7 @@ const Footer = () => {
                                 alt="TeFareLogo"
                             />
                         </a>
-                        <p className="mt-2 text-sm text-white">Explorando la riqueza cultural del mundo polinesio a través de la creatividad y la investigación</p>
+                        <p className="mt-2 text-sm text-white">Academia Continental de Danzas Polinesias</p><p>Providencia / Santiago / Chile</p>
                     </div>
 
                 </div>

@@ -24,7 +24,7 @@ const MisionVision: React.FC = () => {
         </svg>
       ),
       title: 'Raíz cultural',
-      description: 'Honramos la danza polinesia como arte vivo, conectando con su historia y espiritualidad.'
+      description: 'Valoramos la danza polinesia como arte vivo, conectando con su historia y espiritualidad.'
     },
     {
       icon: (
@@ -43,7 +43,7 @@ const MisionVision: React.FC = () => {
         {/* Título y bajada */}
         <div className="text-center mb-12 md:mb-16">
           <h2 className="text-4xl md:text-6xl lg:text-4xl font-bold  tracking-wide text-white mb-4">
-            Formamos bailarinas que dominen la técnica, irradien presencia y honren la cultura polinesia en cada escenario.
+            Formamos bailarinas que dominen la técnica, irradien presencia y representen con autenticidad la cultura polinesia en cada escenario.
           </h2>
         </div>
 
