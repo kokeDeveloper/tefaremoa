@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { PrismaClient } from '../../generated/prisma';
 import { verifyToken } from '../../../lib/auth';
+import bcrypt from 'bcryptjs';
 import { calculatePlanAlertWithStatus } from '../../../lib/planAlerts';
 
 const prisma = new PrismaClient();
@@ -53,8 +54,9 @@ export async function POST(req: Request) {
 
   const plannedEnd = planEndDate ? new Date(planEndDate) : undefined;
   const { status } = calculatePlanAlertWithStatus(plannedEnd);
+  const hashedPassword = await bcrypt.hash(password, 10);
 
-  const student = await prisma.student.create({ data: { name: normalizedName, lastName, email, phone, nickname, address, city, birthDate: birthDate ? new Date(birthDate) : undefined, planStartDate: planStartDate ? new Date(planStartDate) : undefined, planEndDate: plannedEnd, planType: planType || 'Basic', planStatus: status, password } });
+  const student = await prisma.student.create({ data: { name: normalizedName, lastName, email, phone, nickname, address, city, birthDate: birthDate ? new Date(birthDate) : undefined, planStartDate: planStartDate ? new Date(planStartDate) : undefined, planEndDate: plannedEnd, planType: planType || 'Basic', planStatus: status, password: hashedPassword } });
     return NextResponse.json(student, { status: 201 });
   } catch (err) {
     return NextResponse.json({ error: String(err) }, { status: 500 });

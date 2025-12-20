@@ -33,8 +33,11 @@ export interface AdminAuthResult {
   role: string;
 }
 
-export function signToken(payload: Omit<AdminTokenPayload, 'iat' | 'exp'>) {
-  return jwt.sign(payload, JWT_SECRET, { expiresIn: DEFAULT_EXP });
+export function signToken(
+  payload: Omit<AdminTokenPayload, 'iat' | 'exp'>,
+  options?: jwt.SignOptions
+) {
+  return jwt.sign(payload, JWT_SECRET, { expiresIn: DEFAULT_EXP, ...(options ?? {}) });
 }
 
 export function verifyToken(token: string): AdminTokenPayload | null {

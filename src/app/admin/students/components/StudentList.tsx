@@ -22,6 +22,8 @@ interface Props {
 export default function StudentList({ students, onDeleted }: Props) {
   const [editingId, setEditingId] = useState<number | null>(null)
   const [toDelete, setToDelete] = useState<number | null>(null)
+  const [sendingId, setSendingId] = useState<number | null>(null)
+  const [feedback, setFeedback] = useState<string | null>(null)
 
   const editingStudent = useMemo(
     () => students.find((student) => student.id === editingId) || null,
@@ -33,6 +35,29 @@ export default function StudentList({ students, onDeleted }: Props) {
     await fetch('/api/students/' + toDelete, { method: 'DELETE' })
     setToDelete(null)
     onDeleted?.()
+  }
+
+  const sendPassword = async (studentId: number) => {
+    setFeedback(null)
+    setSendingId(studentId)
+    try {
+      const res = await fetch('/api/students/send-password', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ studentId }),
+      })
+
+      const data = await res.json().catch(() => ({}))
+      if (!res.ok) {
+        throw new Error(data.error || 'No se pudo enviar la contraseña')
+      }
+
+      setFeedback('Contraseña temporal enviada por correo.')
+    } catch (err: any) {
+      setFeedback(err?.message || 'No se pudo enviar la contraseña.')
+    } finally {
+      setSendingId(null)
+    }
   }
 
   if (!students || students.length === 0) {
@@ -91,6 +116,13 @@ export default function StudentList({ students, onDeleted }: Props) {
                         Editar
                       </button>
                       <button
+                        onClick={() => sendPassword(student.id)}
+                        disabled={sendingId === student.id}
+                        className="px-3 py-1 text-xs font-semibold uppercase tracking-wide rounded border border-emerald-500 text-emerald-600 hover:bg-emerald-500/10 transition disabled:opacity-60 disabled:cursor-not-allowed"
+                      >
+                        {sendingId === student.id ? 'Enviando…' : 'Enviar contraseña'}
+                      </button>
+                      <button
                         onClick={() => setToDelete(student.id)}
                         className="px-3 py-1 text-xs font-semibold uppercase tracking-wide rounded border border-red-500 text-red-500 hover:bg-red-500/10 transition"
                       >
@@ -137,6 +169,12 @@ export default function StudentList({ students, onDeleted }: Props) {
           <Button onClick={confirmDelete} className="bg-red-600">Eliminar</Button>
         </div>
       </Modal>
+
+      {feedback && (
+        <div className="mt-3 rounded-lg border border-neutral-200 bg-white p-3 text-sm text-neutral-700 shadow-sm dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-100">
+          {feedback}
+        </div>
+      )}
     </>
   )
 }

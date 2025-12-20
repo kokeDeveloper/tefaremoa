@@ -53,6 +53,11 @@ export type Attendance = $Result.DefaultSelection<Prisma.$AttendancePayload>
  * 
  */
 export type Admin = $Result.DefaultSelection<Prisma.$AdminPayload>
+/**
+ * Model Anamnesis
+ * 
+ */
+export type Anamnesis = $Result.DefaultSelection<Prisma.$AnamnesisPayload>
 
 /**
  * Enums
@@ -88,7 +93,7 @@ export const AdminRole: typeof $Enums.AdminRole
  */
 export class PrismaClient<
   ClientOptions extends Prisma.PrismaClientOptions = Prisma.PrismaClientOptions,
-  U = 'log' extends keyof ClientOptions ? ClientOptions['log'] extends Array<Prisma.LogLevel | Prisma.LogDefinition> ? Prisma.GetEvents<ClientOptions['log']> : never : never,
+  const U = 'log' extends keyof ClientOptions ? ClientOptions['log'] extends Array<Prisma.LogLevel | Prisma.LogDefinition> ? Prisma.GetEvents<ClientOptions['log']> : never : never,
   ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs
 > {
   [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['other'] }
@@ -120,13 +125,6 @@ export class PrismaClient<
    * Disconnect from the database
    */
   $disconnect(): $Utils.JsPromise<void>;
-
-  /**
-   * Add a middleware
-   * @deprecated since 4.16.0. For new code, prefer client extensions instead.
-   * @see https://pris.ly/d/extensions
-   */
-  $use(cb: Prisma.Middleware): void
 
 /**
    * Executes a prepared raw query and returns the number of affected rows.
@@ -276,6 +274,16 @@ export class PrismaClient<
     * ```
     */
   get admin(): Prisma.AdminDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.anamnesis`: Exposes CRUD operations for the **Anamnesis** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Anamneses
+    * const anamneses = await prisma.anamnesis.findMany()
+    * ```
+    */
+  get anamnesis(): Prisma.AnamnesisDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -334,8 +342,8 @@ export namespace Prisma {
   export import Exact = $Public.Exact
 
   /**
-   * Prisma Client JS version: 6.6.0
-   * Query Engine version: f676762280b54cd07c770017ed3711ddde35f37a
+   * Prisma Client JS version: 6.17.1
+   * Query Engine version: 272a37d34178c2894197e17273bf937f25acdeac
    */
   export type PrismaVersion = {
     client: string
@@ -723,7 +731,8 @@ export namespace Prisma {
     Enrollment: 'Enrollment',
     Payment: 'Payment',
     Attendance: 'Attendance',
-    Admin: 'Admin'
+    Admin: 'Admin',
+    Anamnesis: 'Anamnesis'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -742,7 +751,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "student" | "plan" | "class" | "instructor" | "enrollment" | "payment" | "attendance" | "admin"
+      modelProps: "student" | "plan" | "class" | "instructor" | "enrollment" | "payment" | "attendance" | "admin" | "anamnesis"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1274,6 +1283,72 @@ export namespace Prisma {
           }
         }
       }
+      Anamnesis: {
+        payload: Prisma.$AnamnesisPayload<ExtArgs>
+        fields: Prisma.AnamnesisFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.AnamnesisFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AnamnesisPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.AnamnesisFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AnamnesisPayload>
+          }
+          findFirst: {
+            args: Prisma.AnamnesisFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AnamnesisPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.AnamnesisFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AnamnesisPayload>
+          }
+          findMany: {
+            args: Prisma.AnamnesisFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AnamnesisPayload>[]
+          }
+          create: {
+            args: Prisma.AnamnesisCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AnamnesisPayload>
+          }
+          createMany: {
+            args: Prisma.AnamnesisCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          delete: {
+            args: Prisma.AnamnesisDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AnamnesisPayload>
+          }
+          update: {
+            args: Prisma.AnamnesisUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AnamnesisPayload>
+          }
+          deleteMany: {
+            args: Prisma.AnamnesisDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.AnamnesisUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.AnamnesisUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AnamnesisPayload>
+          }
+          aggregate: {
+            args: Prisma.AnamnesisAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateAnamnesis>
+          }
+          groupBy: {
+            args: Prisma.AnamnesisGroupByArgs<ExtArgs>
+            result: $Utils.Optional<AnamnesisGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.AnamnesisCountArgs<ExtArgs>
+            result: $Utils.Optional<AnamnesisCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -1317,16 +1392,24 @@ export namespace Prisma {
     /**
      * @example
      * ```
-     * // Defaults to stdout
+     * // Shorthand for `emit: 'stdout'`
      * log: ['query', 'info', 'warn', 'error']
      * 
-     * // Emit as events
+     * // Emit as events only
      * log: [
-     *   { emit: 'stdout', level: 'query' },
-     *   { emit: 'stdout', level: 'info' },
-     *   { emit: 'stdout', level: 'warn' }
-     *   { emit: 'stdout', level: 'error' }
+     *   { emit: 'event', level: 'query' },
+     *   { emit: 'event', level: 'info' },
+     *   { emit: 'event', level: 'warn' }
+     *   { emit: 'event', level: 'error' }
      * ]
+     * 
+     * / Emit as events and log to stdout
+     * og: [
+     *  { emit: 'stdout', level: 'query' },
+     *  { emit: 'stdout', level: 'info' },
+     *  { emit: 'stdout', level: 'warn' }
+     *  { emit: 'stdout', level: 'error' }
+     * 
      * ```
      * Read more in our [docs](https://www.prisma.io/docs/reference/tools-and-interfaces/prisma-client/logging#the-log-option).
      */
@@ -1341,6 +1424,10 @@ export namespace Prisma {
       timeout?: number
       isolationLevel?: Prisma.TransactionIsolationLevel
     }
+    /**
+     * Instance of a Driver Adapter, e.g., like one provided by `@prisma/adapter-planetscale`
+     */
+    adapter?: runtime.SqlDriverAdapterFactory | null
     /**
      * Global configuration for omitting model fields by default.
      * 
@@ -1366,6 +1453,7 @@ export namespace Prisma {
     payment?: PaymentOmit
     attendance?: AttendanceOmit
     admin?: AdminOmit
+    anamnesis?: AnamnesisOmit
   }
 
   /* Types for Logging */
@@ -1375,10 +1463,15 @@ export namespace Prisma {
     emit: 'stdout' | 'event'
   }
 
-  export type GetLogType<T extends LogLevel | LogDefinition> = T extends LogDefinition ? T['emit'] extends 'event' ? T['level'] : never : never
-  export type GetEvents<T extends any> = T extends Array<LogLevel | LogDefinition> ?
-    GetLogType<T[0]> | GetLogType<T[1]> | GetLogType<T[2]> | GetLogType<T[3]>
-    : never
+  export type CheckIsLogLevel<T> = T extends LogLevel ? T : never;
+
+  export type GetLogType<T> = CheckIsLogLevel<
+    T extends LogDefinition ? T['level'] : T
+  >;
+
+  export type GetEvents<T extends any[]> = T extends Array<LogLevel | LogDefinition>
+    ? GetLogType<T[number]>
+    : never;
 
   export type QueryEvent = {
     timestamp: Date
@@ -1419,25 +1512,6 @@ export namespace Prisma {
     | 'findRaw'
     | 'groupBy'
 
-  /**
-   * These options are being passed into the middleware as "params"
-   */
-  export type MiddlewareParams = {
-    model?: ModelName
-    action: PrismaAction
-    args: any
-    dataPath: string[]
-    runInTransaction: boolean
-  }
-
-  /**
-   * The `T` type makes sure, that the `return proceed` is not forgotten in the middleware implementation
-   */
-  export type Middleware<T = any> = (
-    params: MiddlewareParams,
-    next: (params: MiddlewareParams) => $Utils.JsPromise<T>,
-  ) => $Utils.JsPromise<T>
-
   // tested in getLogLevel.test.ts
   export function getLogLevel(log: Array<LogLevel | LogDefinition>): LogLevel | undefined;
 
@@ -1464,6 +1538,7 @@ export namespace Prisma {
     enrollments: number
     payments: number
     attendances: number
+    anamneses: number
   }
 
   export type StudentCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -1471,6 +1546,7 @@ export namespace Prisma {
     enrollments?: boolean | StudentCountOutputTypeCountEnrollmentsArgs
     payments?: boolean | StudentCountOutputTypeCountPaymentsArgs
     attendances?: boolean | StudentCountOutputTypeCountAttendancesArgs
+    anamneses?: boolean | StudentCountOutputTypeCountAnamnesesArgs
   }
 
   // Custom InputTypes
@@ -1512,6 +1588,13 @@ export namespace Prisma {
     where?: AttendanceWhereInput
   }
 
+  /**
+   * StudentCountOutputType without action
+   */
+  export type StudentCountOutputTypeCountAnamnesesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: AnamnesisWhereInput
+  }
+
 
   /**
    * Count Type PlanCountOutputType
@@ -1551,13 +1634,11 @@ export namespace Prisma {
   export type ClassCountOutputType = {
     enrollments: number
     attendances: number
-    Attendance: number
   }
 
   export type ClassCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     enrollments?: boolean | ClassCountOutputTypeCountEnrollmentsArgs
     attendances?: boolean | ClassCountOutputTypeCountAttendancesArgs
-    Attendance?: boolean | ClassCountOutputTypeCountAttendanceArgs
   }
 
   // Custom InputTypes
@@ -1582,13 +1663,6 @@ export namespace Prisma {
    * ClassCountOutputType without action
    */
   export type ClassCountOutputTypeCountAttendancesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: AttendanceWhereInput
-  }
-
-  /**
-   * ClassCountOutputType without action
-   */
-  export type ClassCountOutputTypeCountAttendanceArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: AttendanceWhereInput
   }
 
@@ -1620,37 +1694,6 @@ export namespace Prisma {
    * InstructorCountOutputType without action
    */
   export type InstructorCountOutputTypeCountClassesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: ClassWhereInput
-  }
-
-
-  /**
-   * Count Type AttendanceCountOutputType
-   */
-
-  export type AttendanceCountOutputType = {
-    Class: number
-  }
-
-  export type AttendanceCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    Class?: boolean | AttendanceCountOutputTypeCountClassArgs
-  }
-
-  // Custom InputTypes
-  /**
-   * AttendanceCountOutputType without action
-   */
-  export type AttendanceCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the AttendanceCountOutputType
-     */
-    select?: AttendanceCountOutputTypeSelect<ExtArgs> | null
-  }
-
-  /**
-   * AttendanceCountOutputType without action
-   */
-  export type AttendanceCountOutputTypeCountClassArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: ClassWhereInput
   }
 
@@ -1941,6 +1984,7 @@ export namespace Prisma {
     enrollments?: boolean | Student$enrollmentsArgs<ExtArgs>
     payments?: boolean | Student$paymentsArgs<ExtArgs>
     attendances?: boolean | Student$attendancesArgs<ExtArgs>
+    anamneses?: boolean | Student$anamnesesArgs<ExtArgs>
     _count?: boolean | StudentCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["student"]>
 
@@ -1970,6 +2014,7 @@ export namespace Prisma {
     enrollments?: boolean | Student$enrollmentsArgs<ExtArgs>
     payments?: boolean | Student$paymentsArgs<ExtArgs>
     attendances?: boolean | Student$attendancesArgs<ExtArgs>
+    anamneses?: boolean | Student$anamnesesArgs<ExtArgs>
     _count?: boolean | StudentCountOutputTypeDefaultArgs<ExtArgs>
   }
 
@@ -1980,6 +2025,7 @@ export namespace Prisma {
       enrollments: Prisma.$EnrollmentPayload<ExtArgs>[]
       payments: Prisma.$PaymentPayload<ExtArgs>[]
       attendances: Prisma.$AttendancePayload<ExtArgs>[]
+      anamneses: Prisma.$AnamnesisPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: number
@@ -2341,6 +2387,7 @@ export namespace Prisma {
     enrollments<T extends Student$enrollmentsArgs<ExtArgs> = {}>(args?: Subset<T, Student$enrollmentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EnrollmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     payments<T extends Student$paymentsArgs<ExtArgs> = {}>(args?: Subset<T, Student$paymentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PaymentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     attendances<T extends Student$attendancesArgs<ExtArgs> = {}>(args?: Subset<T, Student$attendancesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AttendancePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    anamneses<T extends Student$anamnesesArgs<ExtArgs> = {}>(args?: Subset<T, Student$anamnesesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AnamnesisPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2821,6 +2868,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: AttendanceScalarFieldEnum | AttendanceScalarFieldEnum[]
+  }
+
+  /**
+   * Student.anamneses
+   */
+  export type Student$anamnesesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Anamnesis
+     */
+    select?: AnamnesisSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Anamnesis
+     */
+    omit?: AnamnesisOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AnamnesisInclude<ExtArgs> | null
+    where?: AnamnesisWhereInput
+    orderBy?: AnamnesisOrderByWithRelationInput | AnamnesisOrderByWithRelationInput[]
+    cursor?: AnamnesisWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: AnamnesisScalarFieldEnum | AnamnesisScalarFieldEnum[]
   }
 
   /**
@@ -4044,7 +4115,6 @@ export namespace Prisma {
     instructor?: boolean | InstructorDefaultArgs<ExtArgs>
     enrollments?: boolean | Class$enrollmentsArgs<ExtArgs>
     attendances?: boolean | Class$attendancesArgs<ExtArgs>
-    Attendance?: boolean | Class$AttendanceArgs<ExtArgs>
     _count?: boolean | ClassCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["class"]>
 
@@ -4063,7 +4133,6 @@ export namespace Prisma {
     instructor?: boolean | InstructorDefaultArgs<ExtArgs>
     enrollments?: boolean | Class$enrollmentsArgs<ExtArgs>
     attendances?: boolean | Class$attendancesArgs<ExtArgs>
-    Attendance?: boolean | Class$AttendanceArgs<ExtArgs>
     _count?: boolean | ClassCountOutputTypeDefaultArgs<ExtArgs>
   }
 
@@ -4073,7 +4142,6 @@ export namespace Prisma {
       instructor: Prisma.$InstructorPayload<ExtArgs>
       enrollments: Prisma.$EnrollmentPayload<ExtArgs>[]
       attendances: Prisma.$AttendancePayload<ExtArgs>[]
-      Attendance: Prisma.$AttendancePayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: number
@@ -4424,7 +4492,6 @@ export namespace Prisma {
     instructor<T extends InstructorDefaultArgs<ExtArgs> = {}>(args?: Subset<T, InstructorDefaultArgs<ExtArgs>>): Prisma__InstructorClient<$Result.GetResult<Prisma.$InstructorPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     enrollments<T extends Class$enrollmentsArgs<ExtArgs> = {}>(args?: Subset<T, Class$enrollmentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EnrollmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     attendances<T extends Class$attendancesArgs<ExtArgs> = {}>(args?: Subset<T, Class$attendancesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AttendancePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    Attendance<T extends Class$AttendanceArgs<ExtArgs> = {}>(args?: Subset<T, Class$AttendanceArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AttendancePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -4829,30 +4896,6 @@ export namespace Prisma {
    * Class.attendances
    */
   export type Class$attendancesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Attendance
-     */
-    select?: AttendanceSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Attendance
-     */
-    omit?: AttendanceOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: AttendanceInclude<ExtArgs> | null
-    where?: AttendanceWhereInput
-    orderBy?: AttendanceOrderByWithRelationInput | AttendanceOrderByWithRelationInput[]
-    cursor?: AttendanceWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: AttendanceScalarFieldEnum | AttendanceScalarFieldEnum[]
-  }
-
-  /**
-   * Class.Attendance
-   */
-  export type Class$AttendanceArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the Attendance
      */
@@ -7994,8 +8037,6 @@ export namespace Prisma {
     date?: boolean
     student?: boolean | StudentDefaultArgs<ExtArgs>
     class?: boolean | ClassDefaultArgs<ExtArgs>
-    Class?: boolean | Attendance$ClassArgs<ExtArgs>
-    _count?: boolean | AttendanceCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["attendance"]>
 
 
@@ -8011,8 +8052,6 @@ export namespace Prisma {
   export type AttendanceInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     student?: boolean | StudentDefaultArgs<ExtArgs>
     class?: boolean | ClassDefaultArgs<ExtArgs>
-    Class?: boolean | Attendance$ClassArgs<ExtArgs>
-    _count?: boolean | AttendanceCountOutputTypeDefaultArgs<ExtArgs>
   }
 
   export type $AttendancePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -8020,7 +8059,6 @@ export namespace Prisma {
     objects: {
       student: Prisma.$StudentPayload<ExtArgs>
       class: Prisma.$ClassPayload<ExtArgs>
-      Class: Prisma.$ClassPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: number
@@ -8369,7 +8407,6 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     student<T extends StudentDefaultArgs<ExtArgs> = {}>(args?: Subset<T, StudentDefaultArgs<ExtArgs>>): Prisma__StudentClient<$Result.GetResult<Prisma.$StudentPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     class<T extends ClassDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ClassDefaultArgs<ExtArgs>>): Prisma__ClassClient<$Result.GetResult<Prisma.$ClassPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-    Class<T extends Attendance$ClassArgs<ExtArgs> = {}>(args?: Subset<T, Attendance$ClassArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ClassPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -8743,30 +8780,6 @@ export namespace Prisma {
      * Limit how many Attendances to delete.
      */
     limit?: number
-  }
-
-  /**
-   * Attendance.Class
-   */
-  export type Attendance$ClassArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Class
-     */
-    select?: ClassSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Class
-     */
-    omit?: ClassOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: ClassInclude<ExtArgs> | null
-    where?: ClassWhereInput
-    orderBy?: ClassOrderByWithRelationInput | ClassOrderByWithRelationInput[]
-    cursor?: ClassWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: ClassScalarFieldEnum | ClassScalarFieldEnum[]
   }
 
   /**
@@ -9749,6 +9762,1144 @@ export namespace Prisma {
 
 
   /**
+   * Model Anamnesis
+   */
+
+  export type AggregateAnamnesis = {
+    _count: AnamnesisCountAggregateOutputType | null
+    _avg: AnamnesisAvgAggregateOutputType | null
+    _sum: AnamnesisSumAggregateOutputType | null
+    _min: AnamnesisMinAggregateOutputType | null
+    _max: AnamnesisMaxAggregateOutputType | null
+  }
+
+  export type AnamnesisAvgAggregateOutputType = {
+    id: number | null
+    studentId: number | null
+    age: number | null
+    weightKg: number | null
+    heightM: number | null
+    activityDaysPerWeek: number | null
+    sessionDurationMinutes: number | null
+  }
+
+  export type AnamnesisSumAggregateOutputType = {
+    id: number | null
+    studentId: number | null
+    age: number | null
+    weightKg: number | null
+    heightM: number | null
+    activityDaysPerWeek: number | null
+    sessionDurationMinutes: number | null
+  }
+
+  export type AnamnesisMinAggregateOutputType = {
+    id: number | null
+    studentId: number | null
+    name: string | null
+    age: number | null
+    contact: string | null
+    weightKg: number | null
+    heightM: number | null
+    injuries: string | null
+    chronicDiseases: string | null
+    allergies: string | null
+    medications: string | null
+    surgeries: string | null
+    activityDaysPerWeek: number | null
+    activityType: string | null
+    sessionDurationMinutes: number | null
+    consentAccepted: boolean | null
+    createdAt: Date | null
+  }
+
+  export type AnamnesisMaxAggregateOutputType = {
+    id: number | null
+    studentId: number | null
+    name: string | null
+    age: number | null
+    contact: string | null
+    weightKg: number | null
+    heightM: number | null
+    injuries: string | null
+    chronicDiseases: string | null
+    allergies: string | null
+    medications: string | null
+    surgeries: string | null
+    activityDaysPerWeek: number | null
+    activityType: string | null
+    sessionDurationMinutes: number | null
+    consentAccepted: boolean | null
+    createdAt: Date | null
+  }
+
+  export type AnamnesisCountAggregateOutputType = {
+    id: number
+    studentId: number
+    name: number
+    age: number
+    contact: number
+    weightKg: number
+    heightM: number
+    injuries: number
+    chronicDiseases: number
+    allergies: number
+    medications: number
+    surgeries: number
+    activityDaysPerWeek: number
+    activityType: number
+    sessionDurationMinutes: number
+    consentAccepted: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type AnamnesisAvgAggregateInputType = {
+    id?: true
+    studentId?: true
+    age?: true
+    weightKg?: true
+    heightM?: true
+    activityDaysPerWeek?: true
+    sessionDurationMinutes?: true
+  }
+
+  export type AnamnesisSumAggregateInputType = {
+    id?: true
+    studentId?: true
+    age?: true
+    weightKg?: true
+    heightM?: true
+    activityDaysPerWeek?: true
+    sessionDurationMinutes?: true
+  }
+
+  export type AnamnesisMinAggregateInputType = {
+    id?: true
+    studentId?: true
+    name?: true
+    age?: true
+    contact?: true
+    weightKg?: true
+    heightM?: true
+    injuries?: true
+    chronicDiseases?: true
+    allergies?: true
+    medications?: true
+    surgeries?: true
+    activityDaysPerWeek?: true
+    activityType?: true
+    sessionDurationMinutes?: true
+    consentAccepted?: true
+    createdAt?: true
+  }
+
+  export type AnamnesisMaxAggregateInputType = {
+    id?: true
+    studentId?: true
+    name?: true
+    age?: true
+    contact?: true
+    weightKg?: true
+    heightM?: true
+    injuries?: true
+    chronicDiseases?: true
+    allergies?: true
+    medications?: true
+    surgeries?: true
+    activityDaysPerWeek?: true
+    activityType?: true
+    sessionDurationMinutes?: true
+    consentAccepted?: true
+    createdAt?: true
+  }
+
+  export type AnamnesisCountAggregateInputType = {
+    id?: true
+    studentId?: true
+    name?: true
+    age?: true
+    contact?: true
+    weightKg?: true
+    heightM?: true
+    injuries?: true
+    chronicDiseases?: true
+    allergies?: true
+    medications?: true
+    surgeries?: true
+    activityDaysPerWeek?: true
+    activityType?: true
+    sessionDurationMinutes?: true
+    consentAccepted?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type AnamnesisAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Anamnesis to aggregate.
+     */
+    where?: AnamnesisWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Anamneses to fetch.
+     */
+    orderBy?: AnamnesisOrderByWithRelationInput | AnamnesisOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: AnamnesisWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Anamneses from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Anamneses.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Anamneses
+    **/
+    _count?: true | AnamnesisCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: AnamnesisAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: AnamnesisSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: AnamnesisMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: AnamnesisMaxAggregateInputType
+  }
+
+  export type GetAnamnesisAggregateType<T extends AnamnesisAggregateArgs> = {
+        [P in keyof T & keyof AggregateAnamnesis]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateAnamnesis[P]>
+      : GetScalarType<T[P], AggregateAnamnesis[P]>
+  }
+
+
+
+
+  export type AnamnesisGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: AnamnesisWhereInput
+    orderBy?: AnamnesisOrderByWithAggregationInput | AnamnesisOrderByWithAggregationInput[]
+    by: AnamnesisScalarFieldEnum[] | AnamnesisScalarFieldEnum
+    having?: AnamnesisScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: AnamnesisCountAggregateInputType | true
+    _avg?: AnamnesisAvgAggregateInputType
+    _sum?: AnamnesisSumAggregateInputType
+    _min?: AnamnesisMinAggregateInputType
+    _max?: AnamnesisMaxAggregateInputType
+  }
+
+  export type AnamnesisGroupByOutputType = {
+    id: number
+    studentId: number | null
+    name: string
+    age: number | null
+    contact: string
+    weightKg: number | null
+    heightM: number | null
+    injuries: string | null
+    chronicDiseases: string | null
+    allergies: string | null
+    medications: string | null
+    surgeries: string | null
+    activityDaysPerWeek: number | null
+    activityType: string | null
+    sessionDurationMinutes: number | null
+    consentAccepted: boolean
+    createdAt: Date
+    _count: AnamnesisCountAggregateOutputType | null
+    _avg: AnamnesisAvgAggregateOutputType | null
+    _sum: AnamnesisSumAggregateOutputType | null
+    _min: AnamnesisMinAggregateOutputType | null
+    _max: AnamnesisMaxAggregateOutputType | null
+  }
+
+  type GetAnamnesisGroupByPayload<T extends AnamnesisGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<AnamnesisGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof AnamnesisGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], AnamnesisGroupByOutputType[P]>
+            : GetScalarType<T[P], AnamnesisGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type AnamnesisSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    studentId?: boolean
+    name?: boolean
+    age?: boolean
+    contact?: boolean
+    weightKg?: boolean
+    heightM?: boolean
+    injuries?: boolean
+    chronicDiseases?: boolean
+    allergies?: boolean
+    medications?: boolean
+    surgeries?: boolean
+    activityDaysPerWeek?: boolean
+    activityType?: boolean
+    sessionDurationMinutes?: boolean
+    consentAccepted?: boolean
+    createdAt?: boolean
+    student?: boolean | Anamnesis$studentArgs<ExtArgs>
+  }, ExtArgs["result"]["anamnesis"]>
+
+
+
+  export type AnamnesisSelectScalar = {
+    id?: boolean
+    studentId?: boolean
+    name?: boolean
+    age?: boolean
+    contact?: boolean
+    weightKg?: boolean
+    heightM?: boolean
+    injuries?: boolean
+    chronicDiseases?: boolean
+    allergies?: boolean
+    medications?: boolean
+    surgeries?: boolean
+    activityDaysPerWeek?: boolean
+    activityType?: boolean
+    sessionDurationMinutes?: boolean
+    consentAccepted?: boolean
+    createdAt?: boolean
+  }
+
+  export type AnamnesisOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "studentId" | "name" | "age" | "contact" | "weightKg" | "heightM" | "injuries" | "chronicDiseases" | "allergies" | "medications" | "surgeries" | "activityDaysPerWeek" | "activityType" | "sessionDurationMinutes" | "consentAccepted" | "createdAt", ExtArgs["result"]["anamnesis"]>
+  export type AnamnesisInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    student?: boolean | Anamnesis$studentArgs<ExtArgs>
+  }
+
+  export type $AnamnesisPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Anamnesis"
+    objects: {
+      student: Prisma.$StudentPayload<ExtArgs> | null
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: number
+      studentId: number | null
+      name: string
+      age: number | null
+      contact: string
+      weightKg: number | null
+      heightM: number | null
+      injuries: string | null
+      chronicDiseases: string | null
+      allergies: string | null
+      medications: string | null
+      surgeries: string | null
+      activityDaysPerWeek: number | null
+      activityType: string | null
+      sessionDurationMinutes: number | null
+      consentAccepted: boolean
+      createdAt: Date
+    }, ExtArgs["result"]["anamnesis"]>
+    composites: {}
+  }
+
+  type AnamnesisGetPayload<S extends boolean | null | undefined | AnamnesisDefaultArgs> = $Result.GetResult<Prisma.$AnamnesisPayload, S>
+
+  type AnamnesisCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<AnamnesisFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: AnamnesisCountAggregateInputType | true
+    }
+
+  export interface AnamnesisDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Anamnesis'], meta: { name: 'Anamnesis' } }
+    /**
+     * Find zero or one Anamnesis that matches the filter.
+     * @param {AnamnesisFindUniqueArgs} args - Arguments to find a Anamnesis
+     * @example
+     * // Get one Anamnesis
+     * const anamnesis = await prisma.anamnesis.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends AnamnesisFindUniqueArgs>(args: SelectSubset<T, AnamnesisFindUniqueArgs<ExtArgs>>): Prisma__AnamnesisClient<$Result.GetResult<Prisma.$AnamnesisPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Anamnesis that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {AnamnesisFindUniqueOrThrowArgs} args - Arguments to find a Anamnesis
+     * @example
+     * // Get one Anamnesis
+     * const anamnesis = await prisma.anamnesis.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends AnamnesisFindUniqueOrThrowArgs>(args: SelectSubset<T, AnamnesisFindUniqueOrThrowArgs<ExtArgs>>): Prisma__AnamnesisClient<$Result.GetResult<Prisma.$AnamnesisPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Anamnesis that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AnamnesisFindFirstArgs} args - Arguments to find a Anamnesis
+     * @example
+     * // Get one Anamnesis
+     * const anamnesis = await prisma.anamnesis.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends AnamnesisFindFirstArgs>(args?: SelectSubset<T, AnamnesisFindFirstArgs<ExtArgs>>): Prisma__AnamnesisClient<$Result.GetResult<Prisma.$AnamnesisPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Anamnesis that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AnamnesisFindFirstOrThrowArgs} args - Arguments to find a Anamnesis
+     * @example
+     * // Get one Anamnesis
+     * const anamnesis = await prisma.anamnesis.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends AnamnesisFindFirstOrThrowArgs>(args?: SelectSubset<T, AnamnesisFindFirstOrThrowArgs<ExtArgs>>): Prisma__AnamnesisClient<$Result.GetResult<Prisma.$AnamnesisPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Anamneses that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AnamnesisFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Anamneses
+     * const anamneses = await prisma.anamnesis.findMany()
+     * 
+     * // Get first 10 Anamneses
+     * const anamneses = await prisma.anamnesis.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const anamnesisWithIdOnly = await prisma.anamnesis.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends AnamnesisFindManyArgs>(args?: SelectSubset<T, AnamnesisFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AnamnesisPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Anamnesis.
+     * @param {AnamnesisCreateArgs} args - Arguments to create a Anamnesis.
+     * @example
+     * // Create one Anamnesis
+     * const Anamnesis = await prisma.anamnesis.create({
+     *   data: {
+     *     // ... data to create a Anamnesis
+     *   }
+     * })
+     * 
+     */
+    create<T extends AnamnesisCreateArgs>(args: SelectSubset<T, AnamnesisCreateArgs<ExtArgs>>): Prisma__AnamnesisClient<$Result.GetResult<Prisma.$AnamnesisPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Anamneses.
+     * @param {AnamnesisCreateManyArgs} args - Arguments to create many Anamneses.
+     * @example
+     * // Create many Anamneses
+     * const anamnesis = await prisma.anamnesis.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends AnamnesisCreateManyArgs>(args?: SelectSubset<T, AnamnesisCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a Anamnesis.
+     * @param {AnamnesisDeleteArgs} args - Arguments to delete one Anamnesis.
+     * @example
+     * // Delete one Anamnesis
+     * const Anamnesis = await prisma.anamnesis.delete({
+     *   where: {
+     *     // ... filter to delete one Anamnesis
+     *   }
+     * })
+     * 
+     */
+    delete<T extends AnamnesisDeleteArgs>(args: SelectSubset<T, AnamnesisDeleteArgs<ExtArgs>>): Prisma__AnamnesisClient<$Result.GetResult<Prisma.$AnamnesisPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Anamnesis.
+     * @param {AnamnesisUpdateArgs} args - Arguments to update one Anamnesis.
+     * @example
+     * // Update one Anamnesis
+     * const anamnesis = await prisma.anamnesis.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends AnamnesisUpdateArgs>(args: SelectSubset<T, AnamnesisUpdateArgs<ExtArgs>>): Prisma__AnamnesisClient<$Result.GetResult<Prisma.$AnamnesisPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Anamneses.
+     * @param {AnamnesisDeleteManyArgs} args - Arguments to filter Anamneses to delete.
+     * @example
+     * // Delete a few Anamneses
+     * const { count } = await prisma.anamnesis.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends AnamnesisDeleteManyArgs>(args?: SelectSubset<T, AnamnesisDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Anamneses.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AnamnesisUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Anamneses
+     * const anamnesis = await prisma.anamnesis.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends AnamnesisUpdateManyArgs>(args: SelectSubset<T, AnamnesisUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one Anamnesis.
+     * @param {AnamnesisUpsertArgs} args - Arguments to update or create a Anamnesis.
+     * @example
+     * // Update or create a Anamnesis
+     * const anamnesis = await prisma.anamnesis.upsert({
+     *   create: {
+     *     // ... data to create a Anamnesis
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Anamnesis we want to update
+     *   }
+     * })
+     */
+    upsert<T extends AnamnesisUpsertArgs>(args: SelectSubset<T, AnamnesisUpsertArgs<ExtArgs>>): Prisma__AnamnesisClient<$Result.GetResult<Prisma.$AnamnesisPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Anamneses.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AnamnesisCountArgs} args - Arguments to filter Anamneses to count.
+     * @example
+     * // Count the number of Anamneses
+     * const count = await prisma.anamnesis.count({
+     *   where: {
+     *     // ... the filter for the Anamneses we want to count
+     *   }
+     * })
+    **/
+    count<T extends AnamnesisCountArgs>(
+      args?: Subset<T, AnamnesisCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], AnamnesisCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Anamnesis.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AnamnesisAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends AnamnesisAggregateArgs>(args: Subset<T, AnamnesisAggregateArgs>): Prisma.PrismaPromise<GetAnamnesisAggregateType<T>>
+
+    /**
+     * Group by Anamnesis.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AnamnesisGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends AnamnesisGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: AnamnesisGroupByArgs['orderBy'] }
+        : { orderBy?: AnamnesisGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, AnamnesisGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetAnamnesisGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Anamnesis model
+   */
+  readonly fields: AnamnesisFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Anamnesis.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__AnamnesisClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    student<T extends Anamnesis$studentArgs<ExtArgs> = {}>(args?: Subset<T, Anamnesis$studentArgs<ExtArgs>>): Prisma__StudentClient<$Result.GetResult<Prisma.$StudentPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Anamnesis model
+   */
+  interface AnamnesisFieldRefs {
+    readonly id: FieldRef<"Anamnesis", 'Int'>
+    readonly studentId: FieldRef<"Anamnesis", 'Int'>
+    readonly name: FieldRef<"Anamnesis", 'String'>
+    readonly age: FieldRef<"Anamnesis", 'Int'>
+    readonly contact: FieldRef<"Anamnesis", 'String'>
+    readonly weightKg: FieldRef<"Anamnesis", 'Float'>
+    readonly heightM: FieldRef<"Anamnesis", 'Float'>
+    readonly injuries: FieldRef<"Anamnesis", 'String'>
+    readonly chronicDiseases: FieldRef<"Anamnesis", 'String'>
+    readonly allergies: FieldRef<"Anamnesis", 'String'>
+    readonly medications: FieldRef<"Anamnesis", 'String'>
+    readonly surgeries: FieldRef<"Anamnesis", 'String'>
+    readonly activityDaysPerWeek: FieldRef<"Anamnesis", 'Int'>
+    readonly activityType: FieldRef<"Anamnesis", 'String'>
+    readonly sessionDurationMinutes: FieldRef<"Anamnesis", 'Int'>
+    readonly consentAccepted: FieldRef<"Anamnesis", 'Boolean'>
+    readonly createdAt: FieldRef<"Anamnesis", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Anamnesis findUnique
+   */
+  export type AnamnesisFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Anamnesis
+     */
+    select?: AnamnesisSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Anamnesis
+     */
+    omit?: AnamnesisOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AnamnesisInclude<ExtArgs> | null
+    /**
+     * Filter, which Anamnesis to fetch.
+     */
+    where: AnamnesisWhereUniqueInput
+  }
+
+  /**
+   * Anamnesis findUniqueOrThrow
+   */
+  export type AnamnesisFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Anamnesis
+     */
+    select?: AnamnesisSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Anamnesis
+     */
+    omit?: AnamnesisOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AnamnesisInclude<ExtArgs> | null
+    /**
+     * Filter, which Anamnesis to fetch.
+     */
+    where: AnamnesisWhereUniqueInput
+  }
+
+  /**
+   * Anamnesis findFirst
+   */
+  export type AnamnesisFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Anamnesis
+     */
+    select?: AnamnesisSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Anamnesis
+     */
+    omit?: AnamnesisOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AnamnesisInclude<ExtArgs> | null
+    /**
+     * Filter, which Anamnesis to fetch.
+     */
+    where?: AnamnesisWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Anamneses to fetch.
+     */
+    orderBy?: AnamnesisOrderByWithRelationInput | AnamnesisOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Anamneses.
+     */
+    cursor?: AnamnesisWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Anamneses from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Anamneses.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Anamneses.
+     */
+    distinct?: AnamnesisScalarFieldEnum | AnamnesisScalarFieldEnum[]
+  }
+
+  /**
+   * Anamnesis findFirstOrThrow
+   */
+  export type AnamnesisFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Anamnesis
+     */
+    select?: AnamnesisSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Anamnesis
+     */
+    omit?: AnamnesisOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AnamnesisInclude<ExtArgs> | null
+    /**
+     * Filter, which Anamnesis to fetch.
+     */
+    where?: AnamnesisWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Anamneses to fetch.
+     */
+    orderBy?: AnamnesisOrderByWithRelationInput | AnamnesisOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Anamneses.
+     */
+    cursor?: AnamnesisWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Anamneses from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Anamneses.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Anamneses.
+     */
+    distinct?: AnamnesisScalarFieldEnum | AnamnesisScalarFieldEnum[]
+  }
+
+  /**
+   * Anamnesis findMany
+   */
+  export type AnamnesisFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Anamnesis
+     */
+    select?: AnamnesisSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Anamnesis
+     */
+    omit?: AnamnesisOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AnamnesisInclude<ExtArgs> | null
+    /**
+     * Filter, which Anamneses to fetch.
+     */
+    where?: AnamnesisWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Anamneses to fetch.
+     */
+    orderBy?: AnamnesisOrderByWithRelationInput | AnamnesisOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Anamneses.
+     */
+    cursor?: AnamnesisWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Anamneses from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Anamneses.
+     */
+    skip?: number
+    distinct?: AnamnesisScalarFieldEnum | AnamnesisScalarFieldEnum[]
+  }
+
+  /**
+   * Anamnesis create
+   */
+  export type AnamnesisCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Anamnesis
+     */
+    select?: AnamnesisSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Anamnesis
+     */
+    omit?: AnamnesisOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AnamnesisInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Anamnesis.
+     */
+    data: XOR<AnamnesisCreateInput, AnamnesisUncheckedCreateInput>
+  }
+
+  /**
+   * Anamnesis createMany
+   */
+  export type AnamnesisCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Anamneses.
+     */
+    data: AnamnesisCreateManyInput | AnamnesisCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Anamnesis update
+   */
+  export type AnamnesisUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Anamnesis
+     */
+    select?: AnamnesisSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Anamnesis
+     */
+    omit?: AnamnesisOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AnamnesisInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Anamnesis.
+     */
+    data: XOR<AnamnesisUpdateInput, AnamnesisUncheckedUpdateInput>
+    /**
+     * Choose, which Anamnesis to update.
+     */
+    where: AnamnesisWhereUniqueInput
+  }
+
+  /**
+   * Anamnesis updateMany
+   */
+  export type AnamnesisUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Anamneses.
+     */
+    data: XOR<AnamnesisUpdateManyMutationInput, AnamnesisUncheckedUpdateManyInput>
+    /**
+     * Filter which Anamneses to update
+     */
+    where?: AnamnesisWhereInput
+    /**
+     * Limit how many Anamneses to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Anamnesis upsert
+   */
+  export type AnamnesisUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Anamnesis
+     */
+    select?: AnamnesisSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Anamnesis
+     */
+    omit?: AnamnesisOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AnamnesisInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Anamnesis to update in case it exists.
+     */
+    where: AnamnesisWhereUniqueInput
+    /**
+     * In case the Anamnesis found by the `where` argument doesn't exist, create a new Anamnesis with this data.
+     */
+    create: XOR<AnamnesisCreateInput, AnamnesisUncheckedCreateInput>
+    /**
+     * In case the Anamnesis was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<AnamnesisUpdateInput, AnamnesisUncheckedUpdateInput>
+  }
+
+  /**
+   * Anamnesis delete
+   */
+  export type AnamnesisDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Anamnesis
+     */
+    select?: AnamnesisSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Anamnesis
+     */
+    omit?: AnamnesisOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AnamnesisInclude<ExtArgs> | null
+    /**
+     * Filter which Anamnesis to delete.
+     */
+    where: AnamnesisWhereUniqueInput
+  }
+
+  /**
+   * Anamnesis deleteMany
+   */
+  export type AnamnesisDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Anamneses to delete
+     */
+    where?: AnamnesisWhereInput
+    /**
+     * Limit how many Anamneses to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Anamnesis.student
+   */
+  export type Anamnesis$studentArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Student
+     */
+    select?: StudentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Student
+     */
+    omit?: StudentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StudentInclude<ExtArgs> | null
+    where?: StudentWhereInput
+  }
+
+  /**
+   * Anamnesis without action
+   */
+  export type AnamnesisDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Anamnesis
+     */
+    select?: AnamnesisSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Anamnesis
+     */
+    omit?: AnamnesisOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AnamnesisInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -9860,6 +11011,29 @@ export namespace Prisma {
   export type AdminScalarFieldEnum = (typeof AdminScalarFieldEnum)[keyof typeof AdminScalarFieldEnum]
 
 
+  export const AnamnesisScalarFieldEnum: {
+    id: 'id',
+    studentId: 'studentId',
+    name: 'name',
+    age: 'age',
+    contact: 'contact',
+    weightKg: 'weightKg',
+    heightM: 'heightM',
+    injuries: 'injuries',
+    chronicDiseases: 'chronicDiseases',
+    allergies: 'allergies',
+    medications: 'medications',
+    surgeries: 'surgeries',
+    activityDaysPerWeek: 'activityDaysPerWeek',
+    activityType: 'activityType',
+    sessionDurationMinutes: 'sessionDurationMinutes',
+    consentAccepted: 'consentAccepted',
+    createdAt: 'createdAt'
+  };
+
+  export type AnamnesisScalarFieldEnum = (typeof AnamnesisScalarFieldEnum)[keyof typeof AnamnesisScalarFieldEnum]
+
+
   export const SortOrder: {
     asc: 'asc',
     desc: 'desc'
@@ -9923,6 +11097,20 @@ export namespace Prisma {
   };
 
   export type AdminOrderByRelevanceFieldEnum = (typeof AdminOrderByRelevanceFieldEnum)[keyof typeof AdminOrderByRelevanceFieldEnum]
+
+
+  export const AnamnesisOrderByRelevanceFieldEnum: {
+    name: 'name',
+    contact: 'contact',
+    injuries: 'injuries',
+    chronicDiseases: 'chronicDiseases',
+    allergies: 'allergies',
+    medications: 'medications',
+    surgeries: 'surgeries',
+    activityType: 'activityType'
+  };
+
+  export type AnamnesisOrderByRelevanceFieldEnum = (typeof AnamnesisOrderByRelevanceFieldEnum)[keyof typeof AnamnesisOrderByRelevanceFieldEnum]
 
 
   /**
@@ -9998,6 +11186,7 @@ export namespace Prisma {
     enrollments?: EnrollmentListRelationFilter
     payments?: PaymentListRelationFilter
     attendances?: AttendanceListRelationFilter
+    anamneses?: AnamnesisListRelationFilter
   }
 
   export type StudentOrderByWithRelationInput = {
@@ -10020,6 +11209,7 @@ export namespace Prisma {
     enrollments?: EnrollmentOrderByRelationAggregateInput
     payments?: PaymentOrderByRelationAggregateInput
     attendances?: AttendanceOrderByRelationAggregateInput
+    anamneses?: AnamnesisOrderByRelationAggregateInput
     _relevance?: StudentOrderByRelevanceInput
   }
 
@@ -10046,6 +11236,7 @@ export namespace Prisma {
     enrollments?: EnrollmentListRelationFilter
     payments?: PaymentListRelationFilter
     attendances?: AttendanceListRelationFilter
+    anamneses?: AnamnesisListRelationFilter
   }, "id" | "email">
 
   export type StudentOrderByWithAggregationInput = {
@@ -10162,7 +11353,6 @@ export namespace Prisma {
     instructor?: XOR<InstructorScalarRelationFilter, InstructorWhereInput>
     enrollments?: EnrollmentListRelationFilter
     attendances?: AttendanceListRelationFilter
-    Attendance?: AttendanceListRelationFilter
   }
 
   export type ClassOrderByWithRelationInput = {
@@ -10174,7 +11364,6 @@ export namespace Prisma {
     instructor?: InstructorOrderByWithRelationInput
     enrollments?: EnrollmentOrderByRelationAggregateInput
     attendances?: AttendanceOrderByRelationAggregateInput
-    Attendance?: AttendanceOrderByRelationAggregateInput
     _relevance?: ClassOrderByRelevanceInput
   }
 
@@ -10190,7 +11379,6 @@ export namespace Prisma {
     instructor?: XOR<InstructorScalarRelationFilter, InstructorWhereInput>
     enrollments?: EnrollmentListRelationFilter
     attendances?: AttendanceListRelationFilter
-    Attendance?: AttendanceListRelationFilter
   }, "id">
 
   export type ClassOrderByWithAggregationInput = {
@@ -10387,7 +11575,6 @@ export namespace Prisma {
     date?: DateTimeFilter<"Attendance"> | Date | string
     student?: XOR<StudentScalarRelationFilter, StudentWhereInput>
     class?: XOR<ClassScalarRelationFilter, ClassWhereInput>
-    Class?: ClassListRelationFilter
   }
 
   export type AttendanceOrderByWithRelationInput = {
@@ -10397,7 +11584,6 @@ export namespace Prisma {
     date?: SortOrder
     student?: StudentOrderByWithRelationInput
     class?: ClassOrderByWithRelationInput
-    Class?: ClassOrderByRelationAggregateInput
   }
 
   export type AttendanceWhereUniqueInput = Prisma.AtLeast<{
@@ -10410,7 +11596,6 @@ export namespace Prisma {
     date?: DateTimeFilter<"Attendance"> | Date | string
     student?: XOR<StudentScalarRelationFilter, StudentWhereInput>
     class?: XOR<ClassScalarRelationFilter, ClassWhereInput>
-    Class?: ClassListRelationFilter
   }, "id">
 
   export type AttendanceOrderByWithAggregationInput = {
@@ -10510,6 +11695,124 @@ export namespace Prisma {
     updatedAt?: DateTimeWithAggregatesFilter<"Admin"> | Date | string
   }
 
+  export type AnamnesisWhereInput = {
+    AND?: AnamnesisWhereInput | AnamnesisWhereInput[]
+    OR?: AnamnesisWhereInput[]
+    NOT?: AnamnesisWhereInput | AnamnesisWhereInput[]
+    id?: IntFilter<"Anamnesis"> | number
+    studentId?: IntNullableFilter<"Anamnesis"> | number | null
+    name?: StringFilter<"Anamnesis"> | string
+    age?: IntNullableFilter<"Anamnesis"> | number | null
+    contact?: StringFilter<"Anamnesis"> | string
+    weightKg?: FloatNullableFilter<"Anamnesis"> | number | null
+    heightM?: FloatNullableFilter<"Anamnesis"> | number | null
+    injuries?: StringNullableFilter<"Anamnesis"> | string | null
+    chronicDiseases?: StringNullableFilter<"Anamnesis"> | string | null
+    allergies?: StringNullableFilter<"Anamnesis"> | string | null
+    medications?: StringNullableFilter<"Anamnesis"> | string | null
+    surgeries?: StringNullableFilter<"Anamnesis"> | string | null
+    activityDaysPerWeek?: IntNullableFilter<"Anamnesis"> | number | null
+    activityType?: StringNullableFilter<"Anamnesis"> | string | null
+    sessionDurationMinutes?: IntNullableFilter<"Anamnesis"> | number | null
+    consentAccepted?: BoolFilter<"Anamnesis"> | boolean
+    createdAt?: DateTimeFilter<"Anamnesis"> | Date | string
+    student?: XOR<StudentNullableScalarRelationFilter, StudentWhereInput> | null
+  }
+
+  export type AnamnesisOrderByWithRelationInput = {
+    id?: SortOrder
+    studentId?: SortOrderInput | SortOrder
+    name?: SortOrder
+    age?: SortOrderInput | SortOrder
+    contact?: SortOrder
+    weightKg?: SortOrderInput | SortOrder
+    heightM?: SortOrderInput | SortOrder
+    injuries?: SortOrderInput | SortOrder
+    chronicDiseases?: SortOrderInput | SortOrder
+    allergies?: SortOrderInput | SortOrder
+    medications?: SortOrderInput | SortOrder
+    surgeries?: SortOrderInput | SortOrder
+    activityDaysPerWeek?: SortOrderInput | SortOrder
+    activityType?: SortOrderInput | SortOrder
+    sessionDurationMinutes?: SortOrderInput | SortOrder
+    consentAccepted?: SortOrder
+    createdAt?: SortOrder
+    student?: StudentOrderByWithRelationInput
+    _relevance?: AnamnesisOrderByRelevanceInput
+  }
+
+  export type AnamnesisWhereUniqueInput = Prisma.AtLeast<{
+    id?: number
+    AND?: AnamnesisWhereInput | AnamnesisWhereInput[]
+    OR?: AnamnesisWhereInput[]
+    NOT?: AnamnesisWhereInput | AnamnesisWhereInput[]
+    studentId?: IntNullableFilter<"Anamnesis"> | number | null
+    name?: StringFilter<"Anamnesis"> | string
+    age?: IntNullableFilter<"Anamnesis"> | number | null
+    contact?: StringFilter<"Anamnesis"> | string
+    weightKg?: FloatNullableFilter<"Anamnesis"> | number | null
+    heightM?: FloatNullableFilter<"Anamnesis"> | number | null
+    injuries?: StringNullableFilter<"Anamnesis"> | string | null
+    chronicDiseases?: StringNullableFilter<"Anamnesis"> | string | null
+    allergies?: StringNullableFilter<"Anamnesis"> | string | null
+    medications?: StringNullableFilter<"Anamnesis"> | string | null
+    surgeries?: StringNullableFilter<"Anamnesis"> | string | null
+    activityDaysPerWeek?: IntNullableFilter<"Anamnesis"> | number | null
+    activityType?: StringNullableFilter<"Anamnesis"> | string | null
+    sessionDurationMinutes?: IntNullableFilter<"Anamnesis"> | number | null
+    consentAccepted?: BoolFilter<"Anamnesis"> | boolean
+    createdAt?: DateTimeFilter<"Anamnesis"> | Date | string
+    student?: XOR<StudentNullableScalarRelationFilter, StudentWhereInput> | null
+  }, "id">
+
+  export type AnamnesisOrderByWithAggregationInput = {
+    id?: SortOrder
+    studentId?: SortOrderInput | SortOrder
+    name?: SortOrder
+    age?: SortOrderInput | SortOrder
+    contact?: SortOrder
+    weightKg?: SortOrderInput | SortOrder
+    heightM?: SortOrderInput | SortOrder
+    injuries?: SortOrderInput | SortOrder
+    chronicDiseases?: SortOrderInput | SortOrder
+    allergies?: SortOrderInput | SortOrder
+    medications?: SortOrderInput | SortOrder
+    surgeries?: SortOrderInput | SortOrder
+    activityDaysPerWeek?: SortOrderInput | SortOrder
+    activityType?: SortOrderInput | SortOrder
+    sessionDurationMinutes?: SortOrderInput | SortOrder
+    consentAccepted?: SortOrder
+    createdAt?: SortOrder
+    _count?: AnamnesisCountOrderByAggregateInput
+    _avg?: AnamnesisAvgOrderByAggregateInput
+    _max?: AnamnesisMaxOrderByAggregateInput
+    _min?: AnamnesisMinOrderByAggregateInput
+    _sum?: AnamnesisSumOrderByAggregateInput
+  }
+
+  export type AnamnesisScalarWhereWithAggregatesInput = {
+    AND?: AnamnesisScalarWhereWithAggregatesInput | AnamnesisScalarWhereWithAggregatesInput[]
+    OR?: AnamnesisScalarWhereWithAggregatesInput[]
+    NOT?: AnamnesisScalarWhereWithAggregatesInput | AnamnesisScalarWhereWithAggregatesInput[]
+    id?: IntWithAggregatesFilter<"Anamnesis"> | number
+    studentId?: IntNullableWithAggregatesFilter<"Anamnesis"> | number | null
+    name?: StringWithAggregatesFilter<"Anamnesis"> | string
+    age?: IntNullableWithAggregatesFilter<"Anamnesis"> | number | null
+    contact?: StringWithAggregatesFilter<"Anamnesis"> | string
+    weightKg?: FloatNullableWithAggregatesFilter<"Anamnesis"> | number | null
+    heightM?: FloatNullableWithAggregatesFilter<"Anamnesis"> | number | null
+    injuries?: StringNullableWithAggregatesFilter<"Anamnesis"> | string | null
+    chronicDiseases?: StringNullableWithAggregatesFilter<"Anamnesis"> | string | null
+    allergies?: StringNullableWithAggregatesFilter<"Anamnesis"> | string | null
+    medications?: StringNullableWithAggregatesFilter<"Anamnesis"> | string | null
+    surgeries?: StringNullableWithAggregatesFilter<"Anamnesis"> | string | null
+    activityDaysPerWeek?: IntNullableWithAggregatesFilter<"Anamnesis"> | number | null
+    activityType?: StringNullableWithAggregatesFilter<"Anamnesis"> | string | null
+    sessionDurationMinutes?: IntNullableWithAggregatesFilter<"Anamnesis"> | number | null
+    consentAccepted?: BoolWithAggregatesFilter<"Anamnesis"> | boolean
+    createdAt?: DateTimeWithAggregatesFilter<"Anamnesis"> | Date | string
+  }
+
   export type StudentCreateInput = {
     name: string
     lastName: string
@@ -10529,6 +11832,7 @@ export namespace Prisma {
     enrollments?: EnrollmentCreateNestedManyWithoutStudentInput
     payments?: PaymentCreateNestedManyWithoutStudentInput
     attendances?: AttendanceCreateNestedManyWithoutStudentInput
+    anamneses?: AnamnesisCreateNestedManyWithoutStudentInput
   }
 
   export type StudentUncheckedCreateInput = {
@@ -10551,6 +11855,7 @@ export namespace Prisma {
     enrollments?: EnrollmentUncheckedCreateNestedManyWithoutStudentInput
     payments?: PaymentUncheckedCreateNestedManyWithoutStudentInput
     attendances?: AttendanceUncheckedCreateNestedManyWithoutStudentInput
+    anamneses?: AnamnesisUncheckedCreateNestedManyWithoutStudentInput
   }
 
   export type StudentUpdateInput = {
@@ -10572,6 +11877,7 @@ export namespace Prisma {
     enrollments?: EnrollmentUpdateManyWithoutStudentNestedInput
     payments?: PaymentUpdateManyWithoutStudentNestedInput
     attendances?: AttendanceUpdateManyWithoutStudentNestedInput
+    anamneses?: AnamnesisUpdateManyWithoutStudentNestedInput
   }
 
   export type StudentUncheckedUpdateInput = {
@@ -10594,6 +11900,7 @@ export namespace Prisma {
     enrollments?: EnrollmentUncheckedUpdateManyWithoutStudentNestedInput
     payments?: PaymentUncheckedUpdateManyWithoutStudentNestedInput
     attendances?: AttendanceUncheckedUpdateManyWithoutStudentNestedInput
+    anamneses?: AnamnesisUncheckedUpdateManyWithoutStudentNestedInput
   }
 
   export type StudentCreateManyInput = {
@@ -10713,7 +12020,6 @@ export namespace Prisma {
     instructor: InstructorCreateNestedOneWithoutClassesInput
     enrollments?: EnrollmentCreateNestedManyWithoutClassInput
     attendances?: AttendanceCreateNestedManyWithoutClassInput
-    Attendance?: AttendanceCreateNestedManyWithoutClassInput
   }
 
   export type ClassUncheckedCreateInput = {
@@ -10724,7 +12030,6 @@ export namespace Prisma {
     instructorId: number
     enrollments?: EnrollmentUncheckedCreateNestedManyWithoutClassInput
     attendances?: AttendanceUncheckedCreateNestedManyWithoutClassInput
-    Attendance?: AttendanceUncheckedCreateNestedManyWithoutClassInput
   }
 
   export type ClassUpdateInput = {
@@ -10734,7 +12039,6 @@ export namespace Prisma {
     instructor?: InstructorUpdateOneRequiredWithoutClassesNestedInput
     enrollments?: EnrollmentUpdateManyWithoutClassNestedInput
     attendances?: AttendanceUpdateManyWithoutClassNestedInput
-    Attendance?: AttendanceUpdateManyWithoutClassNestedInput
   }
 
   export type ClassUncheckedUpdateInput = {
@@ -10745,7 +12049,6 @@ export namespace Prisma {
     instructorId?: IntFieldUpdateOperationsInput | number
     enrollments?: EnrollmentUncheckedUpdateManyWithoutClassNestedInput
     attendances?: AttendanceUncheckedUpdateManyWithoutClassNestedInput
-    Attendance?: AttendanceUncheckedUpdateManyWithoutClassNestedInput
   }
 
   export type ClassCreateManyInput = {
@@ -10912,8 +12215,7 @@ export namespace Prisma {
   export type AttendanceCreateInput = {
     date?: Date | string
     student: StudentCreateNestedOneWithoutAttendancesInput
-    class: ClassCreateNestedOneWithoutAttendanceInput
-    Class?: ClassCreateNestedManyWithoutAttendancesInput
+    class: ClassCreateNestedOneWithoutAttendancesInput
   }
 
   export type AttendanceUncheckedCreateInput = {
@@ -10921,14 +12223,12 @@ export namespace Prisma {
     studentId: number
     classId: number
     date?: Date | string
-    Class?: ClassUncheckedCreateNestedManyWithoutAttendancesInput
   }
 
   export type AttendanceUpdateInput = {
     date?: DateTimeFieldUpdateOperationsInput | Date | string
     student?: StudentUpdateOneRequiredWithoutAttendancesNestedInput
-    class?: ClassUpdateOneRequiredWithoutAttendanceNestedInput
-    Class?: ClassUpdateManyWithoutAttendancesNestedInput
+    class?: ClassUpdateOneRequiredWithoutAttendancesNestedInput
   }
 
   export type AttendanceUncheckedUpdateInput = {
@@ -10936,7 +12236,6 @@ export namespace Prisma {
     studentId?: IntFieldUpdateOperationsInput | number
     classId?: IntFieldUpdateOperationsInput | number
     date?: DateTimeFieldUpdateOperationsInput | Date | string
-    Class?: ClassUncheckedUpdateManyWithoutAttendancesNestedInput
   }
 
   export type AttendanceCreateManyInput = {
@@ -11038,6 +12337,142 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type AnamnesisCreateInput = {
+    name: string
+    age?: number | null
+    contact: string
+    weightKg?: number | null
+    heightM?: number | null
+    injuries?: string | null
+    chronicDiseases?: string | null
+    allergies?: string | null
+    medications?: string | null
+    surgeries?: string | null
+    activityDaysPerWeek?: number | null
+    activityType?: string | null
+    sessionDurationMinutes?: number | null
+    consentAccepted?: boolean
+    createdAt?: Date | string
+    student?: StudentCreateNestedOneWithoutAnamnesesInput
+  }
+
+  export type AnamnesisUncheckedCreateInput = {
+    id?: number
+    studentId?: number | null
+    name: string
+    age?: number | null
+    contact: string
+    weightKg?: number | null
+    heightM?: number | null
+    injuries?: string | null
+    chronicDiseases?: string | null
+    allergies?: string | null
+    medications?: string | null
+    surgeries?: string | null
+    activityDaysPerWeek?: number | null
+    activityType?: string | null
+    sessionDurationMinutes?: number | null
+    consentAccepted?: boolean
+    createdAt?: Date | string
+  }
+
+  export type AnamnesisUpdateInput = {
+    name?: StringFieldUpdateOperationsInput | string
+    age?: NullableIntFieldUpdateOperationsInput | number | null
+    contact?: StringFieldUpdateOperationsInput | string
+    weightKg?: NullableFloatFieldUpdateOperationsInput | number | null
+    heightM?: NullableFloatFieldUpdateOperationsInput | number | null
+    injuries?: NullableStringFieldUpdateOperationsInput | string | null
+    chronicDiseases?: NullableStringFieldUpdateOperationsInput | string | null
+    allergies?: NullableStringFieldUpdateOperationsInput | string | null
+    medications?: NullableStringFieldUpdateOperationsInput | string | null
+    surgeries?: NullableStringFieldUpdateOperationsInput | string | null
+    activityDaysPerWeek?: NullableIntFieldUpdateOperationsInput | number | null
+    activityType?: NullableStringFieldUpdateOperationsInput | string | null
+    sessionDurationMinutes?: NullableIntFieldUpdateOperationsInput | number | null
+    consentAccepted?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    student?: StudentUpdateOneWithoutAnamnesesNestedInput
+  }
+
+  export type AnamnesisUncheckedUpdateInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    studentId?: NullableIntFieldUpdateOperationsInput | number | null
+    name?: StringFieldUpdateOperationsInput | string
+    age?: NullableIntFieldUpdateOperationsInput | number | null
+    contact?: StringFieldUpdateOperationsInput | string
+    weightKg?: NullableFloatFieldUpdateOperationsInput | number | null
+    heightM?: NullableFloatFieldUpdateOperationsInput | number | null
+    injuries?: NullableStringFieldUpdateOperationsInput | string | null
+    chronicDiseases?: NullableStringFieldUpdateOperationsInput | string | null
+    allergies?: NullableStringFieldUpdateOperationsInput | string | null
+    medications?: NullableStringFieldUpdateOperationsInput | string | null
+    surgeries?: NullableStringFieldUpdateOperationsInput | string | null
+    activityDaysPerWeek?: NullableIntFieldUpdateOperationsInput | number | null
+    activityType?: NullableStringFieldUpdateOperationsInput | string | null
+    sessionDurationMinutes?: NullableIntFieldUpdateOperationsInput | number | null
+    consentAccepted?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AnamnesisCreateManyInput = {
+    id?: number
+    studentId?: number | null
+    name: string
+    age?: number | null
+    contact: string
+    weightKg?: number | null
+    heightM?: number | null
+    injuries?: string | null
+    chronicDiseases?: string | null
+    allergies?: string | null
+    medications?: string | null
+    surgeries?: string | null
+    activityDaysPerWeek?: number | null
+    activityType?: string | null
+    sessionDurationMinutes?: number | null
+    consentAccepted?: boolean
+    createdAt?: Date | string
+  }
+
+  export type AnamnesisUpdateManyMutationInput = {
+    name?: StringFieldUpdateOperationsInput | string
+    age?: NullableIntFieldUpdateOperationsInput | number | null
+    contact?: StringFieldUpdateOperationsInput | string
+    weightKg?: NullableFloatFieldUpdateOperationsInput | number | null
+    heightM?: NullableFloatFieldUpdateOperationsInput | number | null
+    injuries?: NullableStringFieldUpdateOperationsInput | string | null
+    chronicDiseases?: NullableStringFieldUpdateOperationsInput | string | null
+    allergies?: NullableStringFieldUpdateOperationsInput | string | null
+    medications?: NullableStringFieldUpdateOperationsInput | string | null
+    surgeries?: NullableStringFieldUpdateOperationsInput | string | null
+    activityDaysPerWeek?: NullableIntFieldUpdateOperationsInput | number | null
+    activityType?: NullableStringFieldUpdateOperationsInput | string | null
+    sessionDurationMinutes?: NullableIntFieldUpdateOperationsInput | number | null
+    consentAccepted?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AnamnesisUncheckedUpdateManyInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    studentId?: NullableIntFieldUpdateOperationsInput | number | null
+    name?: StringFieldUpdateOperationsInput | string
+    age?: NullableIntFieldUpdateOperationsInput | number | null
+    contact?: StringFieldUpdateOperationsInput | string
+    weightKg?: NullableFloatFieldUpdateOperationsInput | number | null
+    heightM?: NullableFloatFieldUpdateOperationsInput | number | null
+    injuries?: NullableStringFieldUpdateOperationsInput | string | null
+    chronicDiseases?: NullableStringFieldUpdateOperationsInput | string | null
+    allergies?: NullableStringFieldUpdateOperationsInput | string | null
+    medications?: NullableStringFieldUpdateOperationsInput | string | null
+    surgeries?: NullableStringFieldUpdateOperationsInput | string | null
+    activityDaysPerWeek?: NullableIntFieldUpdateOperationsInput | number | null
+    activityType?: NullableStringFieldUpdateOperationsInput | string | null
+    sessionDurationMinutes?: NullableIntFieldUpdateOperationsInput | number | null
+    consentAccepted?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type IntFilter<$PrismaModel = never> = {
     equals?: number | IntFieldRefInput<$PrismaModel>
     in?: number[]
@@ -11125,6 +12560,12 @@ export namespace Prisma {
     none?: AttendanceWhereInput
   }
 
+  export type AnamnesisListRelationFilter = {
+    every?: AnamnesisWhereInput
+    some?: AnamnesisWhereInput
+    none?: AnamnesisWhereInput
+  }
+
   export type SortOrderInput = {
     sort: SortOrder
     nulls?: NullsOrder
@@ -11143,6 +12584,10 @@ export namespace Prisma {
   }
 
   export type AttendanceOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type AnamnesisOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -11652,6 +13097,151 @@ export namespace Prisma {
     _max?: NestedBoolFilter<$PrismaModel>
   }
 
+  export type IntNullableFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | null
+    notIn?: number[] | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableFilter<$PrismaModel> | number | null
+  }
+
+  export type FloatNullableFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel> | null
+    in?: number[] | null
+    notIn?: number[] | null
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatNullableFilter<$PrismaModel> | number | null
+  }
+
+  export type StudentNullableScalarRelationFilter = {
+    is?: StudentWhereInput | null
+    isNot?: StudentWhereInput | null
+  }
+
+  export type AnamnesisOrderByRelevanceInput = {
+    fields: AnamnesisOrderByRelevanceFieldEnum | AnamnesisOrderByRelevanceFieldEnum[]
+    sort: SortOrder
+    search: string
+  }
+
+  export type AnamnesisCountOrderByAggregateInput = {
+    id?: SortOrder
+    studentId?: SortOrder
+    name?: SortOrder
+    age?: SortOrder
+    contact?: SortOrder
+    weightKg?: SortOrder
+    heightM?: SortOrder
+    injuries?: SortOrder
+    chronicDiseases?: SortOrder
+    allergies?: SortOrder
+    medications?: SortOrder
+    surgeries?: SortOrder
+    activityDaysPerWeek?: SortOrder
+    activityType?: SortOrder
+    sessionDurationMinutes?: SortOrder
+    consentAccepted?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type AnamnesisAvgOrderByAggregateInput = {
+    id?: SortOrder
+    studentId?: SortOrder
+    age?: SortOrder
+    weightKg?: SortOrder
+    heightM?: SortOrder
+    activityDaysPerWeek?: SortOrder
+    sessionDurationMinutes?: SortOrder
+  }
+
+  export type AnamnesisMaxOrderByAggregateInput = {
+    id?: SortOrder
+    studentId?: SortOrder
+    name?: SortOrder
+    age?: SortOrder
+    contact?: SortOrder
+    weightKg?: SortOrder
+    heightM?: SortOrder
+    injuries?: SortOrder
+    chronicDiseases?: SortOrder
+    allergies?: SortOrder
+    medications?: SortOrder
+    surgeries?: SortOrder
+    activityDaysPerWeek?: SortOrder
+    activityType?: SortOrder
+    sessionDurationMinutes?: SortOrder
+    consentAccepted?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type AnamnesisMinOrderByAggregateInput = {
+    id?: SortOrder
+    studentId?: SortOrder
+    name?: SortOrder
+    age?: SortOrder
+    contact?: SortOrder
+    weightKg?: SortOrder
+    heightM?: SortOrder
+    injuries?: SortOrder
+    chronicDiseases?: SortOrder
+    allergies?: SortOrder
+    medications?: SortOrder
+    surgeries?: SortOrder
+    activityDaysPerWeek?: SortOrder
+    activityType?: SortOrder
+    sessionDurationMinutes?: SortOrder
+    consentAccepted?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type AnamnesisSumOrderByAggregateInput = {
+    id?: SortOrder
+    studentId?: SortOrder
+    age?: SortOrder
+    weightKg?: SortOrder
+    heightM?: SortOrder
+    activityDaysPerWeek?: SortOrder
+    sessionDurationMinutes?: SortOrder
+  }
+
+  export type IntNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | null
+    notIn?: number[] | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedIntNullableFilter<$PrismaModel>
+    _max?: NestedIntNullableFilter<$PrismaModel>
+  }
+
+  export type FloatNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel> | null
+    in?: number[] | null
+    notIn?: number[] | null
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedFloatNullableFilter<$PrismaModel>
+    _min?: NestedFloatNullableFilter<$PrismaModel>
+    _max?: NestedFloatNullableFilter<$PrismaModel>
+  }
+
   export type PlanCreateNestedManyWithoutStudentsInput = {
     create?: XOR<PlanCreateWithoutStudentsInput, PlanUncheckedCreateWithoutStudentsInput> | PlanCreateWithoutStudentsInput[] | PlanUncheckedCreateWithoutStudentsInput[]
     connectOrCreate?: PlanCreateOrConnectWithoutStudentsInput | PlanCreateOrConnectWithoutStudentsInput[]
@@ -11679,6 +13269,13 @@ export namespace Prisma {
     connect?: AttendanceWhereUniqueInput | AttendanceWhereUniqueInput[]
   }
 
+  export type AnamnesisCreateNestedManyWithoutStudentInput = {
+    create?: XOR<AnamnesisCreateWithoutStudentInput, AnamnesisUncheckedCreateWithoutStudentInput> | AnamnesisCreateWithoutStudentInput[] | AnamnesisUncheckedCreateWithoutStudentInput[]
+    connectOrCreate?: AnamnesisCreateOrConnectWithoutStudentInput | AnamnesisCreateOrConnectWithoutStudentInput[]
+    createMany?: AnamnesisCreateManyStudentInputEnvelope
+    connect?: AnamnesisWhereUniqueInput | AnamnesisWhereUniqueInput[]
+  }
+
   export type PlanUncheckedCreateNestedManyWithoutStudentsInput = {
     create?: XOR<PlanCreateWithoutStudentsInput, PlanUncheckedCreateWithoutStudentsInput> | PlanCreateWithoutStudentsInput[] | PlanUncheckedCreateWithoutStudentsInput[]
     connectOrCreate?: PlanCreateOrConnectWithoutStudentsInput | PlanCreateOrConnectWithoutStudentsInput[]
@@ -11704,6 +13301,13 @@ export namespace Prisma {
     connectOrCreate?: AttendanceCreateOrConnectWithoutStudentInput | AttendanceCreateOrConnectWithoutStudentInput[]
     createMany?: AttendanceCreateManyStudentInputEnvelope
     connect?: AttendanceWhereUniqueInput | AttendanceWhereUniqueInput[]
+  }
+
+  export type AnamnesisUncheckedCreateNestedManyWithoutStudentInput = {
+    create?: XOR<AnamnesisCreateWithoutStudentInput, AnamnesisUncheckedCreateWithoutStudentInput> | AnamnesisCreateWithoutStudentInput[] | AnamnesisUncheckedCreateWithoutStudentInput[]
+    connectOrCreate?: AnamnesisCreateOrConnectWithoutStudentInput | AnamnesisCreateOrConnectWithoutStudentInput[]
+    createMany?: AnamnesisCreateManyStudentInputEnvelope
+    connect?: AnamnesisWhereUniqueInput | AnamnesisWhereUniqueInput[]
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -11777,6 +13381,20 @@ export namespace Prisma {
     deleteMany?: AttendanceScalarWhereInput | AttendanceScalarWhereInput[]
   }
 
+  export type AnamnesisUpdateManyWithoutStudentNestedInput = {
+    create?: XOR<AnamnesisCreateWithoutStudentInput, AnamnesisUncheckedCreateWithoutStudentInput> | AnamnesisCreateWithoutStudentInput[] | AnamnesisUncheckedCreateWithoutStudentInput[]
+    connectOrCreate?: AnamnesisCreateOrConnectWithoutStudentInput | AnamnesisCreateOrConnectWithoutStudentInput[]
+    upsert?: AnamnesisUpsertWithWhereUniqueWithoutStudentInput | AnamnesisUpsertWithWhereUniqueWithoutStudentInput[]
+    createMany?: AnamnesisCreateManyStudentInputEnvelope
+    set?: AnamnesisWhereUniqueInput | AnamnesisWhereUniqueInput[]
+    disconnect?: AnamnesisWhereUniqueInput | AnamnesisWhereUniqueInput[]
+    delete?: AnamnesisWhereUniqueInput | AnamnesisWhereUniqueInput[]
+    connect?: AnamnesisWhereUniqueInput | AnamnesisWhereUniqueInput[]
+    update?: AnamnesisUpdateWithWhereUniqueWithoutStudentInput | AnamnesisUpdateWithWhereUniqueWithoutStudentInput[]
+    updateMany?: AnamnesisUpdateManyWithWhereWithoutStudentInput | AnamnesisUpdateManyWithWhereWithoutStudentInput[]
+    deleteMany?: AnamnesisScalarWhereInput | AnamnesisScalarWhereInput[]
+  }
+
   export type IntFieldUpdateOperationsInput = {
     set?: number
     increment?: number
@@ -11838,6 +13456,20 @@ export namespace Prisma {
     update?: AttendanceUpdateWithWhereUniqueWithoutStudentInput | AttendanceUpdateWithWhereUniqueWithoutStudentInput[]
     updateMany?: AttendanceUpdateManyWithWhereWithoutStudentInput | AttendanceUpdateManyWithWhereWithoutStudentInput[]
     deleteMany?: AttendanceScalarWhereInput | AttendanceScalarWhereInput[]
+  }
+
+  export type AnamnesisUncheckedUpdateManyWithoutStudentNestedInput = {
+    create?: XOR<AnamnesisCreateWithoutStudentInput, AnamnesisUncheckedCreateWithoutStudentInput> | AnamnesisCreateWithoutStudentInput[] | AnamnesisUncheckedCreateWithoutStudentInput[]
+    connectOrCreate?: AnamnesisCreateOrConnectWithoutStudentInput | AnamnesisCreateOrConnectWithoutStudentInput[]
+    upsert?: AnamnesisUpsertWithWhereUniqueWithoutStudentInput | AnamnesisUpsertWithWhereUniqueWithoutStudentInput[]
+    createMany?: AnamnesisCreateManyStudentInputEnvelope
+    set?: AnamnesisWhereUniqueInput | AnamnesisWhereUniqueInput[]
+    disconnect?: AnamnesisWhereUniqueInput | AnamnesisWhereUniqueInput[]
+    delete?: AnamnesisWhereUniqueInput | AnamnesisWhereUniqueInput[]
+    connect?: AnamnesisWhereUniqueInput | AnamnesisWhereUniqueInput[]
+    update?: AnamnesisUpdateWithWhereUniqueWithoutStudentInput | AnamnesisUpdateWithWhereUniqueWithoutStudentInput[]
+    updateMany?: AnamnesisUpdateManyWithWhereWithoutStudentInput | AnamnesisUpdateManyWithWhereWithoutStudentInput[]
+    deleteMany?: AnamnesisScalarWhereInput | AnamnesisScalarWhereInput[]
   }
 
   export type StudentCreateNestedManyWithoutPlansInput = {
@@ -11902,12 +13534,6 @@ export namespace Prisma {
   export type AttendanceCreateNestedManyWithoutClassInput = {
     create?: XOR<AttendanceCreateWithoutClassInput, AttendanceUncheckedCreateWithoutClassInput> | AttendanceCreateWithoutClassInput[] | AttendanceUncheckedCreateWithoutClassInput[]
     connectOrCreate?: AttendanceCreateOrConnectWithoutClassInput | AttendanceCreateOrConnectWithoutClassInput[]
-    connect?: AttendanceWhereUniqueInput | AttendanceWhereUniqueInput[]
-  }
-
-  export type AttendanceCreateNestedManyWithoutClassInput = {
-    create?: XOR<AttendanceCreateWithoutClassInput, AttendanceUncheckedCreateWithoutClassInput> | AttendanceCreateWithoutClassInput[] | AttendanceUncheckedCreateWithoutClassInput[]
-    connectOrCreate?: AttendanceCreateOrConnectWithoutClassInput | AttendanceCreateOrConnectWithoutClassInput[]
     createMany?: AttendanceCreateManyClassInputEnvelope
     connect?: AttendanceWhereUniqueInput | AttendanceWhereUniqueInput[]
   }
@@ -11917,12 +13543,6 @@ export namespace Prisma {
     connectOrCreate?: EnrollmentCreateOrConnectWithoutClassInput | EnrollmentCreateOrConnectWithoutClassInput[]
     createMany?: EnrollmentCreateManyClassInputEnvelope
     connect?: EnrollmentWhereUniqueInput | EnrollmentWhereUniqueInput[]
-  }
-
-  export type AttendanceUncheckedCreateNestedManyWithoutClassInput = {
-    create?: XOR<AttendanceCreateWithoutClassInput, AttendanceUncheckedCreateWithoutClassInput> | AttendanceCreateWithoutClassInput[] | AttendanceUncheckedCreateWithoutClassInput[]
-    connectOrCreate?: AttendanceCreateOrConnectWithoutClassInput | AttendanceCreateOrConnectWithoutClassInput[]
-    connect?: AttendanceWhereUniqueInput | AttendanceWhereUniqueInput[]
   }
 
   export type AttendanceUncheckedCreateNestedManyWithoutClassInput = {
@@ -11958,19 +13578,6 @@ export namespace Prisma {
     create?: XOR<AttendanceCreateWithoutClassInput, AttendanceUncheckedCreateWithoutClassInput> | AttendanceCreateWithoutClassInput[] | AttendanceUncheckedCreateWithoutClassInput[]
     connectOrCreate?: AttendanceCreateOrConnectWithoutClassInput | AttendanceCreateOrConnectWithoutClassInput[]
     upsert?: AttendanceUpsertWithWhereUniqueWithoutClassInput | AttendanceUpsertWithWhereUniqueWithoutClassInput[]
-    set?: AttendanceWhereUniqueInput | AttendanceWhereUniqueInput[]
-    disconnect?: AttendanceWhereUniqueInput | AttendanceWhereUniqueInput[]
-    delete?: AttendanceWhereUniqueInput | AttendanceWhereUniqueInput[]
-    connect?: AttendanceWhereUniqueInput | AttendanceWhereUniqueInput[]
-    update?: AttendanceUpdateWithWhereUniqueWithoutClassInput | AttendanceUpdateWithWhereUniqueWithoutClassInput[]
-    updateMany?: AttendanceUpdateManyWithWhereWithoutClassInput | AttendanceUpdateManyWithWhereWithoutClassInput[]
-    deleteMany?: AttendanceScalarWhereInput | AttendanceScalarWhereInput[]
-  }
-
-  export type AttendanceUpdateManyWithoutClassNestedInput = {
-    create?: XOR<AttendanceCreateWithoutClassInput, AttendanceUncheckedCreateWithoutClassInput> | AttendanceCreateWithoutClassInput[] | AttendanceUncheckedCreateWithoutClassInput[]
-    connectOrCreate?: AttendanceCreateOrConnectWithoutClassInput | AttendanceCreateOrConnectWithoutClassInput[]
-    upsert?: AttendanceUpsertWithWhereUniqueWithoutClassInput | AttendanceUpsertWithWhereUniqueWithoutClassInput[]
     createMany?: AttendanceCreateManyClassInputEnvelope
     set?: AttendanceWhereUniqueInput | AttendanceWhereUniqueInput[]
     disconnect?: AttendanceWhereUniqueInput | AttendanceWhereUniqueInput[]
@@ -11993,19 +13600,6 @@ export namespace Prisma {
     update?: EnrollmentUpdateWithWhereUniqueWithoutClassInput | EnrollmentUpdateWithWhereUniqueWithoutClassInput[]
     updateMany?: EnrollmentUpdateManyWithWhereWithoutClassInput | EnrollmentUpdateManyWithWhereWithoutClassInput[]
     deleteMany?: EnrollmentScalarWhereInput | EnrollmentScalarWhereInput[]
-  }
-
-  export type AttendanceUncheckedUpdateManyWithoutClassNestedInput = {
-    create?: XOR<AttendanceCreateWithoutClassInput, AttendanceUncheckedCreateWithoutClassInput> | AttendanceCreateWithoutClassInput[] | AttendanceUncheckedCreateWithoutClassInput[]
-    connectOrCreate?: AttendanceCreateOrConnectWithoutClassInput | AttendanceCreateOrConnectWithoutClassInput[]
-    upsert?: AttendanceUpsertWithWhereUniqueWithoutClassInput | AttendanceUpsertWithWhereUniqueWithoutClassInput[]
-    set?: AttendanceWhereUniqueInput | AttendanceWhereUniqueInput[]
-    disconnect?: AttendanceWhereUniqueInput | AttendanceWhereUniqueInput[]
-    delete?: AttendanceWhereUniqueInput | AttendanceWhereUniqueInput[]
-    connect?: AttendanceWhereUniqueInput | AttendanceWhereUniqueInput[]
-    update?: AttendanceUpdateWithWhereUniqueWithoutClassInput | AttendanceUpdateWithWhereUniqueWithoutClassInput[]
-    updateMany?: AttendanceUpdateManyWithWhereWithoutClassInput | AttendanceUpdateManyWithWhereWithoutClassInput[]
-    deleteMany?: AttendanceScalarWhereInput | AttendanceScalarWhereInput[]
   }
 
   export type AttendanceUncheckedUpdateManyWithoutClassNestedInput = {
@@ -12112,22 +13706,10 @@ export namespace Prisma {
     connect?: StudentWhereUniqueInput
   }
 
-  export type ClassCreateNestedOneWithoutAttendanceInput = {
-    create?: XOR<ClassCreateWithoutAttendanceInput, ClassUncheckedCreateWithoutAttendanceInput>
-    connectOrCreate?: ClassCreateOrConnectWithoutAttendanceInput
+  export type ClassCreateNestedOneWithoutAttendancesInput = {
+    create?: XOR<ClassCreateWithoutAttendancesInput, ClassUncheckedCreateWithoutAttendancesInput>
+    connectOrCreate?: ClassCreateOrConnectWithoutAttendancesInput
     connect?: ClassWhereUniqueInput
-  }
-
-  export type ClassCreateNestedManyWithoutAttendancesInput = {
-    create?: XOR<ClassCreateWithoutAttendancesInput, ClassUncheckedCreateWithoutAttendancesInput> | ClassCreateWithoutAttendancesInput[] | ClassUncheckedCreateWithoutAttendancesInput[]
-    connectOrCreate?: ClassCreateOrConnectWithoutAttendancesInput | ClassCreateOrConnectWithoutAttendancesInput[]
-    connect?: ClassWhereUniqueInput | ClassWhereUniqueInput[]
-  }
-
-  export type ClassUncheckedCreateNestedManyWithoutAttendancesInput = {
-    create?: XOR<ClassCreateWithoutAttendancesInput, ClassUncheckedCreateWithoutAttendancesInput> | ClassCreateWithoutAttendancesInput[] | ClassUncheckedCreateWithoutAttendancesInput[]
-    connectOrCreate?: ClassCreateOrConnectWithoutAttendancesInput | ClassCreateOrConnectWithoutAttendancesInput[]
-    connect?: ClassWhereUniqueInput | ClassWhereUniqueInput[]
   }
 
   export type StudentUpdateOneRequiredWithoutAttendancesNestedInput = {
@@ -12138,38 +13720,12 @@ export namespace Prisma {
     update?: XOR<XOR<StudentUpdateToOneWithWhereWithoutAttendancesInput, StudentUpdateWithoutAttendancesInput>, StudentUncheckedUpdateWithoutAttendancesInput>
   }
 
-  export type ClassUpdateOneRequiredWithoutAttendanceNestedInput = {
-    create?: XOR<ClassCreateWithoutAttendanceInput, ClassUncheckedCreateWithoutAttendanceInput>
-    connectOrCreate?: ClassCreateOrConnectWithoutAttendanceInput
-    upsert?: ClassUpsertWithoutAttendanceInput
+  export type ClassUpdateOneRequiredWithoutAttendancesNestedInput = {
+    create?: XOR<ClassCreateWithoutAttendancesInput, ClassUncheckedCreateWithoutAttendancesInput>
+    connectOrCreate?: ClassCreateOrConnectWithoutAttendancesInput
+    upsert?: ClassUpsertWithoutAttendancesInput
     connect?: ClassWhereUniqueInput
-    update?: XOR<XOR<ClassUpdateToOneWithWhereWithoutAttendanceInput, ClassUpdateWithoutAttendanceInput>, ClassUncheckedUpdateWithoutAttendanceInput>
-  }
-
-  export type ClassUpdateManyWithoutAttendancesNestedInput = {
-    create?: XOR<ClassCreateWithoutAttendancesInput, ClassUncheckedCreateWithoutAttendancesInput> | ClassCreateWithoutAttendancesInput[] | ClassUncheckedCreateWithoutAttendancesInput[]
-    connectOrCreate?: ClassCreateOrConnectWithoutAttendancesInput | ClassCreateOrConnectWithoutAttendancesInput[]
-    upsert?: ClassUpsertWithWhereUniqueWithoutAttendancesInput | ClassUpsertWithWhereUniqueWithoutAttendancesInput[]
-    set?: ClassWhereUniqueInput | ClassWhereUniqueInput[]
-    disconnect?: ClassWhereUniqueInput | ClassWhereUniqueInput[]
-    delete?: ClassWhereUniqueInput | ClassWhereUniqueInput[]
-    connect?: ClassWhereUniqueInput | ClassWhereUniqueInput[]
-    update?: ClassUpdateWithWhereUniqueWithoutAttendancesInput | ClassUpdateWithWhereUniqueWithoutAttendancesInput[]
-    updateMany?: ClassUpdateManyWithWhereWithoutAttendancesInput | ClassUpdateManyWithWhereWithoutAttendancesInput[]
-    deleteMany?: ClassScalarWhereInput | ClassScalarWhereInput[]
-  }
-
-  export type ClassUncheckedUpdateManyWithoutAttendancesNestedInput = {
-    create?: XOR<ClassCreateWithoutAttendancesInput, ClassUncheckedCreateWithoutAttendancesInput> | ClassCreateWithoutAttendancesInput[] | ClassUncheckedCreateWithoutAttendancesInput[]
-    connectOrCreate?: ClassCreateOrConnectWithoutAttendancesInput | ClassCreateOrConnectWithoutAttendancesInput[]
-    upsert?: ClassUpsertWithWhereUniqueWithoutAttendancesInput | ClassUpsertWithWhereUniqueWithoutAttendancesInput[]
-    set?: ClassWhereUniqueInput | ClassWhereUniqueInput[]
-    disconnect?: ClassWhereUniqueInput | ClassWhereUniqueInput[]
-    delete?: ClassWhereUniqueInput | ClassWhereUniqueInput[]
-    connect?: ClassWhereUniqueInput | ClassWhereUniqueInput[]
-    update?: ClassUpdateWithWhereUniqueWithoutAttendancesInput | ClassUpdateWithWhereUniqueWithoutAttendancesInput[]
-    updateMany?: ClassUpdateManyWithWhereWithoutAttendancesInput | ClassUpdateManyWithWhereWithoutAttendancesInput[]
-    deleteMany?: ClassScalarWhereInput | ClassScalarWhereInput[]
+    update?: XOR<XOR<ClassUpdateToOneWithWhereWithoutAttendancesInput, ClassUpdateWithoutAttendancesInput>, ClassUncheckedUpdateWithoutAttendancesInput>
   }
 
   export type EnumAdminRoleFieldUpdateOperationsInput = {
@@ -12178,6 +13734,38 @@ export namespace Prisma {
 
   export type BoolFieldUpdateOperationsInput = {
     set?: boolean
+  }
+
+  export type StudentCreateNestedOneWithoutAnamnesesInput = {
+    create?: XOR<StudentCreateWithoutAnamnesesInput, StudentUncheckedCreateWithoutAnamnesesInput>
+    connectOrCreate?: StudentCreateOrConnectWithoutAnamnesesInput
+    connect?: StudentWhereUniqueInput
+  }
+
+  export type NullableIntFieldUpdateOperationsInput = {
+    set?: number | null
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
+  }
+
+  export type NullableFloatFieldUpdateOperationsInput = {
+    set?: number | null
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
+  }
+
+  export type StudentUpdateOneWithoutAnamnesesNestedInput = {
+    create?: XOR<StudentCreateWithoutAnamnesesInput, StudentUncheckedCreateWithoutAnamnesesInput>
+    connectOrCreate?: StudentCreateOrConnectWithoutAnamnesesInput
+    upsert?: StudentUpsertWithoutAnamnesesInput
+    disconnect?: StudentWhereInput | boolean
+    delete?: StudentWhereInput | boolean
+    connect?: StudentWhereUniqueInput
+    update?: XOR<XOR<StudentUpdateToOneWithWhereWithoutAnamnesesInput, StudentUpdateWithoutAnamnesesInput>, StudentUncheckedUpdateWithoutAnamnesesInput>
   }
 
   export type NestedIntFilter<$PrismaModel = never> = {
@@ -12391,6 +13979,49 @@ export namespace Prisma {
     _max?: NestedBoolFilter<$PrismaModel>
   }
 
+  export type NestedFloatNullableFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel> | null
+    in?: number[] | null
+    notIn?: number[] | null
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatNullableFilter<$PrismaModel> | number | null
+  }
+
+  export type NestedIntNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | null
+    notIn?: number[] | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedIntNullableFilter<$PrismaModel>
+    _max?: NestedIntNullableFilter<$PrismaModel>
+  }
+
+  export type NestedFloatNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel> | null
+    in?: number[] | null
+    notIn?: number[] | null
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedFloatNullableFilter<$PrismaModel>
+    _min?: NestedFloatNullableFilter<$PrismaModel>
+    _max?: NestedFloatNullableFilter<$PrismaModel>
+  }
+
   export type PlanCreateWithoutStudentsInput = {
     name: string
     price: number
@@ -12455,15 +14086,13 @@ export namespace Prisma {
 
   export type AttendanceCreateWithoutStudentInput = {
     date?: Date | string
-    class: ClassCreateNestedOneWithoutAttendanceInput
-    Class?: ClassCreateNestedManyWithoutAttendancesInput
+    class: ClassCreateNestedOneWithoutAttendancesInput
   }
 
   export type AttendanceUncheckedCreateWithoutStudentInput = {
     id?: number
     classId: number
     date?: Date | string
-    Class?: ClassUncheckedCreateNestedManyWithoutAttendancesInput
   }
 
   export type AttendanceCreateOrConnectWithoutStudentInput = {
@@ -12473,6 +14102,53 @@ export namespace Prisma {
 
   export type AttendanceCreateManyStudentInputEnvelope = {
     data: AttendanceCreateManyStudentInput | AttendanceCreateManyStudentInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type AnamnesisCreateWithoutStudentInput = {
+    name: string
+    age?: number | null
+    contact: string
+    weightKg?: number | null
+    heightM?: number | null
+    injuries?: string | null
+    chronicDiseases?: string | null
+    allergies?: string | null
+    medications?: string | null
+    surgeries?: string | null
+    activityDaysPerWeek?: number | null
+    activityType?: string | null
+    sessionDurationMinutes?: number | null
+    consentAccepted?: boolean
+    createdAt?: Date | string
+  }
+
+  export type AnamnesisUncheckedCreateWithoutStudentInput = {
+    id?: number
+    name: string
+    age?: number | null
+    contact: string
+    weightKg?: number | null
+    heightM?: number | null
+    injuries?: string | null
+    chronicDiseases?: string | null
+    allergies?: string | null
+    medications?: string | null
+    surgeries?: string | null
+    activityDaysPerWeek?: number | null
+    activityType?: string | null
+    sessionDurationMinutes?: number | null
+    consentAccepted?: boolean
+    createdAt?: Date | string
+  }
+
+  export type AnamnesisCreateOrConnectWithoutStudentInput = {
+    where: AnamnesisWhereUniqueInput
+    create: XOR<AnamnesisCreateWithoutStudentInput, AnamnesisUncheckedCreateWithoutStudentInput>
+  }
+
+  export type AnamnesisCreateManyStudentInputEnvelope = {
+    data: AnamnesisCreateManyStudentInput | AnamnesisCreateManyStudentInput[]
     skipDuplicates?: boolean
   }
 
@@ -12581,6 +14257,45 @@ export namespace Prisma {
     date?: DateTimeFilter<"Attendance"> | Date | string
   }
 
+  export type AnamnesisUpsertWithWhereUniqueWithoutStudentInput = {
+    where: AnamnesisWhereUniqueInput
+    update: XOR<AnamnesisUpdateWithoutStudentInput, AnamnesisUncheckedUpdateWithoutStudentInput>
+    create: XOR<AnamnesisCreateWithoutStudentInput, AnamnesisUncheckedCreateWithoutStudentInput>
+  }
+
+  export type AnamnesisUpdateWithWhereUniqueWithoutStudentInput = {
+    where: AnamnesisWhereUniqueInput
+    data: XOR<AnamnesisUpdateWithoutStudentInput, AnamnesisUncheckedUpdateWithoutStudentInput>
+  }
+
+  export type AnamnesisUpdateManyWithWhereWithoutStudentInput = {
+    where: AnamnesisScalarWhereInput
+    data: XOR<AnamnesisUpdateManyMutationInput, AnamnesisUncheckedUpdateManyWithoutStudentInput>
+  }
+
+  export type AnamnesisScalarWhereInput = {
+    AND?: AnamnesisScalarWhereInput | AnamnesisScalarWhereInput[]
+    OR?: AnamnesisScalarWhereInput[]
+    NOT?: AnamnesisScalarWhereInput | AnamnesisScalarWhereInput[]
+    id?: IntFilter<"Anamnesis"> | number
+    studentId?: IntNullableFilter<"Anamnesis"> | number | null
+    name?: StringFilter<"Anamnesis"> | string
+    age?: IntNullableFilter<"Anamnesis"> | number | null
+    contact?: StringFilter<"Anamnesis"> | string
+    weightKg?: FloatNullableFilter<"Anamnesis"> | number | null
+    heightM?: FloatNullableFilter<"Anamnesis"> | number | null
+    injuries?: StringNullableFilter<"Anamnesis"> | string | null
+    chronicDiseases?: StringNullableFilter<"Anamnesis"> | string | null
+    allergies?: StringNullableFilter<"Anamnesis"> | string | null
+    medications?: StringNullableFilter<"Anamnesis"> | string | null
+    surgeries?: StringNullableFilter<"Anamnesis"> | string | null
+    activityDaysPerWeek?: IntNullableFilter<"Anamnesis"> | number | null
+    activityType?: StringNullableFilter<"Anamnesis"> | string | null
+    sessionDurationMinutes?: IntNullableFilter<"Anamnesis"> | number | null
+    consentAccepted?: BoolFilter<"Anamnesis"> | boolean
+    createdAt?: DateTimeFilter<"Anamnesis"> | Date | string
+  }
+
   export type StudentCreateWithoutPlansInput = {
     name: string
     lastName: string
@@ -12599,6 +14314,7 @@ export namespace Prisma {
     enrollments?: EnrollmentCreateNestedManyWithoutStudentInput
     payments?: PaymentCreateNestedManyWithoutStudentInput
     attendances?: AttendanceCreateNestedManyWithoutStudentInput
+    anamneses?: AnamnesisCreateNestedManyWithoutStudentInput
   }
 
   export type StudentUncheckedCreateWithoutPlansInput = {
@@ -12620,6 +14336,7 @@ export namespace Prisma {
     enrollments?: EnrollmentUncheckedCreateNestedManyWithoutStudentInput
     payments?: PaymentUncheckedCreateNestedManyWithoutStudentInput
     attendances?: AttendanceUncheckedCreateNestedManyWithoutStudentInput
+    anamneses?: AnamnesisUncheckedCreateNestedManyWithoutStudentInput
   }
 
   export type StudentCreateOrConnectWithoutPlansInput = {
@@ -12706,32 +14423,17 @@ export namespace Prisma {
   export type AttendanceCreateWithoutClassInput = {
     date?: Date | string
     student: StudentCreateNestedOneWithoutAttendancesInput
-    class: ClassCreateNestedOneWithoutAttendanceInput
   }
 
   export type AttendanceUncheckedCreateWithoutClassInput = {
     id?: number
     studentId: number
-    classId: number
     date?: Date | string
   }
 
   export type AttendanceCreateOrConnectWithoutClassInput = {
     where: AttendanceWhereUniqueInput
     create: XOR<AttendanceCreateWithoutClassInput, AttendanceUncheckedCreateWithoutClassInput>
-  }
-
-  export type AttendanceCreateWithoutClassInput = {
-    date?: Date | string
-    student: StudentCreateNestedOneWithoutAttendancesInput
-    Class?: ClassCreateNestedManyWithoutAttendancesInput
-  }
-
-  export type AttendanceUncheckedCreateWithoutClassInput = {
-    id?: number
-    studentId: number
-    date?: Date | string
-    Class?: ClassUncheckedCreateNestedManyWithoutAttendancesInput
   }
 
   export type AttendanceCreateManyClassInputEnvelope = {
@@ -12795,29 +14497,12 @@ export namespace Prisma {
     data: XOR<AttendanceUpdateManyMutationInput, AttendanceUncheckedUpdateManyWithoutClassInput>
   }
 
-  export type AttendanceUpsertWithWhereUniqueWithoutClassInput = {
-    where: AttendanceWhereUniqueInput
-    update: XOR<AttendanceUpdateWithoutClassInput, AttendanceUncheckedUpdateWithoutClassInput>
-    create: XOR<AttendanceCreateWithoutClassInput, AttendanceUncheckedCreateWithoutClassInput>
-  }
-
-  export type AttendanceUpdateWithWhereUniqueWithoutClassInput = {
-    where: AttendanceWhereUniqueInput
-    data: XOR<AttendanceUpdateWithoutClassInput, AttendanceUncheckedUpdateWithoutClassInput>
-  }
-
-  export type AttendanceUpdateManyWithWhereWithoutClassInput = {
-    where: AttendanceScalarWhereInput
-    data: XOR<AttendanceUpdateManyMutationInput, AttendanceUncheckedUpdateManyWithoutClassInput>
-  }
-
   export type ClassCreateWithoutInstructorInput = {
     name: string
     schedule: Date | string
     capacity: number
     enrollments?: EnrollmentCreateNestedManyWithoutClassInput
     attendances?: AttendanceCreateNestedManyWithoutClassInput
-    Attendance?: AttendanceCreateNestedManyWithoutClassInput
   }
 
   export type ClassUncheckedCreateWithoutInstructorInput = {
@@ -12827,7 +14512,6 @@ export namespace Prisma {
     capacity: number
     enrollments?: EnrollmentUncheckedCreateNestedManyWithoutClassInput
     attendances?: AttendanceUncheckedCreateNestedManyWithoutClassInput
-    Attendance?: AttendanceUncheckedCreateNestedManyWithoutClassInput
   }
 
   export type ClassCreateOrConnectWithoutInstructorInput = {
@@ -12885,6 +14569,7 @@ export namespace Prisma {
     plans?: PlanCreateNestedManyWithoutStudentsInput
     payments?: PaymentCreateNestedManyWithoutStudentInput
     attendances?: AttendanceCreateNestedManyWithoutStudentInput
+    anamneses?: AnamnesisCreateNestedManyWithoutStudentInput
   }
 
   export type StudentUncheckedCreateWithoutEnrollmentsInput = {
@@ -12906,6 +14591,7 @@ export namespace Prisma {
     plans?: PlanUncheckedCreateNestedManyWithoutStudentsInput
     payments?: PaymentUncheckedCreateNestedManyWithoutStudentInput
     attendances?: AttendanceUncheckedCreateNestedManyWithoutStudentInput
+    anamneses?: AnamnesisUncheckedCreateNestedManyWithoutStudentInput
   }
 
   export type StudentCreateOrConnectWithoutEnrollmentsInput = {
@@ -12919,7 +14605,6 @@ export namespace Prisma {
     capacity: number
     instructor: InstructorCreateNestedOneWithoutClassesInput
     attendances?: AttendanceCreateNestedManyWithoutClassInput
-    Attendance?: AttendanceCreateNestedManyWithoutClassInput
   }
 
   export type ClassUncheckedCreateWithoutEnrollmentsInput = {
@@ -12929,7 +14614,6 @@ export namespace Prisma {
     capacity: number
     instructorId: number
     attendances?: AttendanceUncheckedCreateNestedManyWithoutClassInput
-    Attendance?: AttendanceUncheckedCreateNestedManyWithoutClassInput
   }
 
   export type ClassCreateOrConnectWithoutEnrollmentsInput = {
@@ -12966,6 +14650,7 @@ export namespace Prisma {
     plans?: PlanUpdateManyWithoutStudentsNestedInput
     payments?: PaymentUpdateManyWithoutStudentNestedInput
     attendances?: AttendanceUpdateManyWithoutStudentNestedInput
+    anamneses?: AnamnesisUpdateManyWithoutStudentNestedInput
   }
 
   export type StudentUncheckedUpdateWithoutEnrollmentsInput = {
@@ -12987,6 +14672,7 @@ export namespace Prisma {
     plans?: PlanUncheckedUpdateManyWithoutStudentsNestedInput
     payments?: PaymentUncheckedUpdateManyWithoutStudentNestedInput
     attendances?: AttendanceUncheckedUpdateManyWithoutStudentNestedInput
+    anamneses?: AnamnesisUncheckedUpdateManyWithoutStudentNestedInput
   }
 
   export type ClassUpsertWithoutEnrollmentsInput = {
@@ -13006,7 +14692,6 @@ export namespace Prisma {
     capacity?: IntFieldUpdateOperationsInput | number
     instructor?: InstructorUpdateOneRequiredWithoutClassesNestedInput
     attendances?: AttendanceUpdateManyWithoutClassNestedInput
-    Attendance?: AttendanceUpdateManyWithoutClassNestedInput
   }
 
   export type ClassUncheckedUpdateWithoutEnrollmentsInput = {
@@ -13016,7 +14701,6 @@ export namespace Prisma {
     capacity?: IntFieldUpdateOperationsInput | number
     instructorId?: IntFieldUpdateOperationsInput | number
     attendances?: AttendanceUncheckedUpdateManyWithoutClassNestedInput
-    Attendance?: AttendanceUncheckedUpdateManyWithoutClassNestedInput
   }
 
   export type StudentCreateWithoutPaymentsInput = {
@@ -13037,6 +14721,7 @@ export namespace Prisma {
     plans?: PlanCreateNestedManyWithoutStudentsInput
     enrollments?: EnrollmentCreateNestedManyWithoutStudentInput
     attendances?: AttendanceCreateNestedManyWithoutStudentInput
+    anamneses?: AnamnesisCreateNestedManyWithoutStudentInput
   }
 
   export type StudentUncheckedCreateWithoutPaymentsInput = {
@@ -13058,6 +14743,7 @@ export namespace Prisma {
     plans?: PlanUncheckedCreateNestedManyWithoutStudentsInput
     enrollments?: EnrollmentUncheckedCreateNestedManyWithoutStudentInput
     attendances?: AttendanceUncheckedCreateNestedManyWithoutStudentInput
+    anamneses?: AnamnesisUncheckedCreateNestedManyWithoutStudentInput
   }
 
   export type StudentCreateOrConnectWithoutPaymentsInput = {
@@ -13094,6 +14780,7 @@ export namespace Prisma {
     plans?: PlanUpdateManyWithoutStudentsNestedInput
     enrollments?: EnrollmentUpdateManyWithoutStudentNestedInput
     attendances?: AttendanceUpdateManyWithoutStudentNestedInput
+    anamneses?: AnamnesisUpdateManyWithoutStudentNestedInput
   }
 
   export type StudentUncheckedUpdateWithoutPaymentsInput = {
@@ -13115,6 +14802,7 @@ export namespace Prisma {
     plans?: PlanUncheckedUpdateManyWithoutStudentsNestedInput
     enrollments?: EnrollmentUncheckedUpdateManyWithoutStudentNestedInput
     attendances?: AttendanceUncheckedUpdateManyWithoutStudentNestedInput
+    anamneses?: AnamnesisUncheckedUpdateManyWithoutStudentNestedInput
   }
 
   export type StudentCreateWithoutAttendancesInput = {
@@ -13135,6 +14823,7 @@ export namespace Prisma {
     plans?: PlanCreateNestedManyWithoutStudentsInput
     enrollments?: EnrollmentCreateNestedManyWithoutStudentInput
     payments?: PaymentCreateNestedManyWithoutStudentInput
+    anamneses?: AnamnesisCreateNestedManyWithoutStudentInput
   }
 
   export type StudentUncheckedCreateWithoutAttendancesInput = {
@@ -13156,35 +14845,12 @@ export namespace Prisma {
     plans?: PlanUncheckedCreateNestedManyWithoutStudentsInput
     enrollments?: EnrollmentUncheckedCreateNestedManyWithoutStudentInput
     payments?: PaymentUncheckedCreateNestedManyWithoutStudentInput
+    anamneses?: AnamnesisUncheckedCreateNestedManyWithoutStudentInput
   }
 
   export type StudentCreateOrConnectWithoutAttendancesInput = {
     where: StudentWhereUniqueInput
     create: XOR<StudentCreateWithoutAttendancesInput, StudentUncheckedCreateWithoutAttendancesInput>
-  }
-
-  export type ClassCreateWithoutAttendanceInput = {
-    name: string
-    schedule: Date | string
-    capacity: number
-    instructor: InstructorCreateNestedOneWithoutClassesInput
-    enrollments?: EnrollmentCreateNestedManyWithoutClassInput
-    attendances?: AttendanceCreateNestedManyWithoutClassInput
-  }
-
-  export type ClassUncheckedCreateWithoutAttendanceInput = {
-    id?: number
-    name: string
-    schedule: Date | string
-    capacity: number
-    instructorId: number
-    enrollments?: EnrollmentUncheckedCreateNestedManyWithoutClassInput
-    attendances?: AttendanceUncheckedCreateNestedManyWithoutClassInput
-  }
-
-  export type ClassCreateOrConnectWithoutAttendanceInput = {
-    where: ClassWhereUniqueInput
-    create: XOR<ClassCreateWithoutAttendanceInput, ClassUncheckedCreateWithoutAttendanceInput>
   }
 
   export type ClassCreateWithoutAttendancesInput = {
@@ -13193,7 +14859,6 @@ export namespace Prisma {
     capacity: number
     instructor: InstructorCreateNestedOneWithoutClassesInput
     enrollments?: EnrollmentCreateNestedManyWithoutClassInput
-    Attendance?: AttendanceCreateNestedManyWithoutClassInput
   }
 
   export type ClassUncheckedCreateWithoutAttendancesInput = {
@@ -13203,7 +14868,6 @@ export namespace Prisma {
     capacity: number
     instructorId: number
     enrollments?: EnrollmentUncheckedCreateNestedManyWithoutClassInput
-    Attendance?: AttendanceUncheckedCreateNestedManyWithoutClassInput
   }
 
   export type ClassCreateOrConnectWithoutAttendancesInput = {
@@ -13240,6 +14904,7 @@ export namespace Prisma {
     plans?: PlanUpdateManyWithoutStudentsNestedInput
     enrollments?: EnrollmentUpdateManyWithoutStudentNestedInput
     payments?: PaymentUpdateManyWithoutStudentNestedInput
+    anamneses?: AnamnesisUpdateManyWithoutStudentNestedInput
   }
 
   export type StudentUncheckedUpdateWithoutAttendancesInput = {
@@ -13261,52 +14926,137 @@ export namespace Prisma {
     plans?: PlanUncheckedUpdateManyWithoutStudentsNestedInput
     enrollments?: EnrollmentUncheckedUpdateManyWithoutStudentNestedInput
     payments?: PaymentUncheckedUpdateManyWithoutStudentNestedInput
+    anamneses?: AnamnesisUncheckedUpdateManyWithoutStudentNestedInput
   }
 
-  export type ClassUpsertWithoutAttendanceInput = {
-    update: XOR<ClassUpdateWithoutAttendanceInput, ClassUncheckedUpdateWithoutAttendanceInput>
-    create: XOR<ClassCreateWithoutAttendanceInput, ClassUncheckedCreateWithoutAttendanceInput>
+  export type ClassUpsertWithoutAttendancesInput = {
+    update: XOR<ClassUpdateWithoutAttendancesInput, ClassUncheckedUpdateWithoutAttendancesInput>
+    create: XOR<ClassCreateWithoutAttendancesInput, ClassUncheckedCreateWithoutAttendancesInput>
     where?: ClassWhereInput
   }
 
-  export type ClassUpdateToOneWithWhereWithoutAttendanceInput = {
+  export type ClassUpdateToOneWithWhereWithoutAttendancesInput = {
     where?: ClassWhereInput
-    data: XOR<ClassUpdateWithoutAttendanceInput, ClassUncheckedUpdateWithoutAttendanceInput>
+    data: XOR<ClassUpdateWithoutAttendancesInput, ClassUncheckedUpdateWithoutAttendancesInput>
   }
 
-  export type ClassUpdateWithoutAttendanceInput = {
+  export type ClassUpdateWithoutAttendancesInput = {
     name?: StringFieldUpdateOperationsInput | string
     schedule?: DateTimeFieldUpdateOperationsInput | Date | string
     capacity?: IntFieldUpdateOperationsInput | number
     instructor?: InstructorUpdateOneRequiredWithoutClassesNestedInput
     enrollments?: EnrollmentUpdateManyWithoutClassNestedInput
-    attendances?: AttendanceUpdateManyWithoutClassNestedInput
   }
 
-  export type ClassUncheckedUpdateWithoutAttendanceInput = {
+  export type ClassUncheckedUpdateWithoutAttendancesInput = {
     id?: IntFieldUpdateOperationsInput | number
     name?: StringFieldUpdateOperationsInput | string
     schedule?: DateTimeFieldUpdateOperationsInput | Date | string
     capacity?: IntFieldUpdateOperationsInput | number
     instructorId?: IntFieldUpdateOperationsInput | number
     enrollments?: EnrollmentUncheckedUpdateManyWithoutClassNestedInput
-    attendances?: AttendanceUncheckedUpdateManyWithoutClassNestedInput
   }
 
-  export type ClassUpsertWithWhereUniqueWithoutAttendancesInput = {
-    where: ClassWhereUniqueInput
-    update: XOR<ClassUpdateWithoutAttendancesInput, ClassUncheckedUpdateWithoutAttendancesInput>
-    create: XOR<ClassCreateWithoutAttendancesInput, ClassUncheckedCreateWithoutAttendancesInput>
+  export type StudentCreateWithoutAnamnesesInput = {
+    name: string
+    lastName: string
+    email: string
+    phone?: string | null
+    nickname?: string | null
+    address?: string | null
+    city?: string | null
+    birthDate?: Date | string | null
+    planStartDate?: Date | string | null
+    planEndDate?: Date | string | null
+    planType?: string
+    planStatus?: string
+    password: string
+    createdAt?: Date | string
+    plans?: PlanCreateNestedManyWithoutStudentsInput
+    enrollments?: EnrollmentCreateNestedManyWithoutStudentInput
+    payments?: PaymentCreateNestedManyWithoutStudentInput
+    attendances?: AttendanceCreateNestedManyWithoutStudentInput
   }
 
-  export type ClassUpdateWithWhereUniqueWithoutAttendancesInput = {
-    where: ClassWhereUniqueInput
-    data: XOR<ClassUpdateWithoutAttendancesInput, ClassUncheckedUpdateWithoutAttendancesInput>
+  export type StudentUncheckedCreateWithoutAnamnesesInput = {
+    id?: number
+    name: string
+    lastName: string
+    email: string
+    phone?: string | null
+    nickname?: string | null
+    address?: string | null
+    city?: string | null
+    birthDate?: Date | string | null
+    planStartDate?: Date | string | null
+    planEndDate?: Date | string | null
+    planType?: string
+    planStatus?: string
+    password: string
+    createdAt?: Date | string
+    plans?: PlanUncheckedCreateNestedManyWithoutStudentsInput
+    enrollments?: EnrollmentUncheckedCreateNestedManyWithoutStudentInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutStudentInput
+    attendances?: AttendanceUncheckedCreateNestedManyWithoutStudentInput
   }
 
-  export type ClassUpdateManyWithWhereWithoutAttendancesInput = {
-    where: ClassScalarWhereInput
-    data: XOR<ClassUpdateManyMutationInput, ClassUncheckedUpdateManyWithoutAttendancesInput>
+  export type StudentCreateOrConnectWithoutAnamnesesInput = {
+    where: StudentWhereUniqueInput
+    create: XOR<StudentCreateWithoutAnamnesesInput, StudentUncheckedCreateWithoutAnamnesesInput>
+  }
+
+  export type StudentUpsertWithoutAnamnesesInput = {
+    update: XOR<StudentUpdateWithoutAnamnesesInput, StudentUncheckedUpdateWithoutAnamnesesInput>
+    create: XOR<StudentCreateWithoutAnamnesesInput, StudentUncheckedCreateWithoutAnamnesesInput>
+    where?: StudentWhereInput
+  }
+
+  export type StudentUpdateToOneWithWhereWithoutAnamnesesInput = {
+    where?: StudentWhereInput
+    data: XOR<StudentUpdateWithoutAnamnesesInput, StudentUncheckedUpdateWithoutAnamnesesInput>
+  }
+
+  export type StudentUpdateWithoutAnamnesesInput = {
+    name?: StringFieldUpdateOperationsInput | string
+    lastName?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    nickname?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    birthDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    planStartDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    planEndDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    planType?: StringFieldUpdateOperationsInput | string
+    planStatus?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    plans?: PlanUpdateManyWithoutStudentsNestedInput
+    enrollments?: EnrollmentUpdateManyWithoutStudentNestedInput
+    payments?: PaymentUpdateManyWithoutStudentNestedInput
+    attendances?: AttendanceUpdateManyWithoutStudentNestedInput
+  }
+
+  export type StudentUncheckedUpdateWithoutAnamnesesInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    lastName?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    nickname?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    birthDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    planStartDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    planEndDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    planType?: StringFieldUpdateOperationsInput | string
+    planStatus?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    plans?: PlanUncheckedUpdateManyWithoutStudentsNestedInput
+    enrollments?: EnrollmentUncheckedUpdateManyWithoutStudentNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutStudentNestedInput
+    attendances?: AttendanceUncheckedUpdateManyWithoutStudentNestedInput
   }
 
   export type EnrollmentCreateManyStudentInput = {
@@ -13325,6 +15075,25 @@ export namespace Prisma {
     id?: number
     classId: number
     date?: Date | string
+  }
+
+  export type AnamnesisCreateManyStudentInput = {
+    id?: number
+    name: string
+    age?: number | null
+    contact: string
+    weightKg?: number | null
+    heightM?: number | null
+    injuries?: string | null
+    chronicDiseases?: string | null
+    allergies?: string | null
+    medications?: string | null
+    surgeries?: string | null
+    activityDaysPerWeek?: number | null
+    activityType?: string | null
+    sessionDurationMinutes?: number | null
+    consentAccepted?: boolean
+    createdAt?: Date | string
   }
 
   export type PlanUpdateWithoutStudentsInput = {
@@ -13386,21 +15155,75 @@ export namespace Prisma {
 
   export type AttendanceUpdateWithoutStudentInput = {
     date?: DateTimeFieldUpdateOperationsInput | Date | string
-    class?: ClassUpdateOneRequiredWithoutAttendanceNestedInput
-    Class?: ClassUpdateManyWithoutAttendancesNestedInput
+    class?: ClassUpdateOneRequiredWithoutAttendancesNestedInput
   }
 
   export type AttendanceUncheckedUpdateWithoutStudentInput = {
     id?: IntFieldUpdateOperationsInput | number
     classId?: IntFieldUpdateOperationsInput | number
     date?: DateTimeFieldUpdateOperationsInput | Date | string
-    Class?: ClassUncheckedUpdateManyWithoutAttendancesNestedInput
   }
 
   export type AttendanceUncheckedUpdateManyWithoutStudentInput = {
     id?: IntFieldUpdateOperationsInput | number
     classId?: IntFieldUpdateOperationsInput | number
     date?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AnamnesisUpdateWithoutStudentInput = {
+    name?: StringFieldUpdateOperationsInput | string
+    age?: NullableIntFieldUpdateOperationsInput | number | null
+    contact?: StringFieldUpdateOperationsInput | string
+    weightKg?: NullableFloatFieldUpdateOperationsInput | number | null
+    heightM?: NullableFloatFieldUpdateOperationsInput | number | null
+    injuries?: NullableStringFieldUpdateOperationsInput | string | null
+    chronicDiseases?: NullableStringFieldUpdateOperationsInput | string | null
+    allergies?: NullableStringFieldUpdateOperationsInput | string | null
+    medications?: NullableStringFieldUpdateOperationsInput | string | null
+    surgeries?: NullableStringFieldUpdateOperationsInput | string | null
+    activityDaysPerWeek?: NullableIntFieldUpdateOperationsInput | number | null
+    activityType?: NullableStringFieldUpdateOperationsInput | string | null
+    sessionDurationMinutes?: NullableIntFieldUpdateOperationsInput | number | null
+    consentAccepted?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AnamnesisUncheckedUpdateWithoutStudentInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    age?: NullableIntFieldUpdateOperationsInput | number | null
+    contact?: StringFieldUpdateOperationsInput | string
+    weightKg?: NullableFloatFieldUpdateOperationsInput | number | null
+    heightM?: NullableFloatFieldUpdateOperationsInput | number | null
+    injuries?: NullableStringFieldUpdateOperationsInput | string | null
+    chronicDiseases?: NullableStringFieldUpdateOperationsInput | string | null
+    allergies?: NullableStringFieldUpdateOperationsInput | string | null
+    medications?: NullableStringFieldUpdateOperationsInput | string | null
+    surgeries?: NullableStringFieldUpdateOperationsInput | string | null
+    activityDaysPerWeek?: NullableIntFieldUpdateOperationsInput | number | null
+    activityType?: NullableStringFieldUpdateOperationsInput | string | null
+    sessionDurationMinutes?: NullableIntFieldUpdateOperationsInput | number | null
+    consentAccepted?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AnamnesisUncheckedUpdateManyWithoutStudentInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    age?: NullableIntFieldUpdateOperationsInput | number | null
+    contact?: StringFieldUpdateOperationsInput | string
+    weightKg?: NullableFloatFieldUpdateOperationsInput | number | null
+    heightM?: NullableFloatFieldUpdateOperationsInput | number | null
+    injuries?: NullableStringFieldUpdateOperationsInput | string | null
+    chronicDiseases?: NullableStringFieldUpdateOperationsInput | string | null
+    allergies?: NullableStringFieldUpdateOperationsInput | string | null
+    medications?: NullableStringFieldUpdateOperationsInput | string | null
+    surgeries?: NullableStringFieldUpdateOperationsInput | string | null
+    activityDaysPerWeek?: NullableIntFieldUpdateOperationsInput | number | null
+    activityType?: NullableStringFieldUpdateOperationsInput | string | null
+    sessionDurationMinutes?: NullableIntFieldUpdateOperationsInput | number | null
+    consentAccepted?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type StudentUpdateWithoutPlansInput = {
@@ -13421,6 +15244,7 @@ export namespace Prisma {
     enrollments?: EnrollmentUpdateManyWithoutStudentNestedInput
     payments?: PaymentUpdateManyWithoutStudentNestedInput
     attendances?: AttendanceUpdateManyWithoutStudentNestedInput
+    anamneses?: AnamnesisUpdateManyWithoutStudentNestedInput
   }
 
   export type StudentUncheckedUpdateWithoutPlansInput = {
@@ -13442,6 +15266,7 @@ export namespace Prisma {
     enrollments?: EnrollmentUncheckedUpdateManyWithoutStudentNestedInput
     payments?: PaymentUncheckedUpdateManyWithoutStudentNestedInput
     attendances?: AttendanceUncheckedUpdateManyWithoutStudentNestedInput
+    anamneses?: AnamnesisUncheckedUpdateManyWithoutStudentNestedInput
   }
 
   export type StudentUncheckedUpdateManyWithoutPlansInput = {
@@ -13494,34 +15319,12 @@ export namespace Prisma {
   export type AttendanceUpdateWithoutClassInput = {
     date?: DateTimeFieldUpdateOperationsInput | Date | string
     student?: StudentUpdateOneRequiredWithoutAttendancesNestedInput
-    class?: ClassUpdateOneRequiredWithoutAttendanceNestedInput
-  }
-
-  export type AttendanceUncheckedUpdateWithoutClassInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    studentId?: IntFieldUpdateOperationsInput | number
-    classId?: IntFieldUpdateOperationsInput | number
-    date?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type AttendanceUncheckedUpdateManyWithoutClassInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    studentId?: IntFieldUpdateOperationsInput | number
-    classId?: IntFieldUpdateOperationsInput | number
-    date?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type AttendanceUpdateWithoutClassInput = {
-    date?: DateTimeFieldUpdateOperationsInput | Date | string
-    student?: StudentUpdateOneRequiredWithoutAttendancesNestedInput
-    Class?: ClassUpdateManyWithoutAttendancesNestedInput
   }
 
   export type AttendanceUncheckedUpdateWithoutClassInput = {
     id?: IntFieldUpdateOperationsInput | number
     studentId?: IntFieldUpdateOperationsInput | number
     date?: DateTimeFieldUpdateOperationsInput | Date | string
-    Class?: ClassUncheckedUpdateManyWithoutAttendancesNestedInput
   }
 
   export type AttendanceUncheckedUpdateManyWithoutClassInput = {
@@ -13543,7 +15346,6 @@ export namespace Prisma {
     capacity?: IntFieldUpdateOperationsInput | number
     enrollments?: EnrollmentUpdateManyWithoutClassNestedInput
     attendances?: AttendanceUpdateManyWithoutClassNestedInput
-    Attendance?: AttendanceUpdateManyWithoutClassNestedInput
   }
 
   export type ClassUncheckedUpdateWithoutInstructorInput = {
@@ -13553,7 +15355,6 @@ export namespace Prisma {
     capacity?: IntFieldUpdateOperationsInput | number
     enrollments?: EnrollmentUncheckedUpdateManyWithoutClassNestedInput
     attendances?: AttendanceUncheckedUpdateManyWithoutClassNestedInput
-    Attendance?: AttendanceUncheckedUpdateManyWithoutClassNestedInput
   }
 
   export type ClassUncheckedUpdateManyWithoutInstructorInput = {
@@ -13561,33 +15362,6 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     schedule?: DateTimeFieldUpdateOperationsInput | Date | string
     capacity?: IntFieldUpdateOperationsInput | number
-  }
-
-  export type ClassUpdateWithoutAttendancesInput = {
-    name?: StringFieldUpdateOperationsInput | string
-    schedule?: DateTimeFieldUpdateOperationsInput | Date | string
-    capacity?: IntFieldUpdateOperationsInput | number
-    instructor?: InstructorUpdateOneRequiredWithoutClassesNestedInput
-    enrollments?: EnrollmentUpdateManyWithoutClassNestedInput
-    Attendance?: AttendanceUpdateManyWithoutClassNestedInput
-  }
-
-  export type ClassUncheckedUpdateWithoutAttendancesInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    name?: StringFieldUpdateOperationsInput | string
-    schedule?: DateTimeFieldUpdateOperationsInput | Date | string
-    capacity?: IntFieldUpdateOperationsInput | number
-    instructorId?: IntFieldUpdateOperationsInput | number
-    enrollments?: EnrollmentUncheckedUpdateManyWithoutClassNestedInput
-    Attendance?: AttendanceUncheckedUpdateManyWithoutClassNestedInput
-  }
-
-  export type ClassUncheckedUpdateManyWithoutAttendancesInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    name?: StringFieldUpdateOperationsInput | string
-    schedule?: DateTimeFieldUpdateOperationsInput | Date | string
-    capacity?: IntFieldUpdateOperationsInput | number
-    instructorId?: IntFieldUpdateOperationsInput | number
   }
 
 

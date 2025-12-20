@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 
 // Public admin paths que no requieren cookie
-const PUBLIC_ADMIN_PATHS = new Set<string>(['/admin/sso', '/admin/login']);
+const PUBLIC_ADMIN_PATHS = new Set<string>(['/admin/sso', '/admin/login', '/admin/student-login']);
 
 /**
  * Decodifica (sin verificar firma) un JWT para extraer el payload.
