@@ -1,4 +1,6 @@
 import { redirect } from 'next/navigation';
+import { headers } from 'next/headers';
+import { normalizeSsoUrl } from '@/lib/sso';
 
 type SearchParams = {
   from?: string | string[];
@@ -17,6 +19,8 @@ export default async function AdminSSOPage({ searchParams }: Props) {
   const params = await searchParams;
   const from = coerceString(params.from) || '/admin';
   const ssoBase = process.env.NEXT_PUBLIC_SSO_URL;
+
+  const hdrs = await headers();
 
   // Si no esta configurada la URL del proveedor SSO, mostrar fallback manual
   if (!ssoBase) {
@@ -37,10 +41,6 @@ export default async function AdminSSOPage({ searchParams }: Props) {
     );
   }
 
-  // Redirige al proveedor (o callback simulado) anadiendo 'from' si no existe
-  const url = new URL(ssoBase);
-  if (!url.searchParams.get('from')) {
-    url.searchParams.set('from', from);
-  }
-  redirect(url.toString());
+  const finalSSO = normalizeSsoUrl({ ssoBase, from, headers: hdrs, role: 'admin' });
+  redirect(finalSSO);
 }

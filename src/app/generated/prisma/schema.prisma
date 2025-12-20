@@ -34,6 +34,7 @@ model Student {
   enrollments   Enrollment[]
   payments      Payment[]
   attendances   Attendance[]
+  anamneses     Anamnesis[]
 }
 
 //Diferentes tipos de planes (Básico - Regular)
@@ -55,9 +56,7 @@ model Class {
   instructor   Instructor   @relation(fields: [instructorId], references: [id])
   instructorId Int
   enrollments  Enrollment[]
-  attendances  Attendance[] @relation("ClassAttendances")
-
-  Attendance Attendance[]
+  attendances  Attendance[]
 }
 
 //Profesores
@@ -96,8 +95,6 @@ model Attendance {
   class     Class    @relation(fields: [classId], references: [id])
   classId   Int
   date      DateTime @default(now()) // Fecha de asistencia
-
-  Class Class[] @relation("ClassAttendances")
 }
 
 // Administradores del sistema
@@ -117,4 +114,25 @@ model Admin {
   lastLogin DateTime?
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
+}
+
+model Anamnesis {
+  id                     Int      @id @default(autoincrement())
+  student                Student? @relation(fields: [studentId], references: [id])
+  studentId              Int?
+  name                   String
+  age                    Int?
+  contact                String
+  weightKg               Float?
+  heightM                Float?
+  injuries               String?
+  chronicDiseases        String?
+  allergies              String?
+  medications            String?
+  surgeries              String?
+  activityDaysPerWeek    Int?
+  activityType           String?
+  sessionDurationMinutes Int?
+  consentAccepted        Boolean  @default(false)
+  createdAt              DateTime @default(now())
 }
