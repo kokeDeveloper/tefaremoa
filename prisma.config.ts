@@ -8,8 +8,4 @@ dotenv.config({ path: path.resolve(process.cwd(), 'prisma/.env'), override: true
 
 export default defineConfig({
   schema: './prisma/schema.prisma',
-  seed: {
-    provider: 'ts-node',
-    run: 'tsx prisma/seed.ts',
-  },
 });

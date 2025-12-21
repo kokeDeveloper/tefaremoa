@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from 'react';
-import AnamnesisPage from '@/app/anamnesis/page';
+import { AnamnesisForm } from '@/app/anamnesis/AnamnesisForm';
 
 // Reutiliza el formulario público dentro del layout de admin (token student requerido por middleware)
 export default function StudentAnamnesisDashboard() {
@@ -27,5 +27,5 @@ export default function StudentAnamnesisDashboard() {
     };
   }, []);
 
-  return <AnamnesisPage studentName={name} />;
+  return <AnamnesisForm studentName={name} />;
 }
