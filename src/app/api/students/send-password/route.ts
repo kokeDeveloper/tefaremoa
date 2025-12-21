@@ -7,6 +7,10 @@ import crypto from "crypto";
 
 const prisma = new PrismaClient();
 
+const STUDENT_PORTAL_URL = process.env.NEXT_PUBLIC_STUDENT_PORTAL_URL || "https://tefaremoa.com";
+// Usa el logo servido desde /public; permite override por env si se requiere.
+const LOGO_URL = process.env.NEXT_PUBLIC_LOGO_URL || "/tefaremoa.svg";
+
 function generateTempPassword() {
   return crypto.randomBytes(9).toString("base64url").slice(0, 12);
 }
@@ -36,9 +40,23 @@ export async function POST(req: Request) {
     const hashed = await bcrypt.hash(tempPassword, 10);
     await prisma.student.update({ where: { id: studentId }, data: { password: hashed } });
 
-    const subject = "Tu contraseña temporal para Ori Tahiti";
-    const text = `Hola ${student.name || ""},\n\nGeneramos una contraseña temporal para que puedas ingresar:\n\n${tempPassword}\n\nTe recomendamos cambiarla después de iniciar sesión.`;
-    const html = `<p>Hola ${student.name || ""},</p><p>Generamos una contraseña temporal para que puedas ingresar:</p><p><strong>${tempPassword}</strong></p><p>Te recomendamos cambiarla después de iniciar sesión.</p>`;
+    const subject = "Tu acceso temporal a Te Fare Mo'a";
+    const text = `Hola ${student.name || ""},\n\nTe damos la bienvenida a Te Fare Mo'a. Generamos una contraseña temporal para que puedas ingresar al portal de alumnas (${STUDENT_PORTAL_URL}):\n\n${tempPassword}\n\nIngresa y cambia tu contraseña apenas puedas. Si no solicitaste este acceso, avísanos para ayudarte.\n\nMauruuru,\nEquipo Te Fare Mo'a.`;
+    const html = `
+      <div style="font-family:Arial,sans-serif; color:#111;">
+        <div style="text-align:center; margin-bottom:16px;">
+          <img src="${LOGO_URL}" alt="Te Fare Mo'a" style="max-width:220px; height:auto;" />
+        </div>
+        <p>Hola ${student.name || ""},</p>
+        <p>Te damos la bienvenida a Te Fare Mo'a. Generamos una contraseña temporal para que puedas ingresar al portal de alumnas:</p>
+        <p style="font-size:18px; font-weight:bold; color:#d35400;">${tempPassword}</p>
+        <p>
+          Accede aquí: <a href="${STUDENT_PORTAL_URL}" style="color:#d35400; font-weight:600;">${STUDENT_PORTAL_URL}</a>
+        </p>
+        <p>Ingresa y cambia tu contraseña apenas puedas. Si no solicitaste este acceso, avísanos para ayudarte.</p>
+        <p style="margin-top:24px;">Mauruuru,<br/>Equipo Te Fare Mo'a.</p>
+      </div>
+    `;
 
     await sendMail({ to: student.email, subject, text, html });
 
