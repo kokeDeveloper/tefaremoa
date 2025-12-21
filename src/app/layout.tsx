@@ -35,6 +35,11 @@ export const metadata: Metadata = {
       },
     ],
   },
+  icons: {
+    icon: "/tefaremoa.svg",
+    shortcut: "/tefaremoa.svg",
+    apple: "/tefaremoa.svg",
+  },
   alternates: {
     canonical: "https://tefaremoa.com",
   },
