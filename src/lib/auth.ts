@@ -52,14 +52,35 @@ export async function verifyAdminCredentials(
   email: string,
   password: string
 ): Promise<AdminAuthResult | null> {
-  const admin = await prisma.admin.findUnique({ where: { email } });
+  const normalizedEmail = (email ?? '').trim().toLowerCase();
+  const providedPassword = password ?? '';
+
+  // Abort early if data is missing
+  if (!normalizedEmail || !providedPassword) {
+    return null;
+  }
+
+  const admin = await prisma.admin.findUnique({ where: { email: normalizedEmail } });
   if (!admin || !admin.isActive) {
     return null;
   }
 
-  const passwordMatch = await bcrypt.compare(password, admin.password);
+  const storedPassword = admin.password || '';
+  const isBcryptHash = storedPassword.startsWith('$2a$') || storedPassword.startsWith('$2b$') || storedPassword.startsWith('$2y$');
+
+  // Support legacy plaintext passwords once, then migrate them to bcrypt
+  const passwordMatch = isBcryptHash
+    ? await bcrypt.compare(providedPassword, storedPassword)
+    : storedPassword === providedPassword;
+
   if (!passwordMatch) {
     return null;
+  }
+
+  // If the password was plaintext, hash it now to harden future logins
+  if (!isBcryptHash) {
+    const hashed = await bcrypt.hash(providedPassword, 10);
+    await prisma.admin.update({ where: { id: admin.id }, data: { password: hashed } });
   }
 
   return {
