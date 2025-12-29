@@ -216,9 +216,26 @@ exports.Prisma.AnamnesisScalarFieldEnum = {
   createdAt: 'createdAt'
 };
 
+exports.Prisma.DanceEvaluationScalarFieldEnum = {
+  id: 'id',
+  studentId: 'studentId',
+  evaluationDate: 'evaluationDate',
+  modality: 'modality',
+  partnerName: 'partnerName',
+  rubricSequences: 'rubricSequences',
+  rubricChoreo: 'rubricChoreo',
+  observations: 'observations',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
+};
+
+exports.Prisma.JsonNullValueInput = {
+  JsonNull: Prisma.JsonNull
 };
 
 exports.Prisma.NullsOrder = {
@@ -271,10 +288,31 @@ exports.Prisma.AnamnesisOrderByRelevanceFieldEnum = {
   surgeries: 'surgeries',
   activityType: 'activityType'
 };
+
+exports.Prisma.JsonNullValueFilter = {
+  DbNull: Prisma.DbNull,
+  JsonNull: Prisma.JsonNull,
+  AnyNull: Prisma.AnyNull
+};
+
+exports.Prisma.QueryMode = {
+  default: 'default',
+  insensitive: 'insensitive'
+};
+
+exports.Prisma.DanceEvaluationOrderByRelevanceFieldEnum = {
+  partnerName: 'partnerName',
+  observations: 'observations'
+};
 exports.AdminRole = exports.$Enums.AdminRole = {
   SUPERADMIN: 'SUPERADMIN',
   ADMIN: 'ADMIN',
   MODERATOR: 'MODERATOR'
+};
+
+exports.DanceEvaluationModality = exports.$Enums.DanceEvaluationModality = {
+  INDIVIDUAL: 'INDIVIDUAL',
+  PAIR: 'PAIR'
 };
 
 exports.Prisma.ModelName = {
@@ -286,7 +324,8 @@ exports.Prisma.ModelName = {
   Payment: 'Payment',
   Attendance: 'Attendance',
   Admin: 'Admin',
-  Anamnesis: 'Anamnesis'
+  Anamnesis: 'Anamnesis',
+  DanceEvaluation: 'DanceEvaluation'
 };
 
 /**

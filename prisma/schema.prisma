@@ -37,6 +37,12 @@ model Student {
   payments          Payment[]
   attendances       Attendance[]
   anamneses         Anamnesis[]
+  danceEvaluations  DanceEvaluation[]
+}
+
+enum DanceEvaluationModality {
+  INDIVIDUAL
+  PAIR
 }
 
 //Diferentes tipos de planes (Básico - Regular)
@@ -137,4 +143,28 @@ model Anamnesis {
   sessionDurationMinutes  Int?
   consentAccepted         Boolean   @default(false)
   createdAt               DateTime  @default(now())
+}
+
+model DanceEvaluation {
+  id               Int                     @id @default(autoincrement())
+  student          Student                 @relation(fields: [studentId], references: [id])
+  studentId        Int
+
+  // Date-only evaluation day (no time)
+  evaluationDate   DateTime                @db.Date
+
+  modality         DanceEvaluationModality @default(INDIVIDUAL)
+  partnerName      String?
+
+  // Store rubric selections as JSON to keep the rubric flexible.
+  // Expected shape will be validated server-side in the API layer.
+  rubricSequences  Json
+  rubricChoreo     Json
+  observations     String?                 @db.Text
+
+  createdAt        DateTime                @default(now())
+  updatedAt        DateTime                @updatedAt
+
+  @@unique([studentId, evaluationDate])
+  @@index([evaluationDate])
 }
