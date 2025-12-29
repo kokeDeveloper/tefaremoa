@@ -7,6 +7,7 @@ import { Sidebar, SidebarBody, SidebarLink } from "./components/sidebar";
 import {
   IconArrowLeft,
   IconBrandTabler,
+  IconClipboardList,
   IconSettings,
   IconUserBolt,
   IconCashRegister,
@@ -16,6 +17,7 @@ import { motion, AnimatePresence } from "motion/react";
 import { PaymentReminderPanel } from "./components/payment-reminder-panel";
 import { FinancialOverviewPanel } from "./components/financial-overview-panel";
 import { StudentManagementSection } from "./components/student-management-section";
+import { EvaluationEntrySection } from "./components/evaluation-entry-section";
 import type { DashboardSummary } from "@/lib/dashboardMetrics";
 
 type SummaryFetchState = "idle" | "loading" | "error" | "loaded";
@@ -32,7 +34,7 @@ interface DashboardCardDefinition {
 export function AdminDashboard() {
   const searchParams = useSearchParams();
   const sectionParam = searchParams?.get("section")?.toLowerCase() ?? "dashboard";
-  const activeSection = sectionParam === "students" ? "students" : "dashboard";
+  const activeSection = sectionParam === "students" ? "students" : sectionParam === "evaluations" ? "evaluations" : "dashboard";
 
   const dashboardIconClass = cn(
     "h-5 w-5 shrink-0",
@@ -43,6 +45,12 @@ export function AdminDashboard() {
   const studentsIconClass = cn(
     "h-5 w-5 shrink-0",
     activeSection === "students"
+      ? "text-emerald-600 dark:text-emerald-300"
+      : "text-neutral-700 dark:text-neutral-200"
+  );
+  const evaluationsIconClass = cn(
+    "h-5 w-5 shrink-0",
+    activeSection === "evaluations"
       ? "text-emerald-600 dark:text-emerald-300"
       : "text-neutral-700 dark:text-neutral-200"
   );
@@ -63,6 +71,12 @@ export function AdminDashboard() {
       icon: (
         <IconUserBolt className={studentsIconClass} />
       ),
+    },
+    {
+      label: "Evaluaciones",
+      href: "/admin?section=evaluations",
+      isActive: activeSection === "evaluations",
+      icon: <IconClipboardList className={evaluationsIconClass} />,
     },
     {
       label: "Configuración",
@@ -161,6 +175,19 @@ export function AdminDashboard() {
               transition={{ duration: 0.18, ease: "easeOut" }}
             >
               <StudentManagementSection id="students" variant="page" />
+            </motion.div>
+          )}
+
+          {activeSection === "evaluations" && (
+            <motion.div
+              key="evaluations"
+              className="flex w-full"
+              initial={{ opacity: 0, x: 12 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -12 }}
+              transition={{ duration: 0.18, ease: "easeOut" }}
+            >
+              <EvaluationEntrySection />
             </motion.div>
           )}
         </AnimatePresence>

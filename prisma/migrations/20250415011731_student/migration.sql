@@ -1,11 +1,11 @@
 /*
   Warnings:
 
-  - You are about to drop the `alumna` table. If the table is not empty, all the data it contains will be lost.
+  - You are about to drop the `Alumna` table. If the table is not empty, all the data it contains will be lost.
 
 */
 -- DropTable
-DROP TABLE `alumna`;
+DROP TABLE `Alumna`;
 
 -- CreateTable
 CREATE TABLE `Student` (

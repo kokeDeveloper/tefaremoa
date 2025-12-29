@@ -1,0 +1,14 @@
+services:
+  mysql:
+    image: mysql:8
+    container_name: tefaremoa-mysql
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: tfDb
+    volumes:
+      - tefaremoa_mysql_data:/var/lib/mysql
+
+volumes:
+  tefaremoa_mysql_data:
