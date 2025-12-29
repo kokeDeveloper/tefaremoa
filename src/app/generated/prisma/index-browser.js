@@ -130,6 +130,8 @@ exports.Prisma.StudentScalarFieldEnum = {
   address: 'address',
   city: 'city',
   birthDate: 'birthDate',
+  profilePhoto: 'profilePhoto',
+  profilePhotoMime: 'profilePhotoMime',
   planStartDate: 'planStartDate',
   planEndDate: 'planEndDate',
   planType: 'planType',
@@ -232,6 +234,7 @@ exports.Prisma.StudentOrderByRelevanceFieldEnum = {
   nickname: 'nickname',
   address: 'address',
   city: 'city',
+  profilePhotoMime: 'profilePhotoMime',
   planType: 'planType',
   planStatus: 'planStatus',
   password: 'password'

@@ -33,8 +33,11 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: 'Credenciales inválidas.' }, { status: 401 });
     }
 
+    const isBcryptHash = typeof student.password === 'string' && /^\$2[aby]\$/.test(student.password);
+    const mustChangePassword = !isBcryptHash;
+
     const token = signToken({ id: student.id, email: student.email, role: 'student', name: student.name });
-    const res = NextResponse.json({ ok: true });
+    const res = NextResponse.json({ ok: true, mustChangePassword });
     res.cookies.set('token', token, { httpOnly: true, path: '/', maxAge: 60 * 60 * 24 * 7 });
     return res;
   } catch (err) {

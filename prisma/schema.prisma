@@ -24,6 +24,8 @@ model Student {
   address          String?  // Opcional
   city             String?  // Opcional
   birthDate        DateTime? // Opcional
+  profilePhoto     Bytes?   // Foto de perfil (BLOB)
+  profilePhotoMime String?  // MIME type (image/jpeg, image/png, ...)
   planStartDate    DateTime?
   planEndDate      DateTime?
   planType         String   @default("Basic") // Valor predeterminado
