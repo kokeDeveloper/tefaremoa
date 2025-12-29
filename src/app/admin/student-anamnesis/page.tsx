@@ -27,5 +27,5 @@ export default function StudentAnamnesisDashboard() {
     };
   }, []);
 
-  return <AnamnesisForm studentName={name} />;
+  return <AnamnesisForm studentName={name} logoutOnSuccess={false} redirectTo="/admin/student" />;
 }

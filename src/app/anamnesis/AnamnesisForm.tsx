@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, type ChangeEvent, type FormEvent } from "react";
+import { useRouter } from "next/navigation";
 
 export type YesNo = "yes" | "no" | "";
 
@@ -52,9 +53,12 @@ export const initialState: FormState = {
 
 export type AnamnesisFormProps = {
   studentName?: string;
+  redirectTo?: string;
+  logoutOnSuccess?: boolean;
 };
 
-export function AnamnesisForm({ studentName }: AnamnesisFormProps) {
+export function AnamnesisForm({ studentName, redirectTo, logoutOnSuccess = true }: AnamnesisFormProps) {
+  const router = useRouter();
   const [form, setForm] = useState<FormState>(initialState);
   const [status, setStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
   const [message, setMessage] = useState<string | null>(null);
@@ -94,9 +98,24 @@ export function AnamnesisForm({ studentName }: AnamnesisFormProps) {
       }
 
       setStatus("success");
-      setMessage("¡Gracias por completar tu anamnesis! Cerraremos tu sesión.");
+      setMessage(
+        redirectTo
+          ? "¡Gracias por completar tu anamnesis! Redirigiendo…"
+          : logoutOnSuccess
+            ? "¡Gracias por completar tu anamnesis! Cerraremos tu sesión."
+            : "¡Gracias por completar tu anamnesis!"
+      );
       setForm(initialState);
-      fetch("/api/auth/logout", { method: "POST" }).catch(() => {});
+
+      if (logoutOnSuccess) {
+        fetch("/api/auth/logout", { method: "POST" }).catch(() => {});
+      }
+
+      if (redirectTo) {
+        setTimeout(() => {
+          router.push(redirectTo);
+        }, 250);
+      }
     } catch (error: any) {
       setStatus("error");
       setMessage(error?.message || "Ocurrió un error al enviar el formulario.");

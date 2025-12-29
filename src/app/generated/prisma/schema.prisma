@@ -15,26 +15,28 @@ datasource db {
 }
 
 model Student {
-  id            Int          @id @default(autoincrement())
-  name          String
-  lastName      String
-  email         String       @unique
-  phone         String? // Opcional
-  nickname      String? // Opcional
-  address       String? // Opcional
-  city          String? // Opcional
-  birthDate     DateTime? // Opcional
-  planStartDate DateTime?
-  planEndDate   DateTime?
-  planType      String       @default("Basic") // Valor predeterminado
-  planStatus    String       @default("Active") // Valor predeterminado
-  password      String
-  createdAt     DateTime     @default(now())
-  plans         Plan[]       @relation("StudentPlans")
-  enrollments   Enrollment[]
-  payments      Payment[]
-  attendances   Attendance[]
-  anamneses     Anamnesis[]
+  id               Int          @id @default(autoincrement())
+  name             String
+  lastName         String
+  email            String       @unique
+  phone            String? // Opcional
+  nickname         String? // Opcional
+  address          String? // Opcional
+  city             String? // Opcional
+  birthDate        DateTime? // Opcional
+  profilePhoto     Bytes? // Foto de perfil (BLOB)
+  profilePhotoMime String? // MIME type (image/jpeg, image/png, ...)
+  planStartDate    DateTime?
+  planEndDate      DateTime?
+  planType         String       @default("Basic") // Valor predeterminado
+  planStatus       String       @default("Active") // Valor predeterminado
+  password         String
+  createdAt        DateTime     @default(now())
+  plans            Plan[]       @relation("StudentPlans")
+  enrollments      Enrollment[]
+  payments         Payment[]
+  attendances      Attendance[]
+  anamneses        Anamnesis[]
 }
 
 //Diferentes tipos de planes (Básico - Regular)

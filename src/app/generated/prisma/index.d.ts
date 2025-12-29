@@ -1732,6 +1732,8 @@ export namespace Prisma {
     address: string | null
     city: string | null
     birthDate: Date | null
+    profilePhoto: Uint8Array | null
+    profilePhotoMime: string | null
     planStartDate: Date | null
     planEndDate: Date | null
     planType: string | null
@@ -1750,6 +1752,8 @@ export namespace Prisma {
     address: string | null
     city: string | null
     birthDate: Date | null
+    profilePhoto: Uint8Array | null
+    profilePhotoMime: string | null
     planStartDate: Date | null
     planEndDate: Date | null
     planType: string | null
@@ -1768,6 +1772,8 @@ export namespace Prisma {
     address: number
     city: number
     birthDate: number
+    profilePhoto: number
+    profilePhotoMime: number
     planStartDate: number
     planEndDate: number
     planType: number
@@ -1796,6 +1802,8 @@ export namespace Prisma {
     address?: true
     city?: true
     birthDate?: true
+    profilePhoto?: true
+    profilePhotoMime?: true
     planStartDate?: true
     planEndDate?: true
     planType?: true
@@ -1814,6 +1822,8 @@ export namespace Prisma {
     address?: true
     city?: true
     birthDate?: true
+    profilePhoto?: true
+    profilePhotoMime?: true
     planStartDate?: true
     planEndDate?: true
     planType?: true
@@ -1832,6 +1842,8 @@ export namespace Prisma {
     address?: true
     city?: true
     birthDate?: true
+    profilePhoto?: true
+    profilePhotoMime?: true
     planStartDate?: true
     planEndDate?: true
     planType?: true
@@ -1937,6 +1949,8 @@ export namespace Prisma {
     address: string | null
     city: string | null
     birthDate: Date | null
+    profilePhoto: Uint8Array | null
+    profilePhotoMime: string | null
     planStartDate: Date | null
     planEndDate: Date | null
     planType: string
@@ -1974,6 +1988,8 @@ export namespace Prisma {
     address?: boolean
     city?: boolean
     birthDate?: boolean
+    profilePhoto?: boolean
+    profilePhotoMime?: boolean
     planStartDate?: boolean
     planEndDate?: boolean
     planType?: boolean
@@ -2000,6 +2016,8 @@ export namespace Prisma {
     address?: boolean
     city?: boolean
     birthDate?: boolean
+    profilePhoto?: boolean
+    profilePhotoMime?: boolean
     planStartDate?: boolean
     planEndDate?: boolean
     planType?: boolean
@@ -2008,7 +2026,7 @@ export namespace Prisma {
     createdAt?: boolean
   }
 
-  export type StudentOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "lastName" | "email" | "phone" | "nickname" | "address" | "city" | "birthDate" | "planStartDate" | "planEndDate" | "planType" | "planStatus" | "password" | "createdAt", ExtArgs["result"]["student"]>
+  export type StudentOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "lastName" | "email" | "phone" | "nickname" | "address" | "city" | "birthDate" | "profilePhoto" | "profilePhotoMime" | "planStartDate" | "planEndDate" | "planType" | "planStatus" | "password" | "createdAt", ExtArgs["result"]["student"]>
   export type StudentInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     plans?: boolean | Student$plansArgs<ExtArgs>
     enrollments?: boolean | Student$enrollmentsArgs<ExtArgs>
@@ -2037,6 +2055,8 @@ export namespace Prisma {
       address: string | null
       city: string | null
       birthDate: Date | null
+      profilePhoto: Uint8Array | null
+      profilePhotoMime: string | null
       planStartDate: Date | null
       planEndDate: Date | null
       planType: string
@@ -2426,6 +2446,8 @@ export namespace Prisma {
     readonly address: FieldRef<"Student", 'String'>
     readonly city: FieldRef<"Student", 'String'>
     readonly birthDate: FieldRef<"Student", 'DateTime'>
+    readonly profilePhoto: FieldRef<"Student", 'Bytes'>
+    readonly profilePhotoMime: FieldRef<"Student", 'String'>
     readonly planStartDate: FieldRef<"Student", 'DateTime'>
     readonly planEndDate: FieldRef<"Student", 'DateTime'>
     readonly planType: FieldRef<"Student", 'String'>
@@ -10923,6 +10945,8 @@ export namespace Prisma {
     address: 'address',
     city: 'city',
     birthDate: 'birthDate',
+    profilePhoto: 'profilePhoto',
+    profilePhotoMime: 'profilePhotoMime',
     planStartDate: 'planStartDate',
     planEndDate: 'planEndDate',
     planType: 'planType',
@@ -11058,6 +11082,7 @@ export namespace Prisma {
     nickname: 'nickname',
     address: 'address',
     city: 'city',
+    profilePhotoMime: 'profilePhotoMime',
     planType: 'planType',
     planStatus: 'planStatus',
     password: 'password'
@@ -11140,6 +11165,13 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'Bytes'
+   */
+  export type BytesFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Bytes'>
+    
+
+
+  /**
    * Reference to a field of type 'Float'
    */
   export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
@@ -11176,6 +11208,8 @@ export namespace Prisma {
     address?: StringNullableFilter<"Student"> | string | null
     city?: StringNullableFilter<"Student"> | string | null
     birthDate?: DateTimeNullableFilter<"Student"> | Date | string | null
+    profilePhoto?: BytesNullableFilter<"Student"> | Uint8Array | null
+    profilePhotoMime?: StringNullableFilter<"Student"> | string | null
     planStartDate?: DateTimeNullableFilter<"Student"> | Date | string | null
     planEndDate?: DateTimeNullableFilter<"Student"> | Date | string | null
     planType?: StringFilter<"Student"> | string
@@ -11199,6 +11233,8 @@ export namespace Prisma {
     address?: SortOrderInput | SortOrder
     city?: SortOrderInput | SortOrder
     birthDate?: SortOrderInput | SortOrder
+    profilePhoto?: SortOrderInput | SortOrder
+    profilePhotoMime?: SortOrderInput | SortOrder
     planStartDate?: SortOrderInput | SortOrder
     planEndDate?: SortOrderInput | SortOrder
     planType?: SortOrder
@@ -11226,6 +11262,8 @@ export namespace Prisma {
     address?: StringNullableFilter<"Student"> | string | null
     city?: StringNullableFilter<"Student"> | string | null
     birthDate?: DateTimeNullableFilter<"Student"> | Date | string | null
+    profilePhoto?: BytesNullableFilter<"Student"> | Uint8Array | null
+    profilePhotoMime?: StringNullableFilter<"Student"> | string | null
     planStartDate?: DateTimeNullableFilter<"Student"> | Date | string | null
     planEndDate?: DateTimeNullableFilter<"Student"> | Date | string | null
     planType?: StringFilter<"Student"> | string
@@ -11249,6 +11287,8 @@ export namespace Prisma {
     address?: SortOrderInput | SortOrder
     city?: SortOrderInput | SortOrder
     birthDate?: SortOrderInput | SortOrder
+    profilePhoto?: SortOrderInput | SortOrder
+    profilePhotoMime?: SortOrderInput | SortOrder
     planStartDate?: SortOrderInput | SortOrder
     planEndDate?: SortOrderInput | SortOrder
     planType?: SortOrder
@@ -11275,6 +11315,8 @@ export namespace Prisma {
     address?: StringNullableWithAggregatesFilter<"Student"> | string | null
     city?: StringNullableWithAggregatesFilter<"Student"> | string | null
     birthDate?: DateTimeNullableWithAggregatesFilter<"Student"> | Date | string | null
+    profilePhoto?: BytesNullableWithAggregatesFilter<"Student"> | Uint8Array | null
+    profilePhotoMime?: StringNullableWithAggregatesFilter<"Student"> | string | null
     planStartDate?: DateTimeNullableWithAggregatesFilter<"Student"> | Date | string | null
     planEndDate?: DateTimeNullableWithAggregatesFilter<"Student"> | Date | string | null
     planType?: StringWithAggregatesFilter<"Student"> | string
@@ -11822,6 +11864,8 @@ export namespace Prisma {
     address?: string | null
     city?: string | null
     birthDate?: Date | string | null
+    profilePhoto?: Uint8Array | null
+    profilePhotoMime?: string | null
     planStartDate?: Date | string | null
     planEndDate?: Date | string | null
     planType?: string
@@ -11845,6 +11889,8 @@ export namespace Prisma {
     address?: string | null
     city?: string | null
     birthDate?: Date | string | null
+    profilePhoto?: Uint8Array | null
+    profilePhotoMime?: string | null
     planStartDate?: Date | string | null
     planEndDate?: Date | string | null
     planType?: string
@@ -11867,6 +11913,8 @@ export namespace Prisma {
     address?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
     birthDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    profilePhoto?: NullableBytesFieldUpdateOperationsInput | Uint8Array | null
+    profilePhotoMime?: NullableStringFieldUpdateOperationsInput | string | null
     planStartDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     planEndDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     planType?: StringFieldUpdateOperationsInput | string
@@ -11890,6 +11938,8 @@ export namespace Prisma {
     address?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
     birthDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    profilePhoto?: NullableBytesFieldUpdateOperationsInput | Uint8Array | null
+    profilePhotoMime?: NullableStringFieldUpdateOperationsInput | string | null
     planStartDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     planEndDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     planType?: StringFieldUpdateOperationsInput | string
@@ -11913,6 +11963,8 @@ export namespace Prisma {
     address?: string | null
     city?: string | null
     birthDate?: Date | string | null
+    profilePhoto?: Uint8Array | null
+    profilePhotoMime?: string | null
     planStartDate?: Date | string | null
     planEndDate?: Date | string | null
     planType?: string
@@ -11930,6 +11982,8 @@ export namespace Prisma {
     address?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
     birthDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    profilePhoto?: NullableBytesFieldUpdateOperationsInput | Uint8Array | null
+    profilePhotoMime?: NullableStringFieldUpdateOperationsInput | string | null
     planStartDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     planEndDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     planType?: StringFieldUpdateOperationsInput | string
@@ -11948,6 +12002,8 @@ export namespace Prisma {
     address?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
     birthDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    profilePhoto?: NullableBytesFieldUpdateOperationsInput | Uint8Array | null
+    profilePhotoMime?: NullableStringFieldUpdateOperationsInput | string | null
     planStartDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     planEndDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     planType?: StringFieldUpdateOperationsInput | string
@@ -12525,6 +12581,13 @@ export namespace Prisma {
     not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
   }
 
+  export type BytesNullableFilter<$PrismaModel = never> = {
+    equals?: Uint8Array | BytesFieldRefInput<$PrismaModel> | null
+    in?: Uint8Array[] | null
+    notIn?: Uint8Array[] | null
+    not?: NestedBytesNullableFilter<$PrismaModel> | Uint8Array | null
+  }
+
   export type DateTimeFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     in?: Date[] | string[]
@@ -12607,6 +12670,8 @@ export namespace Prisma {
     address?: SortOrder
     city?: SortOrder
     birthDate?: SortOrder
+    profilePhoto?: SortOrder
+    profilePhotoMime?: SortOrder
     planStartDate?: SortOrder
     planEndDate?: SortOrder
     planType?: SortOrder
@@ -12629,6 +12694,8 @@ export namespace Prisma {
     address?: SortOrder
     city?: SortOrder
     birthDate?: SortOrder
+    profilePhoto?: SortOrder
+    profilePhotoMime?: SortOrder
     planStartDate?: SortOrder
     planEndDate?: SortOrder
     planType?: SortOrder
@@ -12647,6 +12714,8 @@ export namespace Prisma {
     address?: SortOrder
     city?: SortOrder
     birthDate?: SortOrder
+    profilePhoto?: SortOrder
+    profilePhotoMime?: SortOrder
     planStartDate?: SortOrder
     planEndDate?: SortOrder
     planType?: SortOrder
@@ -12723,6 +12792,16 @@ export namespace Prisma {
     _count?: NestedIntNullableFilter<$PrismaModel>
     _min?: NestedDateTimeNullableFilter<$PrismaModel>
     _max?: NestedDateTimeNullableFilter<$PrismaModel>
+  }
+
+  export type BytesNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Uint8Array | BytesFieldRefInput<$PrismaModel> | null
+    in?: Uint8Array[] | null
+    notIn?: Uint8Array[] | null
+    not?: NestedBytesNullableWithAggregatesFilter<$PrismaModel> | Uint8Array | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedBytesNullableFilter<$PrismaModel>
+    _max?: NestedBytesNullableFilter<$PrismaModel>
   }
 
   export type DateTimeWithAggregatesFilter<$PrismaModel = never> = {
@@ -13322,6 +13401,10 @@ export namespace Prisma {
     set?: Date | string | null
   }
 
+  export type NullableBytesFieldUpdateOperationsInput = {
+    set?: Uint8Array | null
+  }
+
   export type DateTimeFieldUpdateOperationsInput = {
     set?: Date | string
   }
@@ -13820,6 +13903,13 @@ export namespace Prisma {
     not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
   }
 
+  export type NestedBytesNullableFilter<$PrismaModel = never> = {
+    equals?: Uint8Array | BytesFieldRefInput<$PrismaModel> | null
+    in?: Uint8Array[] | null
+    notIn?: Uint8Array[] | null
+    not?: NestedBytesNullableFilter<$PrismaModel> | Uint8Array | null
+  }
+
   export type NestedDateTimeFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     in?: Date[] | string[]
@@ -13917,6 +14007,16 @@ export namespace Prisma {
     _count?: NestedIntNullableFilter<$PrismaModel>
     _min?: NestedDateTimeNullableFilter<$PrismaModel>
     _max?: NestedDateTimeNullableFilter<$PrismaModel>
+  }
+
+  export type NestedBytesNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Uint8Array | BytesFieldRefInput<$PrismaModel> | null
+    in?: Uint8Array[] | null
+    notIn?: Uint8Array[] | null
+    not?: NestedBytesNullableWithAggregatesFilter<$PrismaModel> | Uint8Array | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedBytesNullableFilter<$PrismaModel>
+    _max?: NestedBytesNullableFilter<$PrismaModel>
   }
 
   export type NestedDateTimeWithAggregatesFilter<$PrismaModel = never> = {
@@ -14305,6 +14405,8 @@ export namespace Prisma {
     address?: string | null
     city?: string | null
     birthDate?: Date | string | null
+    profilePhoto?: Uint8Array | null
+    profilePhotoMime?: string | null
     planStartDate?: Date | string | null
     planEndDate?: Date | string | null
     planType?: string
@@ -14327,6 +14429,8 @@ export namespace Prisma {
     address?: string | null
     city?: string | null
     birthDate?: Date | string | null
+    profilePhoto?: Uint8Array | null
+    profilePhotoMime?: string | null
     planStartDate?: Date | string | null
     planEndDate?: Date | string | null
     planType?: string
@@ -14373,6 +14477,8 @@ export namespace Prisma {
     address?: StringNullableFilter<"Student"> | string | null
     city?: StringNullableFilter<"Student"> | string | null
     birthDate?: DateTimeNullableFilter<"Student"> | Date | string | null
+    profilePhoto?: BytesNullableFilter<"Student"> | Uint8Array | null
+    profilePhotoMime?: StringNullableFilter<"Student"> | string | null
     planStartDate?: DateTimeNullableFilter<"Student"> | Date | string | null
     planEndDate?: DateTimeNullableFilter<"Student"> | Date | string | null
     planType?: StringFilter<"Student"> | string
@@ -14560,6 +14666,8 @@ export namespace Prisma {
     address?: string | null
     city?: string | null
     birthDate?: Date | string | null
+    profilePhoto?: Uint8Array | null
+    profilePhotoMime?: string | null
     planStartDate?: Date | string | null
     planEndDate?: Date | string | null
     planType?: string
@@ -14582,6 +14690,8 @@ export namespace Prisma {
     address?: string | null
     city?: string | null
     birthDate?: Date | string | null
+    profilePhoto?: Uint8Array | null
+    profilePhotoMime?: string | null
     planStartDate?: Date | string | null
     planEndDate?: Date | string | null
     planType?: string
@@ -14641,6 +14751,8 @@ export namespace Prisma {
     address?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
     birthDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    profilePhoto?: NullableBytesFieldUpdateOperationsInput | Uint8Array | null
+    profilePhotoMime?: NullableStringFieldUpdateOperationsInput | string | null
     planStartDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     planEndDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     planType?: StringFieldUpdateOperationsInput | string
@@ -14663,6 +14775,8 @@ export namespace Prisma {
     address?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
     birthDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    profilePhoto?: NullableBytesFieldUpdateOperationsInput | Uint8Array | null
+    profilePhotoMime?: NullableStringFieldUpdateOperationsInput | string | null
     planStartDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     planEndDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     planType?: StringFieldUpdateOperationsInput | string
@@ -14712,6 +14826,8 @@ export namespace Prisma {
     address?: string | null
     city?: string | null
     birthDate?: Date | string | null
+    profilePhoto?: Uint8Array | null
+    profilePhotoMime?: string | null
     planStartDate?: Date | string | null
     planEndDate?: Date | string | null
     planType?: string
@@ -14734,6 +14850,8 @@ export namespace Prisma {
     address?: string | null
     city?: string | null
     birthDate?: Date | string | null
+    profilePhoto?: Uint8Array | null
+    profilePhotoMime?: string | null
     planStartDate?: Date | string | null
     planEndDate?: Date | string | null
     planType?: string
@@ -14771,6 +14889,8 @@ export namespace Prisma {
     address?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
     birthDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    profilePhoto?: NullableBytesFieldUpdateOperationsInput | Uint8Array | null
+    profilePhotoMime?: NullableStringFieldUpdateOperationsInput | string | null
     planStartDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     planEndDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     planType?: StringFieldUpdateOperationsInput | string
@@ -14793,6 +14913,8 @@ export namespace Prisma {
     address?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
     birthDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    profilePhoto?: NullableBytesFieldUpdateOperationsInput | Uint8Array | null
+    profilePhotoMime?: NullableStringFieldUpdateOperationsInput | string | null
     planStartDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     planEndDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     planType?: StringFieldUpdateOperationsInput | string
@@ -14814,6 +14936,8 @@ export namespace Prisma {
     address?: string | null
     city?: string | null
     birthDate?: Date | string | null
+    profilePhoto?: Uint8Array | null
+    profilePhotoMime?: string | null
     planStartDate?: Date | string | null
     planEndDate?: Date | string | null
     planType?: string
@@ -14836,6 +14960,8 @@ export namespace Prisma {
     address?: string | null
     city?: string | null
     birthDate?: Date | string | null
+    profilePhoto?: Uint8Array | null
+    profilePhotoMime?: string | null
     planStartDate?: Date | string | null
     planEndDate?: Date | string | null
     planType?: string
@@ -14895,6 +15021,8 @@ export namespace Prisma {
     address?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
     birthDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    profilePhoto?: NullableBytesFieldUpdateOperationsInput | Uint8Array | null
+    profilePhotoMime?: NullableStringFieldUpdateOperationsInput | string | null
     planStartDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     planEndDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     planType?: StringFieldUpdateOperationsInput | string
@@ -14917,6 +15045,8 @@ export namespace Prisma {
     address?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
     birthDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    profilePhoto?: NullableBytesFieldUpdateOperationsInput | Uint8Array | null
+    profilePhotoMime?: NullableStringFieldUpdateOperationsInput | string | null
     planStartDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     planEndDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     planType?: StringFieldUpdateOperationsInput | string
@@ -14966,6 +15096,8 @@ export namespace Prisma {
     address?: string | null
     city?: string | null
     birthDate?: Date | string | null
+    profilePhoto?: Uint8Array | null
+    profilePhotoMime?: string | null
     planStartDate?: Date | string | null
     planEndDate?: Date | string | null
     planType?: string
@@ -14988,6 +15120,8 @@ export namespace Prisma {
     address?: string | null
     city?: string | null
     birthDate?: Date | string | null
+    profilePhoto?: Uint8Array | null
+    profilePhotoMime?: string | null
     planStartDate?: Date | string | null
     planEndDate?: Date | string | null
     planType?: string
@@ -15025,6 +15159,8 @@ export namespace Prisma {
     address?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
     birthDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    profilePhoto?: NullableBytesFieldUpdateOperationsInput | Uint8Array | null
+    profilePhotoMime?: NullableStringFieldUpdateOperationsInput | string | null
     planStartDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     planEndDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     planType?: StringFieldUpdateOperationsInput | string
@@ -15047,6 +15183,8 @@ export namespace Prisma {
     address?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
     birthDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    profilePhoto?: NullableBytesFieldUpdateOperationsInput | Uint8Array | null
+    profilePhotoMime?: NullableStringFieldUpdateOperationsInput | string | null
     planStartDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     planEndDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     planType?: StringFieldUpdateOperationsInput | string
@@ -15235,6 +15373,8 @@ export namespace Prisma {
     address?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
     birthDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    profilePhoto?: NullableBytesFieldUpdateOperationsInput | Uint8Array | null
+    profilePhotoMime?: NullableStringFieldUpdateOperationsInput | string | null
     planStartDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     planEndDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     planType?: StringFieldUpdateOperationsInput | string
@@ -15257,6 +15397,8 @@ export namespace Prisma {
     address?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
     birthDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    profilePhoto?: NullableBytesFieldUpdateOperationsInput | Uint8Array | null
+    profilePhotoMime?: NullableStringFieldUpdateOperationsInput | string | null
     planStartDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     planEndDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     planType?: StringFieldUpdateOperationsInput | string
@@ -15279,6 +15421,8 @@ export namespace Prisma {
     address?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
     birthDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    profilePhoto?: NullableBytesFieldUpdateOperationsInput | Uint8Array | null
+    profilePhotoMime?: NullableStringFieldUpdateOperationsInput | string | null
     planStartDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     planEndDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     planType?: StringFieldUpdateOperationsInput | string
