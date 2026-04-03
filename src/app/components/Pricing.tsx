@@ -6,48 +6,50 @@ interface PricingPlan {
     id: number;
     frequency: number;
     price: number;
-    pricePerClass: number;
     isPopular?: boolean;
-    savings?: string;
 }
+
+const SINGLE_CLASS_PRICE = 10000;
+const WEEKS_PER_MONTH = 4;
 
 const monthlyPlans: PricingPlan[] = [
     {
         id: 1,
         frequency: 1,
-        price: 39000,
-        pricePerClass: 9750,
+        price: 40000,
     },
     {
         id: 2,
         frequency: 2,
         price: 50000,
-        pricePerClass: 6250,
-        savings: '36% ahorro',
     },
     {
         id: 3,
         frequency: 3,
         price: 62000,
-        pricePerClass: 5167,
-        savings: '47% ahorro',
     },
     {
         id: 4,
         frequency: 4,
-        price: 74000,
-        pricePerClass: 4625,
-        savings: '53% ahorro',
-    },
-    {
-        id: 5,
-        frequency: 5,
-        price: 86000,
-        pricePerClass: 4300,
+        price: 75000,
         isPopular: true,
-        savings: '56% ahorro',
     },
 ];
+
+const getMonthlyClassCount = (frequency: number) => frequency * WEEKS_PER_MONTH;
+
+const getPricePerClass = (plan: PricingPlan) => plan.price / getMonthlyClassCount(plan.frequency);
+
+const getSavingsLabel = (plan: PricingPlan) => {
+    const pricePerClass = getPricePerClass(plan);
+    const savingsPercentage = Math.round((1 - pricePerClass / SINGLE_CLASS_PRICE) * 100);
+
+    if (savingsPercentage <= 0) {
+        return null;
+    }
+
+    return `${savingsPercentage}% ahorro`;
+};
 
 const Pricing = () => {
     const handleWhatsAppContact = (planType: 'monthly' | 'trial' | 'single', planDetails?: PricingPlan) => {
@@ -74,7 +76,7 @@ const Pricing = () => {
                 {/* Header */}
                 <div className="text-center mb-12 md:mb-16">
                     <h2 className="text-3xl md:text-5xl font-bold text-white mb-4">
-                        Mensualidades y Planes 2025
+                        Mensualidades y Planes 2026
                     </h2>
                     <p className="text-base md:text-lg text-gray-400 max-w-2xl mx-auto">
                         En todas las clases vemos <span className="text-orange-400 font-semibold">&apos;Ōte&apos;a</span> y <span className="text-orange-400 font-semibold">&apos;Aparima</span>
@@ -84,6 +86,11 @@ const Pricing = () => {
                 {/* Monthly Plans Grid */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6 mb-12">
                     {monthlyPlans.map((plan, index) => (
+                        (() => {
+                            const savingsLabel = getSavingsLabel(plan);
+                            const pricePerClass = getPricePerClass(plan);
+
+                            return (
                         <motion.div
                             key={plan.id}
                             initial={{ opacity: 0, y: 20 }}
@@ -106,9 +113,9 @@ const Pricing = () => {
                             )}
 
                             {/* Savings Badge */}
-                            {plan.savings && !plan.isPopular && (
+                            {savingsLabel && !plan.isPopular && (
                                 <div className="absolute -top-3 right-4 bg-green-500 text-white text-xs font-semibold px-3 py-1 rounded-full">
-                                    {plan.savings}
+                                    {savingsLabel}
                                 </div>
                             )}
 
@@ -134,7 +141,7 @@ const Pricing = () => {
                                 <div className="mt-3 pt-3 border-t border-gray-700">
                                     <p className="text-xs text-gray-500 mb-1">Precio por clase:</p>
                                     <p className="text-lg font-semibold text-green-400">
-                                        ${Math.round(plan.pricePerClass).toLocaleString('es-CL')}
+                                        ${Math.round(pricePerClass).toLocaleString('es-CL')}
                                     </p>
                                 </div>
                             </div>
@@ -154,6 +161,8 @@ const Pricing = () => {
                                 Seleccionar Plan
                             </button>
                         </motion.div>
+                            )
+                        })()
                     ))}
                 </div>
 
