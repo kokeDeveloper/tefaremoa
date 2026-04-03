@@ -23,7 +23,7 @@ const data: ClassSchedule[] = [
         class: "Multinivel",
         descrbe: "'Ōte'a y 'Aparima",
         teacher: "Ángela Ortiz",
-        timeClass: "19:30 - 20:30",
+        timeClass: "19:00 - 20:30",
         src: "/lun.png",
     },
     {
@@ -52,7 +52,7 @@ const data: ClassSchedule[] = [
         class: "Multinivel",
         descrbe: "'Ōte'a y 'Aparima",
         teacher: "Materna Rapu",
-        timeClass: "18:00 - 20:30",
+        timeClass: "19:00 - 20:30",
         src: "/jue.png",
     },
 ];
