@@ -84,7 +84,7 @@ const Pricing = () => {
                 </div>
 
                 {/* Monthly Plans Grid */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6 mb-12">
+                <div className="grid [grid-template-columns:repeat(auto-fit,minmax(240px,320px))] justify-center gap-6 mb-12">
                     {monthlyPlans.map((plan, index) => (
                         (() => {
                             const savingsLabel = getSavingsLabel(plan);
@@ -97,7 +97,7 @@ const Pricing = () => {
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ delay: index * 0.1, duration: 0.5 }}
                             className={`
-                                relative rounded-2xl p-6 flex flex-col
+                                relative w-full rounded-2xl p-6 flex flex-col
                                 transition-all duration-300 group cursor-pointer
                                 ${plan.isPopular 
                                     ? 'bg-gradient-to-br from-orange-500/20 to-orange-600/10 border-2 border-orange-400 hover:border-orange-300 hover:shadow-2xl hover:shadow-orange-500/20 hover:-translate-y-2' 
