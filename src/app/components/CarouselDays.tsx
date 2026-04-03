@@ -23,7 +23,7 @@ const data: ClassSchedule[] = [
         class: "Multinivel",
         descrbe: "'Ōte'a y 'Aparima",
         teacher: "Ángela Ortiz",
-        timeClass: "18:30 - 20:00",
+        timeClass: "19:30 - 20:30",
         src: "/lun.png",
     },
     {
@@ -52,16 +52,8 @@ const data: ClassSchedule[] = [
         class: "Multinivel",
         descrbe: "'Ōte'a y 'Aparima",
         teacher: "Materna Rapu",
-        timeClass: "18:30 - 20:00",
+        timeClass: "18:00 - 20:30",
         src: "/jue.png",
-    },
-    {
-        day: "Sábado",
-        class: "Multinivel",
-        descrbe: "'Ōte'a y 'Aparima",
-        teacher: "Ángela Ortiz",
-        timeClass: "10:30 - 12:00",
-        src: "/mart.png",
     },
 ];
 
@@ -114,8 +106,7 @@ const ClassTime = () => {
                 >
                     <div className="relative px-4 py-10 sm:px-6 md:px-10">
                         <div className="pointer-events-none absolute inset-0" />
-                        {/* Grid: 2 columnas en móvil, 3 en tablet, 5 en desktop */}
-                        <div className="relative grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 md:gap-6 auto-rows-fr">
+                        <div className="relative grid [grid-template-columns:repeat(auto-fit,minmax(220px,1fr))] gap-4 md:gap-6 auto-rows-fr">
                             {data.map((item, index) => (
                         <div
                             key={index}
@@ -183,7 +174,7 @@ const ClassTime = () => {
                                     src={item.src}
                                     alt={`Clase de ${item.day}`}
                                     fill
-                                    sizes="(max-width: 768px) 50vw, (max-width: 1024px) 33vw, 20vw"
+                                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, (max-width: 1440px) 33vw, 25vw"
                                     style={{ objectFit: 'cover' }}
                                     className="transition duration-300 group-hover:scale-110"
                                     priority={index < 3}
