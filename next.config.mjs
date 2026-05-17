@@ -24,6 +24,7 @@ const nextConfig = {
   outputFileTracingExcludes: {
     '*': ['C:/Users/jorge/**/*'],
   },
+  turbopack: {},
   webpack: (config) => {
     config.module.rules.push({
       test: /\.(ttf|otf|eot|woff|woff2)$/,
