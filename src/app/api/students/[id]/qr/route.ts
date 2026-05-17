@@ -48,7 +48,7 @@ export async function GET(
       .replace(/\s+/g, "-")
       .toLowerCase();
 
-    return new Response(png, {
+    return new Response(new Uint8Array(png), {
       headers: {
         "Content-Type": "image/png",
         "Content-Disposition": `attachment; filename="${filename}"`,

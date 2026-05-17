@@ -32,7 +32,7 @@ export async function GET(req: Request) {
       color: { dark: "#000000", light: "#ffffff" },
     });
 
-    return new Response(png, {
+    return new Response(new Uint8Array(png), {
       headers: {
         "Content-Type": "image/png",
         "Cache-Control": "private, max-age=3600",

@@ -25,7 +25,7 @@ const PLAN_OPTIONS = [
   { value: '4x',   label: '4 veces/semana',  price: 75000 },
   { value: 'Beca', label: 'Beca',             price: 40000 },
 ] as const
-const VALID_PLAN_VALUES = new Set(PLAN_OPTIONS.map((p) => p.value))
+const VALID_PLAN_VALUES: Set<string> = new Set(PLAN_OPTIONS.map((p) => p.value))
 function resolveValidPlanType(value?: string | null): string {
   return value && VALID_PLAN_VALUES.has(value) ? value : PLAN_OPTIONS[0].value
 }
