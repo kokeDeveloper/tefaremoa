@@ -3,6 +3,7 @@
 import React from 'react'
 import { cn } from '@/util/cn'
 import StudentForm from '../students/components/StudentForm'
+import StudentBulkUpload from '../students/components/StudentBulkUpload'
 import StudentList from '../students/components/StudentList'
 import PlanAlertsPanel, { PlanAlertsResponse } from '../students/components/PlanAlertsPanel'
 
@@ -21,6 +22,7 @@ export function StudentManagementSection({ variant = 'dashboard', id }: StudentM
 
   const [search, setSearch] = React.useState('')
   const [page, setPage] = React.useState(1)
+  const [inscriptionTab, setInscriptionTab] = React.useState<'individual' | 'bulk'>('individual')
   const [alerts, setAlerts] = React.useState<PlanAlertsResponse | null>(null)
   const [alertsLoading, setAlertsLoading] = React.useState(false)
   const [alertsError, setAlertsError] = React.useState<string | null>(null)
@@ -124,8 +126,11 @@ export function StudentManagementSection({ variant = 'dashboard', id }: StudentM
           </p>
         </div>
 
+        {/* Search + inscription panel */}
         <div className={cn('flex flex-col gap-4', variant === 'page' ? 'mb-2' : '')}>
           <div className="flex flex-col gap-4 xl:flex-row xl:items-start xl:justify-between">
+
+            {/* Search bar */}
             <div className="flex w-full flex-col gap-2 lg:flex-1 lg:max-w-lg">
               <label className="text-sm font-medium text-neutral-700 dark:text-neutral-200">
                 Buscar por nombre o correo
@@ -149,15 +154,62 @@ export function StudentManagementSection({ variant = 'dashboard', id }: StudentM
                 </button>
               </div>
             </div>
+
+            {/* Inscription panel with tabs */}
             <div className="xl:flex-1">
-              <StudentForm
-                variant={variant === 'dashboard' ? 'embedded' : 'standalone'}
-                onSaved={() => {
-                  void fetchStudents({ page: 1 })
-                  void fetchAlerts()
-                }}
-              />
+              <div className="rounded-xl border border-neutral-200 bg-neutral-50 p-4 shadow-sm dark:border-neutral-700 dark:bg-neutral-950 space-y-4">
+                <h3 className="text-base font-semibold text-neutral-900 dark:text-neutral-100">
+                  Inscripción de alumnas
+                </h3>
+
+                {/* Tab switcher */}
+                <div className="flex gap-1 rounded-lg bg-neutral-100 p-1 dark:bg-neutral-800">
+                  <button
+                    type="button"
+                    onClick={() => setInscriptionTab('individual')}
+                    className={cn(
+                      'flex-1 rounded-md px-3 py-1.5 text-xs font-medium transition',
+                      inscriptionTab === 'individual'
+                        ? 'bg-white text-neutral-900 shadow dark:bg-neutral-700 dark:text-neutral-100'
+                        : 'text-neutral-500 hover:text-neutral-700 dark:text-neutral-400 dark:hover:text-neutral-200'
+                    )}
+                  >
+                    Registro individual
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setInscriptionTab('bulk')}
+                    className={cn(
+                      'flex-1 rounded-md px-3 py-1.5 text-xs font-medium transition',
+                      inscriptionTab === 'bulk'
+                        ? 'bg-white text-neutral-900 shadow dark:bg-neutral-700 dark:text-neutral-100'
+                        : 'text-neutral-500 hover:text-neutral-700 dark:text-neutral-400 dark:hover:text-neutral-200'
+                    )}
+                  >
+                    Carga masiva CSV
+                  </button>
+                </div>
+
+                {/* Tab content */}
+                {inscriptionTab === 'individual' ? (
+                  <StudentForm
+                    variant="embedded"
+                    onSaved={() => {
+                      void fetchStudents({ page: 1 })
+                      void fetchAlerts()
+                    }}
+                  />
+                ) : (
+                  <StudentBulkUpload
+                    onUploaded={() => {
+                      void fetchStudents({ page: 1 })
+                      void fetchAlerts()
+                    }}
+                  />
+                )}
+              </div>
             </div>
+
           </div>
         </div>
 
@@ -228,3 +280,4 @@ export function StudentManagementSection({ variant = 'dashboard', id }: StudentM
 }
 
 export default StudentManagementSection
+

@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { PrismaClient } from '../../generated/prisma';
 import { verifyToken } from '../../../lib/auth';
 import bcrypt from 'bcryptjs';
+import { randomBytes } from 'crypto';
 import { calculatePlanAlertWithStatus } from '../../../lib/planAlerts';
 
 const prisma = new PrismaClient();
@@ -24,7 +25,7 @@ export async function GET(req: Request) {
       : {};
 
     const [items, total] = await Promise.all([
-      prisma.student.findMany({ where, skip, take, orderBy: { createdAt: 'desc' } }),
+      prisma.student.findMany({ where, skip, take, orderBy: { createdAt: 'desc' }, include: { _count: { select: { enrollments: true } } } }),
       prisma.student.count({ where }),
     ]);
 
@@ -47,14 +48,17 @@ export async function POST(req: Request) {
   // accept both { name } or { firstName } from different clients
   const { name, firstName, lastName, email, phone, nickname, address, city, birthDate, planStartDate, planEndDate, planType, password } = body;
   const normalizedName = name || firstName;
-  if (!normalizedName || !email || !password) return NextResponse.json({ error: 'Missing fields' }, { status: 400 });
+  if (!normalizedName || !email) return NextResponse.json({ error: 'Missing fields' }, { status: 400 });
+
+  // Use provided password or auto-generate a secure random one (student will be forced to change it)
+  const rawPassword = password || randomBytes(8).toString('hex');
 
     const existing = await prisma.student.findUnique({ where: { email } });
     if (existing) return NextResponse.json({ error: 'Email already exists' }, { status: 409 });
 
   const plannedEnd = planEndDate ? new Date(planEndDate) : undefined;
   const { status } = calculatePlanAlertWithStatus(plannedEnd);
-  const hashedPassword = await bcrypt.hash(password, 10);
+  const hashedPassword = await bcrypt.hash(rawPassword, 10);
 
   const student = await prisma.student.create({ data: { name: normalizedName, lastName, email, phone, nickname, address, city, birthDate: birthDate ? new Date(birthDate) : undefined, planStartDate: planStartDate ? new Date(planStartDate) : undefined, planEndDate: plannedEnd, planType: planType || 'Basic', planStatus: status, password: hashedPassword } });
     return NextResponse.json(student, { status: 201 });

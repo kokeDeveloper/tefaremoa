@@ -212,7 +212,7 @@ function AlertGroup({ title, students, state }: AlertGroupProps) {
                   </div>
                 </td>
                 <td className="px-3 py-2">{student.email}</td>
-                <td className="px-3 py-2">{student.planType ?? "—"}</td>
+                <td className="px-3 py-2">{formatPlanType(student.planType)}</td>
                 <td className="px-3 py-2">{formatDate(student.planEndDate)}</td>
                 <td className="px-3 py-2">
                   <span className={`px-2 py-1 text-xs font-semibold rounded ${badgeColors[state]}`}>
@@ -220,9 +220,13 @@ function AlertGroup({ title, students, state }: AlertGroupProps) {
                   </span>
                 </td>
                 <td className="px-3 py-2">
-                  <span className="text-xs font-semibold uppercase tracking-wide">
-                    {student.planStatus ?? "—"}
-                  </span>
+                  {student.planStatus ? (
+                    <span className={`px-2 py-1 text-xs font-semibold rounded ${PLAN_STATUS_BADGE[student.planStatus] ?? PLAN_STATUS_BADGE.NoPlan}`}>
+                      {formatPlanStatus(student.planStatus)}
+                    </span>
+                  ) : (
+                    <span className="text-xs text-neutral-400">—</span>
+                  )}
                   {student.planStatus && student.planStatus !== badgeStateToLabel(state) && (
                     <span className="ml-2 text-xs text-amber-600 dark:text-amber-400">(desactualizado)</span>
                   )}
@@ -247,4 +251,36 @@ function badgeStateToLabel(state: PlanStatus): string {
     default:
       return "Active";
   }
+}
+
+const PLAN_STATUS_LABELS: Record<string, string> = {
+  Active: "Activo",
+  ExpiringSoon: "Por vencer",
+  Expired: "Vencido",
+  NoPlan: "Sin fecha fin",
+}
+
+const PLAN_STATUS_BADGE: Record<string, string> = {
+  Active: "bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400",
+  ExpiringSoon: "bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400",
+  Expired: "bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400",
+  NoPlan: "bg-neutral-100 text-neutral-500 dark:bg-neutral-800 dark:text-neutral-400",
+}
+
+const PLAN_TYPE_LABELS: Record<string, string> = {
+  "1x": "1 vez/semana",
+  "2x": "2 veces/semana",
+  "3x": "3 veces/semana",
+  "4x": "4 veces/semana",
+  Beca: "Beca",
+}
+
+function formatPlanType(value: string | null) {
+  if (!value) return "—"
+  return PLAN_TYPE_LABELS[value] ?? value
+}
+
+function formatPlanStatus(value: string | null) {
+  if (!value) return "—"
+  return PLAN_STATUS_LABELS[value] ?? value
 }

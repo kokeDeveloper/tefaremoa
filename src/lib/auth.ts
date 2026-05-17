@@ -22,6 +22,7 @@ export interface AdminTokenPayload {
   email: string;
   role?: string;
   name?: string;
+  mustChangePassword?: boolean;
   iat?: number;
   exp?: number;
 }

@@ -12,6 +12,7 @@ type Student = {
   email: string
   planType?: string | null
   planStatus?: string | null
+  _count?: { enrollments: number }
 }
 
 interface Props {
@@ -79,6 +80,7 @@ export default function StudentList({ students, onDeleted }: Props) {
               <th className="px-3 py-2 text-left font-semibold">Correo</th>
               <th className="px-3 py-2 text-left font-semibold">Plan</th>
               <th className="px-3 py-2 text-left font-semibold">Estado</th>
+              <th className="px-3 py-2 text-center font-semibold">Clases</th>
               <th className="px-3 py-2 text-left font-semibold">Acciones</th>
             </tr>
           </thead>
@@ -100,6 +102,17 @@ export default function StudentList({ students, onDeleted }: Props) {
                     <span className="inline-flex items-center gap-2">
                       <StatusBadge status={student.planStatus} />
                     </span>
+                  </td>
+                  <td className="px-3 py-3 text-center">
+                    {student._count !== undefined ? (
+                      <span className={`inline-flex items-center justify-center w-6 h-6 rounded-full text-xs font-semibold ${
+                        student._count.enrollments > 0
+                          ? 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400'
+                          : 'bg-neutral-100 text-neutral-400 dark:bg-neutral-800'
+                      }`}>
+                        {student._count.enrollments}
+                      </span>
+                    ) : '—'}
                   </td>
                   <td className="px-3 py-3">
                     <div className="flex flex-wrap gap-2">
@@ -133,7 +146,7 @@ export default function StudentList({ students, onDeleted }: Props) {
                 </tr>
                 {editingId === student.id && editingStudent && (
                   <tr className="bg-neutral-50 dark:bg-neutral-900/60">
-                    <td colSpan={6} className="px-3 py-4">
+                    <td colSpan={7} className="px-3 py-4">
                       <div className="rounded-lg border border-neutral-200 dark:border-neutral-700 bg-white dark:bg-neutral-950 p-4">
                         <div className="flex items-center justify-between mb-3">
                           <h4 className="text-sm font-semibold">Editar alumna</h4>

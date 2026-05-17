@@ -13,7 +13,15 @@ export async function GET(req: Request, { params }: { params: Promise<{ id: stri
 
     const { id } = await params;
     const idNum = Number(id);
-    const cls = await prisma.class.findUnique({ where: { id: idNum }, include: { enrollments: true, attendances: true } });
+    const cls = await prisma.class.findUnique({
+      where: { id: idNum },
+      include: {
+        instructor: { select: { id: true, name: true, email: true, phone: true } },
+        enrollments: { include: { student: { select: { id: true, name: true, lastName: true, email: true, planStatus: true } } }, orderBy: { createdAt: 'asc' } },
+        attendances: true,
+        _count: { select: { enrollments: true } },
+      },
+    });
     if (!cls) return NextResponse.json({ error: 'Not found' }, { status: 404 });
     return NextResponse.json(cls);
   } catch (err) {

@@ -63,7 +63,7 @@ export default function StudentPasswordPage() {
       if (!res.ok) {
         throw new Error(data.error || "No se pudo actualizar la contraseña.");
       }
-      router.push("/admin/student-anamnesis");
+      router.push("/admin/student");
     } catch (err: any) {
       setError(err?.message || "No se pudo actualizar la contraseña.");
     } finally {

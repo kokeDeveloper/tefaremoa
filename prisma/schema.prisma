@@ -28,9 +28,11 @@ model Student {
   profilePhotoMime String?  // MIME type (image/jpeg, image/png, ...)
   planStartDate    DateTime?
   planEndDate      DateTime?
-  planType         String   @default("Basic") // Valor predeterminado
+  planType         String   @default("1x") // Clave del plan activo del alumno
   planStatus       String   @default("Active") // Valor predeterminado
-  password         String
+  password            String
+  mustChangePassword  Boolean  @default(true)
+  qrToken             String   @unique @default(uuid())
   createdAt        DateTime @default(now())
   plans             Plan[]   @relation("StudentPlans")
   enrollments       Enrollment[]
@@ -47,12 +49,15 @@ enum DanceEvaluationModality {
 
 //Diferentes tipos de planes (Básico - Regular)
 model Plan {
-  id          Int      @id @default(autoincrement())
-  name        String   // Nombre del plan
-  price       Float    // Precio del plan
-  description String?  // Descripción opcional
-  createdAt   DateTime @default(now())
-  students    Student[] @relation("StudentPlans")
+  id               Int      @id @default(autoincrement())
+  name             String   @unique // Clave del plan (ej: "1x", "2x", "Beca")
+  label            String   // Nombre legible (ej: "1 vez/semana")
+  price            Int      // Precio en pesos chilenos (CLP)
+  sessionsPerWeek  Int?     // Sesiones por semana (1-4); null para planes especiales
+  isScholarship    Boolean  @default(false) // true = beca
+  description      String?  // Descripción opcional
+  createdAt        DateTime @default(now())
+  students         Student[] @relation("StudentPlans")
 }
 
 //Gestión de clases, horarios y asistencia

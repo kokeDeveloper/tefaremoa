@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 
 // Public admin paths que no requieren cookie
-const PUBLIC_ADMIN_PATHS = new Set<string>(['/admin/sso', '/admin/login', '/admin/student-login']);
+const PUBLIC_ADMIN_PATHS = new Set<string>(['/admin/sso', '/admin/login', '/admin/student-login', '/admin/student-password']);
 
 /**
  * Decodifica (sin verificar firma) un JWT para extraer el payload.
@@ -95,6 +95,13 @@ export function middleware(req: NextRequest) {
 
   if (payload.exp && Date.now() / 1000 > payload.exp) {
     return redirectTo('/admin/sso', { reason: 'expired' });
+  }
+
+  // Si es estudiante con mustChangePassword pendiente, forzar cambio
+  if (payload.role === 'student' && payload.mustChangePassword === true) {
+    if (pathname !== '/admin/student-password') {
+      return NextResponse.redirect(new URL('/admin/student-password', req.url));
+    }
   }
 
   // Si todo ok
