@@ -12,8 +12,8 @@ export default function AdminLoginPage() {
   const search = useSearchParams()
   const redirectTo = search?.get('from') || '/admin'
 
-  const [email, setEmail] = useState('napatalama@gmail.com')
-  const [password, setPassword] = useState('123momia')
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
 

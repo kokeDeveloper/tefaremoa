@@ -53,7 +53,7 @@ export default async function AdminSSOPage({ searchParams }: Props) {
     return <AdminDashboardClientPage />;
   }
 
-  if (isDev && !shouldForceSso) {
+  if (!shouldForceSso) {
     const nextParams = new URLSearchParams({ from });
     const reason = coerceString(params.reason);
     if (reason) {
