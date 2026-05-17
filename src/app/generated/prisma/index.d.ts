@@ -369,8 +369,8 @@ export namespace Prisma {
   export import Exact = $Public.Exact
 
   /**
-   * Prisma Client JS version: 6.17.1
-   * Query Engine version: 272a37d34178c2894197e17273bf937f25acdeac
+   * Prisma Client JS version: 6.19.3
+   * Query Engine version: c2990dca591cba766e3b7ef5d9e8a84796e47ab7
    */
   export type PrismaVersion = {
     client: string
@@ -383,6 +383,7 @@ export namespace Prisma {
    */
 
 
+  export import Bytes = runtime.Bytes
   export import JsonObject = runtime.JsonObject
   export import JsonArray = runtime.JsonArray
   export import JsonValue = runtime.JsonValue
@@ -1836,13 +1837,15 @@ export namespace Prisma {
     address: string | null
     city: string | null
     birthDate: Date | null
-    profilePhoto: Uint8Array | null
+    profilePhoto: Bytes | null
     profilePhotoMime: string | null
     planStartDate: Date | null
     planEndDate: Date | null
     planType: string | null
     planStatus: string | null
     password: string | null
+    mustChangePassword: boolean | null
+    qrToken: string | null
     createdAt: Date | null
   }
 
@@ -1856,13 +1859,15 @@ export namespace Prisma {
     address: string | null
     city: string | null
     birthDate: Date | null
-    profilePhoto: Uint8Array | null
+    profilePhoto: Bytes | null
     profilePhotoMime: string | null
     planStartDate: Date | null
     planEndDate: Date | null
     planType: string | null
     planStatus: string | null
     password: string | null
+    mustChangePassword: boolean | null
+    qrToken: string | null
     createdAt: Date | null
   }
 
@@ -1883,6 +1888,8 @@ export namespace Prisma {
     planType: number
     planStatus: number
     password: number
+    mustChangePassword: number
+    qrToken: number
     createdAt: number
     _all: number
   }
@@ -1913,6 +1920,8 @@ export namespace Prisma {
     planType?: true
     planStatus?: true
     password?: true
+    mustChangePassword?: true
+    qrToken?: true
     createdAt?: true
   }
 
@@ -1933,6 +1942,8 @@ export namespace Prisma {
     planType?: true
     planStatus?: true
     password?: true
+    mustChangePassword?: true
+    qrToken?: true
     createdAt?: true
   }
 
@@ -1953,6 +1964,8 @@ export namespace Prisma {
     planType?: true
     planStatus?: true
     password?: true
+    mustChangePassword?: true
+    qrToken?: true
     createdAt?: true
     _all?: true
   }
@@ -2053,13 +2066,15 @@ export namespace Prisma {
     address: string | null
     city: string | null
     birthDate: Date | null
-    profilePhoto: Uint8Array | null
+    profilePhoto: Bytes | null
     profilePhotoMime: string | null
     planStartDate: Date | null
     planEndDate: Date | null
     planType: string
     planStatus: string
     password: string
+    mustChangePassword: boolean
+    qrToken: string
     createdAt: Date
     _count: StudentCountAggregateOutputType | null
     _avg: StudentAvgAggregateOutputType | null
@@ -2099,6 +2114,8 @@ export namespace Prisma {
     planType?: boolean
     planStatus?: boolean
     password?: boolean
+    mustChangePassword?: boolean
+    qrToken?: boolean
     createdAt?: boolean
     plans?: boolean | Student$plansArgs<ExtArgs>
     enrollments?: boolean | Student$enrollmentsArgs<ExtArgs>
@@ -2128,10 +2145,12 @@ export namespace Prisma {
     planType?: boolean
     planStatus?: boolean
     password?: boolean
+    mustChangePassword?: boolean
+    qrToken?: boolean
     createdAt?: boolean
   }
 
-  export type StudentOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "lastName" | "email" | "phone" | "nickname" | "address" | "city" | "birthDate" | "profilePhoto" | "profilePhotoMime" | "planStartDate" | "planEndDate" | "planType" | "planStatus" | "password" | "createdAt", ExtArgs["result"]["student"]>
+  export type StudentOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "lastName" | "email" | "phone" | "nickname" | "address" | "city" | "birthDate" | "profilePhoto" | "profilePhotoMime" | "planStartDate" | "planEndDate" | "planType" | "planStatus" | "password" | "mustChangePassword" | "qrToken" | "createdAt", ExtArgs["result"]["student"]>
   export type StudentInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     plans?: boolean | Student$plansArgs<ExtArgs>
     enrollments?: boolean | Student$enrollmentsArgs<ExtArgs>
@@ -2162,13 +2181,15 @@ export namespace Prisma {
       address: string | null
       city: string | null
       birthDate: Date | null
-      profilePhoto: Uint8Array | null
+      profilePhoto: Prisma.Bytes | null
       profilePhotoMime: string | null
       planStartDate: Date | null
       planEndDate: Date | null
       planType: string
       planStatus: string
       password: string
+      mustChangePassword: boolean
+      qrToken: string
       createdAt: Date
     }, ExtArgs["result"]["student"]>
     composites: {}
@@ -2561,6 +2582,8 @@ export namespace Prisma {
     readonly planType: FieldRef<"Student", 'String'>
     readonly planStatus: FieldRef<"Student", 'String'>
     readonly password: FieldRef<"Student", 'String'>
+    readonly mustChangePassword: FieldRef<"Student", 'Boolean'>
+    readonly qrToken: FieldRef<"Student", 'String'>
     readonly createdAt: FieldRef<"Student", 'DateTime'>
   }
     
@@ -3082,17 +3105,22 @@ export namespace Prisma {
   export type PlanAvgAggregateOutputType = {
     id: number | null
     price: number | null
+    sessionsPerWeek: number | null
   }
 
   export type PlanSumAggregateOutputType = {
     id: number | null
     price: number | null
+    sessionsPerWeek: number | null
   }
 
   export type PlanMinAggregateOutputType = {
     id: number | null
     name: string | null
+    label: string | null
     price: number | null
+    sessionsPerWeek: number | null
+    isScholarship: boolean | null
     description: string | null
     createdAt: Date | null
   }
@@ -3100,7 +3128,10 @@ export namespace Prisma {
   export type PlanMaxAggregateOutputType = {
     id: number | null
     name: string | null
+    label: string | null
     price: number | null
+    sessionsPerWeek: number | null
+    isScholarship: boolean | null
     description: string | null
     createdAt: Date | null
   }
@@ -3108,7 +3139,10 @@ export namespace Prisma {
   export type PlanCountAggregateOutputType = {
     id: number
     name: number
+    label: number
     price: number
+    sessionsPerWeek: number
+    isScholarship: number
     description: number
     createdAt: number
     _all: number
@@ -3118,17 +3152,22 @@ export namespace Prisma {
   export type PlanAvgAggregateInputType = {
     id?: true
     price?: true
+    sessionsPerWeek?: true
   }
 
   export type PlanSumAggregateInputType = {
     id?: true
     price?: true
+    sessionsPerWeek?: true
   }
 
   export type PlanMinAggregateInputType = {
     id?: true
     name?: true
+    label?: true
     price?: true
+    sessionsPerWeek?: true
+    isScholarship?: true
     description?: true
     createdAt?: true
   }
@@ -3136,7 +3175,10 @@ export namespace Prisma {
   export type PlanMaxAggregateInputType = {
     id?: true
     name?: true
+    label?: true
     price?: true
+    sessionsPerWeek?: true
+    isScholarship?: true
     description?: true
     createdAt?: true
   }
@@ -3144,7 +3186,10 @@ export namespace Prisma {
   export type PlanCountAggregateInputType = {
     id?: true
     name?: true
+    label?: true
     price?: true
+    sessionsPerWeek?: true
+    isScholarship?: true
     description?: true
     createdAt?: true
     _all?: true
@@ -3239,7 +3284,10 @@ export namespace Prisma {
   export type PlanGroupByOutputType = {
     id: number
     name: string
+    label: string
     price: number
+    sessionsPerWeek: number | null
+    isScholarship: boolean
     description: string | null
     createdAt: Date
     _count: PlanCountAggregateOutputType | null
@@ -3266,7 +3314,10 @@ export namespace Prisma {
   export type PlanSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     name?: boolean
+    label?: boolean
     price?: boolean
+    sessionsPerWeek?: boolean
+    isScholarship?: boolean
     description?: boolean
     createdAt?: boolean
     students?: boolean | Plan$studentsArgs<ExtArgs>
@@ -3278,12 +3329,15 @@ export namespace Prisma {
   export type PlanSelectScalar = {
     id?: boolean
     name?: boolean
+    label?: boolean
     price?: boolean
+    sessionsPerWeek?: boolean
+    isScholarship?: boolean
     description?: boolean
     createdAt?: boolean
   }
 
-  export type PlanOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "price" | "description" | "createdAt", ExtArgs["result"]["plan"]>
+  export type PlanOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "label" | "price" | "sessionsPerWeek" | "isScholarship" | "description" | "createdAt", ExtArgs["result"]["plan"]>
   export type PlanInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     students?: boolean | Plan$studentsArgs<ExtArgs>
     _count?: boolean | PlanCountOutputTypeDefaultArgs<ExtArgs>
@@ -3297,7 +3351,10 @@ export namespace Prisma {
     scalars: $Extensions.GetPayloadResult<{
       id: number
       name: string
+      label: string
       price: number
+      sessionsPerWeek: number | null
+      isScholarship: boolean
       description: string | null
       createdAt: Date
     }, ExtArgs["result"]["plan"]>
@@ -3672,7 +3729,10 @@ export namespace Prisma {
   interface PlanFieldRefs {
     readonly id: FieldRef<"Plan", 'Int'>
     readonly name: FieldRef<"Plan", 'String'>
-    readonly price: FieldRef<"Plan", 'Float'>
+    readonly label: FieldRef<"Plan", 'String'>
+    readonly price: FieldRef<"Plan", 'Int'>
+    readonly sessionsPerWeek: FieldRef<"Plan", 'Int'>
+    readonly isScholarship: FieldRef<"Plan", 'Boolean'>
     readonly description: FieldRef<"Plan", 'String'>
     readonly createdAt: FieldRef<"Plan", 'DateTime'>
   }
@@ -12098,6 +12158,8 @@ export namespace Prisma {
     planType: 'planType',
     planStatus: 'planStatus',
     password: 'password',
+    mustChangePassword: 'mustChangePassword',
+    qrToken: 'qrToken',
     createdAt: 'createdAt'
   };
 
@@ -12107,7 +12169,10 @@ export namespace Prisma {
   export const PlanScalarFieldEnum: {
     id: 'id',
     name: 'name',
+    label: 'label',
     price: 'price',
+    sessionsPerWeek: 'sessionsPerWeek',
+    isScholarship: 'isScholarship',
     description: 'description',
     createdAt: 'createdAt'
   };
@@ -12254,7 +12319,8 @@ export namespace Prisma {
     profilePhotoMime: 'profilePhotoMime',
     planType: 'planType',
     planStatus: 'planStatus',
-    password: 'password'
+    password: 'password',
+    qrToken: 'qrToken'
   };
 
   export type StudentOrderByRelevanceFieldEnum = (typeof StudentOrderByRelevanceFieldEnum)[keyof typeof StudentOrderByRelevanceFieldEnum]
@@ -12262,6 +12328,7 @@ export namespace Prisma {
 
   export const PlanOrderByRelevanceFieldEnum: {
     name: 'name',
+    label: 'label',
     description: 'description'
   };
 
@@ -12366,6 +12433,13 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'Boolean'
+   */
+  export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
+    
+
+
+  /**
    * Reference to a field of type 'Float'
    */
   export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
@@ -12376,13 +12450,6 @@ export namespace Prisma {
    * Reference to a field of type 'AdminRole'
    */
   export type EnumAdminRoleFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'AdminRole'>
-    
-
-
-  /**
-   * Reference to a field of type 'Boolean'
-   */
-  export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
     
 
 
@@ -12423,13 +12490,15 @@ export namespace Prisma {
     address?: StringNullableFilter<"Student"> | string | null
     city?: StringNullableFilter<"Student"> | string | null
     birthDate?: DateTimeNullableFilter<"Student"> | Date | string | null
-    profilePhoto?: BytesNullableFilter<"Student"> | Uint8Array | null
+    profilePhoto?: BytesNullableFilter<"Student"> | Bytes | null
     profilePhotoMime?: StringNullableFilter<"Student"> | string | null
     planStartDate?: DateTimeNullableFilter<"Student"> | Date | string | null
     planEndDate?: DateTimeNullableFilter<"Student"> | Date | string | null
     planType?: StringFilter<"Student"> | string
     planStatus?: StringFilter<"Student"> | string
     password?: StringFilter<"Student"> | string
+    mustChangePassword?: BoolFilter<"Student"> | boolean
+    qrToken?: StringFilter<"Student"> | string
     createdAt?: DateTimeFilter<"Student"> | Date | string
     plans?: PlanListRelationFilter
     enrollments?: EnrollmentListRelationFilter
@@ -12456,6 +12525,8 @@ export namespace Prisma {
     planType?: SortOrder
     planStatus?: SortOrder
     password?: SortOrder
+    mustChangePassword?: SortOrder
+    qrToken?: SortOrder
     createdAt?: SortOrder
     plans?: PlanOrderByRelationAggregateInput
     enrollments?: EnrollmentOrderByRelationAggregateInput
@@ -12469,6 +12540,7 @@ export namespace Prisma {
   export type StudentWhereUniqueInput = Prisma.AtLeast<{
     id?: number
     email?: string
+    qrToken?: string
     AND?: StudentWhereInput | StudentWhereInput[]
     OR?: StudentWhereInput[]
     NOT?: StudentWhereInput | StudentWhereInput[]
@@ -12479,13 +12551,14 @@ export namespace Prisma {
     address?: StringNullableFilter<"Student"> | string | null
     city?: StringNullableFilter<"Student"> | string | null
     birthDate?: DateTimeNullableFilter<"Student"> | Date | string | null
-    profilePhoto?: BytesNullableFilter<"Student"> | Uint8Array | null
+    profilePhoto?: BytesNullableFilter<"Student"> | Bytes | null
     profilePhotoMime?: StringNullableFilter<"Student"> | string | null
     planStartDate?: DateTimeNullableFilter<"Student"> | Date | string | null
     planEndDate?: DateTimeNullableFilter<"Student"> | Date | string | null
     planType?: StringFilter<"Student"> | string
     planStatus?: StringFilter<"Student"> | string
     password?: StringFilter<"Student"> | string
+    mustChangePassword?: BoolFilter<"Student"> | boolean
     createdAt?: DateTimeFilter<"Student"> | Date | string
     plans?: PlanListRelationFilter
     enrollments?: EnrollmentListRelationFilter
@@ -12493,7 +12566,7 @@ export namespace Prisma {
     attendances?: AttendanceListRelationFilter
     anamneses?: AnamnesisListRelationFilter
     danceEvaluations?: DanceEvaluationListRelationFilter
-  }, "id" | "email">
+  }, "id" | "email" | "qrToken">
 
   export type StudentOrderByWithAggregationInput = {
     id?: SortOrder
@@ -12512,6 +12585,8 @@ export namespace Prisma {
     planType?: SortOrder
     planStatus?: SortOrder
     password?: SortOrder
+    mustChangePassword?: SortOrder
+    qrToken?: SortOrder
     createdAt?: SortOrder
     _count?: StudentCountOrderByAggregateInput
     _avg?: StudentAvgOrderByAggregateInput
@@ -12533,13 +12608,15 @@ export namespace Prisma {
     address?: StringNullableWithAggregatesFilter<"Student"> | string | null
     city?: StringNullableWithAggregatesFilter<"Student"> | string | null
     birthDate?: DateTimeNullableWithAggregatesFilter<"Student"> | Date | string | null
-    profilePhoto?: BytesNullableWithAggregatesFilter<"Student"> | Uint8Array | null
+    profilePhoto?: BytesNullableWithAggregatesFilter<"Student"> | Bytes | null
     profilePhotoMime?: StringNullableWithAggregatesFilter<"Student"> | string | null
     planStartDate?: DateTimeNullableWithAggregatesFilter<"Student"> | Date | string | null
     planEndDate?: DateTimeNullableWithAggregatesFilter<"Student"> | Date | string | null
     planType?: StringWithAggregatesFilter<"Student"> | string
     planStatus?: StringWithAggregatesFilter<"Student"> | string
     password?: StringWithAggregatesFilter<"Student"> | string
+    mustChangePassword?: BoolWithAggregatesFilter<"Student"> | boolean
+    qrToken?: StringWithAggregatesFilter<"Student"> | string
     createdAt?: DateTimeWithAggregatesFilter<"Student"> | Date | string
   }
 
@@ -12549,7 +12626,10 @@ export namespace Prisma {
     NOT?: PlanWhereInput | PlanWhereInput[]
     id?: IntFilter<"Plan"> | number
     name?: StringFilter<"Plan"> | string
-    price?: FloatFilter<"Plan"> | number
+    label?: StringFilter<"Plan"> | string
+    price?: IntFilter<"Plan"> | number
+    sessionsPerWeek?: IntNullableFilter<"Plan"> | number | null
+    isScholarship?: BoolFilter<"Plan"> | boolean
     description?: StringNullableFilter<"Plan"> | string | null
     createdAt?: DateTimeFilter<"Plan"> | Date | string
     students?: StudentListRelationFilter
@@ -12558,7 +12638,10 @@ export namespace Prisma {
   export type PlanOrderByWithRelationInput = {
     id?: SortOrder
     name?: SortOrder
+    label?: SortOrder
     price?: SortOrder
+    sessionsPerWeek?: SortOrderInput | SortOrder
+    isScholarship?: SortOrder
     description?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     students?: StudentOrderByRelationAggregateInput
@@ -12567,20 +12650,26 @@ export namespace Prisma {
 
   export type PlanWhereUniqueInput = Prisma.AtLeast<{
     id?: number
+    name?: string
     AND?: PlanWhereInput | PlanWhereInput[]
     OR?: PlanWhereInput[]
     NOT?: PlanWhereInput | PlanWhereInput[]
-    name?: StringFilter<"Plan"> | string
-    price?: FloatFilter<"Plan"> | number
+    label?: StringFilter<"Plan"> | string
+    price?: IntFilter<"Plan"> | number
+    sessionsPerWeek?: IntNullableFilter<"Plan"> | number | null
+    isScholarship?: BoolFilter<"Plan"> | boolean
     description?: StringNullableFilter<"Plan"> | string | null
     createdAt?: DateTimeFilter<"Plan"> | Date | string
     students?: StudentListRelationFilter
-  }, "id">
+  }, "id" | "name">
 
   export type PlanOrderByWithAggregationInput = {
     id?: SortOrder
     name?: SortOrder
+    label?: SortOrder
     price?: SortOrder
+    sessionsPerWeek?: SortOrderInput | SortOrder
+    isScholarship?: SortOrder
     description?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     _count?: PlanCountOrderByAggregateInput
@@ -12596,7 +12685,10 @@ export namespace Prisma {
     NOT?: PlanScalarWhereWithAggregatesInput | PlanScalarWhereWithAggregatesInput[]
     id?: IntWithAggregatesFilter<"Plan"> | number
     name?: StringWithAggregatesFilter<"Plan"> | string
-    price?: FloatWithAggregatesFilter<"Plan"> | number
+    label?: StringWithAggregatesFilter<"Plan"> | string
+    price?: IntWithAggregatesFilter<"Plan"> | number
+    sessionsPerWeek?: IntNullableWithAggregatesFilter<"Plan"> | number | null
+    isScholarship?: BoolWithAggregatesFilter<"Plan"> | boolean
     description?: StringNullableWithAggregatesFilter<"Plan"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"Plan"> | Date | string
   }
@@ -13166,13 +13258,15 @@ export namespace Prisma {
     address?: string | null
     city?: string | null
     birthDate?: Date | string | null
-    profilePhoto?: Uint8Array | null
+    profilePhoto?: Bytes | null
     profilePhotoMime?: string | null
     planStartDate?: Date | string | null
     planEndDate?: Date | string | null
     planType?: string
     planStatus?: string
     password: string
+    mustChangePassword?: boolean
+    qrToken?: string
     createdAt?: Date | string
     plans?: PlanCreateNestedManyWithoutStudentsInput
     enrollments?: EnrollmentCreateNestedManyWithoutStudentInput
@@ -13192,13 +13286,15 @@ export namespace Prisma {
     address?: string | null
     city?: string | null
     birthDate?: Date | string | null
-    profilePhoto?: Uint8Array | null
+    profilePhoto?: Bytes | null
     profilePhotoMime?: string | null
     planStartDate?: Date | string | null
     planEndDate?: Date | string | null
     planType?: string
     planStatus?: string
     password: string
+    mustChangePassword?: boolean
+    qrToken?: string
     createdAt?: Date | string
     plans?: PlanUncheckedCreateNestedManyWithoutStudentsInput
     enrollments?: EnrollmentUncheckedCreateNestedManyWithoutStudentInput
@@ -13217,13 +13313,15 @@ export namespace Prisma {
     address?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
     birthDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    profilePhoto?: NullableBytesFieldUpdateOperationsInput | Uint8Array | null
+    profilePhoto?: NullableBytesFieldUpdateOperationsInput | Bytes | null
     profilePhotoMime?: NullableStringFieldUpdateOperationsInput | string | null
     planStartDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     planEndDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     planType?: StringFieldUpdateOperationsInput | string
     planStatus?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
+    mustChangePassword?: BoolFieldUpdateOperationsInput | boolean
+    qrToken?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     plans?: PlanUpdateManyWithoutStudentsNestedInput
     enrollments?: EnrollmentUpdateManyWithoutStudentNestedInput
@@ -13243,13 +13341,15 @@ export namespace Prisma {
     address?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
     birthDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    profilePhoto?: NullableBytesFieldUpdateOperationsInput | Uint8Array | null
+    profilePhoto?: NullableBytesFieldUpdateOperationsInput | Bytes | null
     profilePhotoMime?: NullableStringFieldUpdateOperationsInput | string | null
     planStartDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     planEndDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     planType?: StringFieldUpdateOperationsInput | string
     planStatus?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
+    mustChangePassword?: BoolFieldUpdateOperationsInput | boolean
+    qrToken?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     plans?: PlanUncheckedUpdateManyWithoutStudentsNestedInput
     enrollments?: EnrollmentUncheckedUpdateManyWithoutStudentNestedInput
@@ -13269,13 +13369,15 @@ export namespace Prisma {
     address?: string | null
     city?: string | null
     birthDate?: Date | string | null
-    profilePhoto?: Uint8Array | null
+    profilePhoto?: Bytes | null
     profilePhotoMime?: string | null
     planStartDate?: Date | string | null
     planEndDate?: Date | string | null
     planType?: string
     planStatus?: string
     password: string
+    mustChangePassword?: boolean
+    qrToken?: string
     createdAt?: Date | string
   }
 
@@ -13288,13 +13390,15 @@ export namespace Prisma {
     address?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
     birthDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    profilePhoto?: NullableBytesFieldUpdateOperationsInput | Uint8Array | null
+    profilePhoto?: NullableBytesFieldUpdateOperationsInput | Bytes | null
     profilePhotoMime?: NullableStringFieldUpdateOperationsInput | string | null
     planStartDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     planEndDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     planType?: StringFieldUpdateOperationsInput | string
     planStatus?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
+    mustChangePassword?: BoolFieldUpdateOperationsInput | boolean
+    qrToken?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -13308,19 +13412,24 @@ export namespace Prisma {
     address?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
     birthDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    profilePhoto?: NullableBytesFieldUpdateOperationsInput | Uint8Array | null
+    profilePhoto?: NullableBytesFieldUpdateOperationsInput | Bytes | null
     profilePhotoMime?: NullableStringFieldUpdateOperationsInput | string | null
     planStartDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     planEndDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     planType?: StringFieldUpdateOperationsInput | string
     planStatus?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
+    mustChangePassword?: BoolFieldUpdateOperationsInput | boolean
+    qrToken?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type PlanCreateInput = {
     name: string
+    label: string
     price: number
+    sessionsPerWeek?: number | null
+    isScholarship?: boolean
     description?: string | null
     createdAt?: Date | string
     students?: StudentCreateNestedManyWithoutPlansInput
@@ -13329,7 +13438,10 @@ export namespace Prisma {
   export type PlanUncheckedCreateInput = {
     id?: number
     name: string
+    label: string
     price: number
+    sessionsPerWeek?: number | null
+    isScholarship?: boolean
     description?: string | null
     createdAt?: Date | string
     students?: StudentUncheckedCreateNestedManyWithoutPlansInput
@@ -13337,7 +13449,10 @@ export namespace Prisma {
 
   export type PlanUpdateInput = {
     name?: StringFieldUpdateOperationsInput | string
-    price?: FloatFieldUpdateOperationsInput | number
+    label?: StringFieldUpdateOperationsInput | string
+    price?: IntFieldUpdateOperationsInput | number
+    sessionsPerWeek?: NullableIntFieldUpdateOperationsInput | number | null
+    isScholarship?: BoolFieldUpdateOperationsInput | boolean
     description?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     students?: StudentUpdateManyWithoutPlansNestedInput
@@ -13346,7 +13461,10 @@ export namespace Prisma {
   export type PlanUncheckedUpdateInput = {
     id?: IntFieldUpdateOperationsInput | number
     name?: StringFieldUpdateOperationsInput | string
-    price?: FloatFieldUpdateOperationsInput | number
+    label?: StringFieldUpdateOperationsInput | string
+    price?: IntFieldUpdateOperationsInput | number
+    sessionsPerWeek?: NullableIntFieldUpdateOperationsInput | number | null
+    isScholarship?: BoolFieldUpdateOperationsInput | boolean
     description?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     students?: StudentUncheckedUpdateManyWithoutPlansNestedInput
@@ -13355,14 +13473,20 @@ export namespace Prisma {
   export type PlanCreateManyInput = {
     id?: number
     name: string
+    label: string
     price: number
+    sessionsPerWeek?: number | null
+    isScholarship?: boolean
     description?: string | null
     createdAt?: Date | string
   }
 
   export type PlanUpdateManyMutationInput = {
     name?: StringFieldUpdateOperationsInput | string
-    price?: FloatFieldUpdateOperationsInput | number
+    label?: StringFieldUpdateOperationsInput | string
+    price?: IntFieldUpdateOperationsInput | number
+    sessionsPerWeek?: NullableIntFieldUpdateOperationsInput | number | null
+    isScholarship?: BoolFieldUpdateOperationsInput | boolean
     description?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -13370,7 +13494,10 @@ export namespace Prisma {
   export type PlanUncheckedUpdateManyInput = {
     id?: IntFieldUpdateOperationsInput | number
     name?: StringFieldUpdateOperationsInput | string
-    price?: FloatFieldUpdateOperationsInput | number
+    label?: StringFieldUpdateOperationsInput | string
+    price?: IntFieldUpdateOperationsInput | number
+    sessionsPerWeek?: NullableIntFieldUpdateOperationsInput | number | null
+    isScholarship?: BoolFieldUpdateOperationsInput | boolean
     description?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -13975,10 +14102,15 @@ export namespace Prisma {
   }
 
   export type BytesNullableFilter<$PrismaModel = never> = {
-    equals?: Uint8Array | BytesFieldRefInput<$PrismaModel> | null
-    in?: Uint8Array[] | null
-    notIn?: Uint8Array[] | null
-    not?: NestedBytesNullableFilter<$PrismaModel> | Uint8Array | null
+    equals?: Bytes | BytesFieldRefInput<$PrismaModel> | null
+    in?: Bytes[] | null
+    notIn?: Bytes[] | null
+    not?: NestedBytesNullableFilter<$PrismaModel> | Bytes | null
+  }
+
+  export type BoolFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolFilter<$PrismaModel> | boolean
   }
 
   export type DateTimeFilter<$PrismaModel = never> = {
@@ -14080,6 +14212,8 @@ export namespace Prisma {
     planType?: SortOrder
     planStatus?: SortOrder
     password?: SortOrder
+    mustChangePassword?: SortOrder
+    qrToken?: SortOrder
     createdAt?: SortOrder
   }
 
@@ -14104,6 +14238,8 @@ export namespace Prisma {
     planType?: SortOrder
     planStatus?: SortOrder
     password?: SortOrder
+    mustChangePassword?: SortOrder
+    qrToken?: SortOrder
     createdAt?: SortOrder
   }
 
@@ -14124,6 +14260,8 @@ export namespace Prisma {
     planType?: SortOrder
     planStatus?: SortOrder
     password?: SortOrder
+    mustChangePassword?: SortOrder
+    qrToken?: SortOrder
     createdAt?: SortOrder
   }
 
@@ -14198,13 +14336,21 @@ export namespace Prisma {
   }
 
   export type BytesNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: Uint8Array | BytesFieldRefInput<$PrismaModel> | null
-    in?: Uint8Array[] | null
-    notIn?: Uint8Array[] | null
-    not?: NestedBytesNullableWithAggregatesFilter<$PrismaModel> | Uint8Array | null
+    equals?: Bytes | BytesFieldRefInput<$PrismaModel> | null
+    in?: Bytes[] | null
+    notIn?: Bytes[] | null
+    not?: NestedBytesNullableWithAggregatesFilter<$PrismaModel> | Bytes | null
     _count?: NestedIntNullableFilter<$PrismaModel>
     _min?: NestedBytesNullableFilter<$PrismaModel>
     _max?: NestedBytesNullableFilter<$PrismaModel>
+  }
+
+  export type BoolWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedBoolFilter<$PrismaModel>
+    _max?: NestedBoolFilter<$PrismaModel>
   }
 
   export type DateTimeWithAggregatesFilter<$PrismaModel = never> = {
@@ -14221,15 +14367,15 @@ export namespace Prisma {
     _max?: NestedDateTimeFilter<$PrismaModel>
   }
 
-  export type FloatFilter<$PrismaModel = never> = {
-    equals?: number | FloatFieldRefInput<$PrismaModel>
-    in?: number[]
-    notIn?: number[]
-    lt?: number | FloatFieldRefInput<$PrismaModel>
-    lte?: number | FloatFieldRefInput<$PrismaModel>
-    gt?: number | FloatFieldRefInput<$PrismaModel>
-    gte?: number | FloatFieldRefInput<$PrismaModel>
-    not?: NestedFloatFilter<$PrismaModel> | number
+  export type IntNullableFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | null
+    notIn?: number[] | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableFilter<$PrismaModel> | number | null
   }
 
   export type StudentListRelationFilter = {
@@ -14251,7 +14397,10 @@ export namespace Prisma {
   export type PlanCountOrderByAggregateInput = {
     id?: SortOrder
     name?: SortOrder
+    label?: SortOrder
     price?: SortOrder
+    sessionsPerWeek?: SortOrder
+    isScholarship?: SortOrder
     description?: SortOrder
     createdAt?: SortOrder
   }
@@ -14259,12 +14408,16 @@ export namespace Prisma {
   export type PlanAvgOrderByAggregateInput = {
     id?: SortOrder
     price?: SortOrder
+    sessionsPerWeek?: SortOrder
   }
 
   export type PlanMaxOrderByAggregateInput = {
     id?: SortOrder
     name?: SortOrder
+    label?: SortOrder
     price?: SortOrder
+    sessionsPerWeek?: SortOrder
+    isScholarship?: SortOrder
     description?: SortOrder
     createdAt?: SortOrder
   }
@@ -14272,7 +14425,10 @@ export namespace Prisma {
   export type PlanMinOrderByAggregateInput = {
     id?: SortOrder
     name?: SortOrder
+    label?: SortOrder
     price?: SortOrder
+    sessionsPerWeek?: SortOrder
+    isScholarship?: SortOrder
     description?: SortOrder
     createdAt?: SortOrder
   }
@@ -14280,22 +14436,23 @@ export namespace Prisma {
   export type PlanSumOrderByAggregateInput = {
     id?: SortOrder
     price?: SortOrder
+    sessionsPerWeek?: SortOrder
   }
 
-  export type FloatWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: number | FloatFieldRefInput<$PrismaModel>
-    in?: number[]
-    notIn?: number[]
-    lt?: number | FloatFieldRefInput<$PrismaModel>
-    lte?: number | FloatFieldRefInput<$PrismaModel>
-    gt?: number | FloatFieldRefInput<$PrismaModel>
-    gte?: number | FloatFieldRefInput<$PrismaModel>
-    not?: NestedFloatWithAggregatesFilter<$PrismaModel> | number
-    _count?: NestedIntFilter<$PrismaModel>
-    _avg?: NestedFloatFilter<$PrismaModel>
-    _sum?: NestedFloatFilter<$PrismaModel>
-    _min?: NestedFloatFilter<$PrismaModel>
-    _max?: NestedFloatFilter<$PrismaModel>
+  export type IntNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | null
+    notIn?: number[] | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedIntNullableFilter<$PrismaModel>
+    _max?: NestedIntNullableFilter<$PrismaModel>
   }
 
   export type InstructorScalarRelationFilter = {
@@ -14433,6 +14590,17 @@ export namespace Prisma {
     classId?: SortOrder
   }
 
+  export type FloatFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel>
+    in?: number[]
+    notIn?: number[]
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatFilter<$PrismaModel> | number
+  }
+
   export type PaymentCountOrderByAggregateInput = {
     id?: SortOrder
     studentId?: SortOrder
@@ -14464,6 +14632,22 @@ export namespace Prisma {
     id?: SortOrder
     studentId?: SortOrder
     amount?: SortOrder
+  }
+
+  export type FloatWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel>
+    in?: number[]
+    notIn?: number[]
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatWithAggregatesFilter<$PrismaModel> | number
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedFloatFilter<$PrismaModel>
+    _sum?: NestedFloatFilter<$PrismaModel>
+    _min?: NestedFloatFilter<$PrismaModel>
+    _max?: NestedFloatFilter<$PrismaModel>
   }
 
   export type AttendanceCountOrderByAggregateInput = {
@@ -14504,11 +14688,6 @@ export namespace Prisma {
     in?: $Enums.AdminRole[]
     notIn?: $Enums.AdminRole[]
     not?: NestedEnumAdminRoleFilter<$PrismaModel> | $Enums.AdminRole
-  }
-
-  export type BoolFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolFilter<$PrismaModel> | boolean
   }
 
   export type AdminOrderByRelevanceInput = {
@@ -14569,25 +14748,6 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumAdminRoleFilter<$PrismaModel>
     _max?: NestedEnumAdminRoleFilter<$PrismaModel>
-  }
-
-  export type BoolWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedBoolFilter<$PrismaModel>
-    _max?: NestedBoolFilter<$PrismaModel>
-  }
-
-  export type IntNullableFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel> | null
-    in?: number[] | null
-    notIn?: number[] | null
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntNullableFilter<$PrismaModel> | number | null
   }
 
   export type FloatNullableFilter<$PrismaModel = never> = {
@@ -14690,22 +14850,6 @@ export namespace Prisma {
     heightM?: SortOrder
     activityDaysPerWeek?: SortOrder
     sessionDurationMinutes?: SortOrder
-  }
-
-  export type IntNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel> | null
-    in?: number[] | null
-    notIn?: number[] | null
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _avg?: NestedFloatNullableFilter<$PrismaModel>
-    _sum?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedIntNullableFilter<$PrismaModel>
-    _max?: NestedIntNullableFilter<$PrismaModel>
   }
 
   export type FloatNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -14941,7 +15085,11 @@ export namespace Prisma {
   }
 
   export type NullableBytesFieldUpdateOperationsInput = {
-    set?: Uint8Array | null
+    set?: Bytes | null
+  }
+
+  export type BoolFieldUpdateOperationsInput = {
+    set?: boolean
   }
 
   export type DateTimeFieldUpdateOperationsInput = {
@@ -15134,8 +15282,8 @@ export namespace Prisma {
     connect?: StudentWhereUniqueInput | StudentWhereUniqueInput[]
   }
 
-  export type FloatFieldUpdateOperationsInput = {
-    set?: number
+  export type NullableIntFieldUpdateOperationsInput = {
+    set?: number | null
     increment?: number
     decrement?: number
     multiply?: number
@@ -15342,6 +15490,14 @@ export namespace Prisma {
     connect?: StudentWhereUniqueInput
   }
 
+  export type FloatFieldUpdateOperationsInput = {
+    set?: number
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
+  }
+
   export type StudentUpdateOneRequiredWithoutPaymentsNestedInput = {
     create?: XOR<StudentCreateWithoutPaymentsInput, StudentUncheckedCreateWithoutPaymentsInput>
     connectOrCreate?: StudentCreateOrConnectWithoutPaymentsInput
@@ -15382,22 +15538,10 @@ export namespace Prisma {
     set?: $Enums.AdminRole
   }
 
-  export type BoolFieldUpdateOperationsInput = {
-    set?: boolean
-  }
-
   export type StudentCreateNestedOneWithoutAnamnesesInput = {
     create?: XOR<StudentCreateWithoutAnamnesesInput, StudentUncheckedCreateWithoutAnamnesesInput>
     connectOrCreate?: StudentCreateOrConnectWithoutAnamnesesInput
     connect?: StudentWhereUniqueInput
-  }
-
-  export type NullableIntFieldUpdateOperationsInput = {
-    set?: number | null
-    increment?: number
-    decrement?: number
-    multiply?: number
-    divide?: number
   }
 
   export type NullableFloatFieldUpdateOperationsInput = {
@@ -15489,10 +15633,15 @@ export namespace Prisma {
   }
 
   export type NestedBytesNullableFilter<$PrismaModel = never> = {
-    equals?: Uint8Array | BytesFieldRefInput<$PrismaModel> | null
-    in?: Uint8Array[] | null
-    notIn?: Uint8Array[] | null
-    not?: NestedBytesNullableFilter<$PrismaModel> | Uint8Array | null
+    equals?: Bytes | BytesFieldRefInput<$PrismaModel> | null
+    in?: Bytes[] | null
+    notIn?: Bytes[] | null
+    not?: NestedBytesNullableFilter<$PrismaModel> | Bytes | null
+  }
+
+  export type NestedBoolFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolFilter<$PrismaModel> | boolean
   }
 
   export type NestedDateTimeFilter<$PrismaModel = never> = {
@@ -15595,13 +15744,21 @@ export namespace Prisma {
   }
 
   export type NestedBytesNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: Uint8Array | BytesFieldRefInput<$PrismaModel> | null
-    in?: Uint8Array[] | null
-    notIn?: Uint8Array[] | null
-    not?: NestedBytesNullableWithAggregatesFilter<$PrismaModel> | Uint8Array | null
+    equals?: Bytes | BytesFieldRefInput<$PrismaModel> | null
+    in?: Bytes[] | null
+    notIn?: Bytes[] | null
+    not?: NestedBytesNullableWithAggregatesFilter<$PrismaModel> | Bytes | null
     _count?: NestedIntNullableFilter<$PrismaModel>
     _min?: NestedBytesNullableFilter<$PrismaModel>
     _max?: NestedBytesNullableFilter<$PrismaModel>
+  }
+
+  export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedBoolFilter<$PrismaModel>
+    _max?: NestedBoolFilter<$PrismaModel>
   }
 
   export type NestedDateTimeWithAggregatesFilter<$PrismaModel = never> = {
@@ -15616,6 +15773,33 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedDateTimeFilter<$PrismaModel>
     _max?: NestedDateTimeFilter<$PrismaModel>
+  }
+
+  export type NestedIntNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | null
+    notIn?: number[] | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedIntNullableFilter<$PrismaModel>
+    _max?: NestedIntNullableFilter<$PrismaModel>
+  }
+
+  export type NestedFloatNullableFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel> | null
+    in?: number[] | null
+    notIn?: number[] | null
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatNullableFilter<$PrismaModel> | number | null
   }
 
   export type NestedFloatWithAggregatesFilter<$PrismaModel = never> = {
@@ -15641,11 +15825,6 @@ export namespace Prisma {
     not?: NestedEnumAdminRoleFilter<$PrismaModel> | $Enums.AdminRole
   }
 
-  export type NestedBoolFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolFilter<$PrismaModel> | boolean
-  }
-
   export type NestedEnumAdminRoleWithAggregatesFilter<$PrismaModel = never> = {
     equals?: $Enums.AdminRole | EnumAdminRoleFieldRefInput<$PrismaModel>
     in?: $Enums.AdminRole[]
@@ -15654,41 +15833,6 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumAdminRoleFilter<$PrismaModel>
     _max?: NestedEnumAdminRoleFilter<$PrismaModel>
-  }
-
-  export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedBoolFilter<$PrismaModel>
-    _max?: NestedBoolFilter<$PrismaModel>
-  }
-
-  export type NestedFloatNullableFilter<$PrismaModel = never> = {
-    equals?: number | FloatFieldRefInput<$PrismaModel> | null
-    in?: number[] | null
-    notIn?: number[] | null
-    lt?: number | FloatFieldRefInput<$PrismaModel>
-    lte?: number | FloatFieldRefInput<$PrismaModel>
-    gt?: number | FloatFieldRefInput<$PrismaModel>
-    gte?: number | FloatFieldRefInput<$PrismaModel>
-    not?: NestedFloatNullableFilter<$PrismaModel> | number | null
-  }
-
-  export type NestedIntNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel> | null
-    in?: number[] | null
-    notIn?: number[] | null
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _avg?: NestedFloatNullableFilter<$PrismaModel>
-    _sum?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedIntNullableFilter<$PrismaModel>
-    _max?: NestedIntNullableFilter<$PrismaModel>
   }
 
   export type NestedFloatNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -15749,7 +15893,10 @@ export namespace Prisma {
 
   export type PlanCreateWithoutStudentsInput = {
     name: string
+    label: string
     price: number
+    sessionsPerWeek?: number | null
+    isScholarship?: boolean
     description?: string | null
     createdAt?: Date | string
   }
@@ -15757,7 +15904,10 @@ export namespace Prisma {
   export type PlanUncheckedCreateWithoutStudentsInput = {
     id?: number
     name: string
+    label: string
     price: number
+    sessionsPerWeek?: number | null
+    isScholarship?: boolean
     description?: string | null
     createdAt?: Date | string
   }
@@ -15932,7 +16082,10 @@ export namespace Prisma {
     NOT?: PlanScalarWhereInput | PlanScalarWhereInput[]
     id?: IntFilter<"Plan"> | number
     name?: StringFilter<"Plan"> | string
-    price?: FloatFilter<"Plan"> | number
+    label?: StringFilter<"Plan"> | string
+    price?: IntFilter<"Plan"> | number
+    sessionsPerWeek?: IntNullableFilter<"Plan"> | number | null
+    isScholarship?: BoolFilter<"Plan"> | boolean
     description?: StringNullableFilter<"Plan"> | string | null
     createdAt?: DateTimeFilter<"Plan"> | Date | string
   }
@@ -16095,13 +16248,15 @@ export namespace Prisma {
     address?: string | null
     city?: string | null
     birthDate?: Date | string | null
-    profilePhoto?: Uint8Array | null
+    profilePhoto?: Bytes | null
     profilePhotoMime?: string | null
     planStartDate?: Date | string | null
     planEndDate?: Date | string | null
     planType?: string
     planStatus?: string
     password: string
+    mustChangePassword?: boolean
+    qrToken?: string
     createdAt?: Date | string
     enrollments?: EnrollmentCreateNestedManyWithoutStudentInput
     payments?: PaymentCreateNestedManyWithoutStudentInput
@@ -16120,13 +16275,15 @@ export namespace Prisma {
     address?: string | null
     city?: string | null
     birthDate?: Date | string | null
-    profilePhoto?: Uint8Array | null
+    profilePhoto?: Bytes | null
     profilePhotoMime?: string | null
     planStartDate?: Date | string | null
     planEndDate?: Date | string | null
     planType?: string
     planStatus?: string
     password: string
+    mustChangePassword?: boolean
+    qrToken?: string
     createdAt?: Date | string
     enrollments?: EnrollmentUncheckedCreateNestedManyWithoutStudentInput
     payments?: PaymentUncheckedCreateNestedManyWithoutStudentInput
@@ -16169,13 +16326,15 @@ export namespace Prisma {
     address?: StringNullableFilter<"Student"> | string | null
     city?: StringNullableFilter<"Student"> | string | null
     birthDate?: DateTimeNullableFilter<"Student"> | Date | string | null
-    profilePhoto?: BytesNullableFilter<"Student"> | Uint8Array | null
+    profilePhoto?: BytesNullableFilter<"Student"> | Bytes | null
     profilePhotoMime?: StringNullableFilter<"Student"> | string | null
     planStartDate?: DateTimeNullableFilter<"Student"> | Date | string | null
     planEndDate?: DateTimeNullableFilter<"Student"> | Date | string | null
     planType?: StringFilter<"Student"> | string
     planStatus?: StringFilter<"Student"> | string
     password?: StringFilter<"Student"> | string
+    mustChangePassword?: BoolFilter<"Student"> | boolean
+    qrToken?: StringFilter<"Student"> | string
     createdAt?: DateTimeFilter<"Student"> | Date | string
   }
 
@@ -16358,13 +16517,15 @@ export namespace Prisma {
     address?: string | null
     city?: string | null
     birthDate?: Date | string | null
-    profilePhoto?: Uint8Array | null
+    profilePhoto?: Bytes | null
     profilePhotoMime?: string | null
     planStartDate?: Date | string | null
     planEndDate?: Date | string | null
     planType?: string
     planStatus?: string
     password: string
+    mustChangePassword?: boolean
+    qrToken?: string
     createdAt?: Date | string
     plans?: PlanCreateNestedManyWithoutStudentsInput
     payments?: PaymentCreateNestedManyWithoutStudentInput
@@ -16383,13 +16544,15 @@ export namespace Prisma {
     address?: string | null
     city?: string | null
     birthDate?: Date | string | null
-    profilePhoto?: Uint8Array | null
+    profilePhoto?: Bytes | null
     profilePhotoMime?: string | null
     planStartDate?: Date | string | null
     planEndDate?: Date | string | null
     planType?: string
     planStatus?: string
     password: string
+    mustChangePassword?: boolean
+    qrToken?: string
     createdAt?: Date | string
     plans?: PlanUncheckedCreateNestedManyWithoutStudentsInput
     payments?: PaymentUncheckedCreateNestedManyWithoutStudentInput
@@ -16445,13 +16608,15 @@ export namespace Prisma {
     address?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
     birthDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    profilePhoto?: NullableBytesFieldUpdateOperationsInput | Uint8Array | null
+    profilePhoto?: NullableBytesFieldUpdateOperationsInput | Bytes | null
     profilePhotoMime?: NullableStringFieldUpdateOperationsInput | string | null
     planStartDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     planEndDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     planType?: StringFieldUpdateOperationsInput | string
     planStatus?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
+    mustChangePassword?: BoolFieldUpdateOperationsInput | boolean
+    qrToken?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     plans?: PlanUpdateManyWithoutStudentsNestedInput
     payments?: PaymentUpdateManyWithoutStudentNestedInput
@@ -16470,13 +16635,15 @@ export namespace Prisma {
     address?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
     birthDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    profilePhoto?: NullableBytesFieldUpdateOperationsInput | Uint8Array | null
+    profilePhoto?: NullableBytesFieldUpdateOperationsInput | Bytes | null
     profilePhotoMime?: NullableStringFieldUpdateOperationsInput | string | null
     planStartDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     planEndDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     planType?: StringFieldUpdateOperationsInput | string
     planStatus?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
+    mustChangePassword?: BoolFieldUpdateOperationsInput | boolean
+    qrToken?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     plans?: PlanUncheckedUpdateManyWithoutStudentsNestedInput
     payments?: PaymentUncheckedUpdateManyWithoutStudentNestedInput
@@ -16522,13 +16689,15 @@ export namespace Prisma {
     address?: string | null
     city?: string | null
     birthDate?: Date | string | null
-    profilePhoto?: Uint8Array | null
+    profilePhoto?: Bytes | null
     profilePhotoMime?: string | null
     planStartDate?: Date | string | null
     planEndDate?: Date | string | null
     planType?: string
     planStatus?: string
     password: string
+    mustChangePassword?: boolean
+    qrToken?: string
     createdAt?: Date | string
     plans?: PlanCreateNestedManyWithoutStudentsInput
     enrollments?: EnrollmentCreateNestedManyWithoutStudentInput
@@ -16547,13 +16716,15 @@ export namespace Prisma {
     address?: string | null
     city?: string | null
     birthDate?: Date | string | null
-    profilePhoto?: Uint8Array | null
+    profilePhoto?: Bytes | null
     profilePhotoMime?: string | null
     planStartDate?: Date | string | null
     planEndDate?: Date | string | null
     planType?: string
     planStatus?: string
     password: string
+    mustChangePassword?: boolean
+    qrToken?: string
     createdAt?: Date | string
     plans?: PlanUncheckedCreateNestedManyWithoutStudentsInput
     enrollments?: EnrollmentUncheckedCreateNestedManyWithoutStudentInput
@@ -16587,13 +16758,15 @@ export namespace Prisma {
     address?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
     birthDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    profilePhoto?: NullableBytesFieldUpdateOperationsInput | Uint8Array | null
+    profilePhoto?: NullableBytesFieldUpdateOperationsInput | Bytes | null
     profilePhotoMime?: NullableStringFieldUpdateOperationsInput | string | null
     planStartDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     planEndDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     planType?: StringFieldUpdateOperationsInput | string
     planStatus?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
+    mustChangePassword?: BoolFieldUpdateOperationsInput | boolean
+    qrToken?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     plans?: PlanUpdateManyWithoutStudentsNestedInput
     enrollments?: EnrollmentUpdateManyWithoutStudentNestedInput
@@ -16612,13 +16785,15 @@ export namespace Prisma {
     address?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
     birthDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    profilePhoto?: NullableBytesFieldUpdateOperationsInput | Uint8Array | null
+    profilePhoto?: NullableBytesFieldUpdateOperationsInput | Bytes | null
     profilePhotoMime?: NullableStringFieldUpdateOperationsInput | string | null
     planStartDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     planEndDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     planType?: StringFieldUpdateOperationsInput | string
     planStatus?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
+    mustChangePassword?: BoolFieldUpdateOperationsInput | boolean
+    qrToken?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     plans?: PlanUncheckedUpdateManyWithoutStudentsNestedInput
     enrollments?: EnrollmentUncheckedUpdateManyWithoutStudentNestedInput
@@ -16636,13 +16811,15 @@ export namespace Prisma {
     address?: string | null
     city?: string | null
     birthDate?: Date | string | null
-    profilePhoto?: Uint8Array | null
+    profilePhoto?: Bytes | null
     profilePhotoMime?: string | null
     planStartDate?: Date | string | null
     planEndDate?: Date | string | null
     planType?: string
     planStatus?: string
     password: string
+    mustChangePassword?: boolean
+    qrToken?: string
     createdAt?: Date | string
     plans?: PlanCreateNestedManyWithoutStudentsInput
     enrollments?: EnrollmentCreateNestedManyWithoutStudentInput
@@ -16661,13 +16838,15 @@ export namespace Prisma {
     address?: string | null
     city?: string | null
     birthDate?: Date | string | null
-    profilePhoto?: Uint8Array | null
+    profilePhoto?: Bytes | null
     profilePhotoMime?: string | null
     planStartDate?: Date | string | null
     planEndDate?: Date | string | null
     planType?: string
     planStatus?: string
     password: string
+    mustChangePassword?: boolean
+    qrToken?: string
     createdAt?: Date | string
     plans?: PlanUncheckedCreateNestedManyWithoutStudentsInput
     enrollments?: EnrollmentUncheckedCreateNestedManyWithoutStudentInput
@@ -16723,13 +16902,15 @@ export namespace Prisma {
     address?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
     birthDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    profilePhoto?: NullableBytesFieldUpdateOperationsInput | Uint8Array | null
+    profilePhoto?: NullableBytesFieldUpdateOperationsInput | Bytes | null
     profilePhotoMime?: NullableStringFieldUpdateOperationsInput | string | null
     planStartDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     planEndDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     planType?: StringFieldUpdateOperationsInput | string
     planStatus?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
+    mustChangePassword?: BoolFieldUpdateOperationsInput | boolean
+    qrToken?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     plans?: PlanUpdateManyWithoutStudentsNestedInput
     enrollments?: EnrollmentUpdateManyWithoutStudentNestedInput
@@ -16748,13 +16929,15 @@ export namespace Prisma {
     address?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
     birthDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    profilePhoto?: NullableBytesFieldUpdateOperationsInput | Uint8Array | null
+    profilePhoto?: NullableBytesFieldUpdateOperationsInput | Bytes | null
     profilePhotoMime?: NullableStringFieldUpdateOperationsInput | string | null
     planStartDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     planEndDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     planType?: StringFieldUpdateOperationsInput | string
     planStatus?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
+    mustChangePassword?: BoolFieldUpdateOperationsInput | boolean
+    qrToken?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     plans?: PlanUncheckedUpdateManyWithoutStudentsNestedInput
     enrollments?: EnrollmentUncheckedUpdateManyWithoutStudentNestedInput
@@ -16800,13 +16983,15 @@ export namespace Prisma {
     address?: string | null
     city?: string | null
     birthDate?: Date | string | null
-    profilePhoto?: Uint8Array | null
+    profilePhoto?: Bytes | null
     profilePhotoMime?: string | null
     planStartDate?: Date | string | null
     planEndDate?: Date | string | null
     planType?: string
     planStatus?: string
     password: string
+    mustChangePassword?: boolean
+    qrToken?: string
     createdAt?: Date | string
     plans?: PlanCreateNestedManyWithoutStudentsInput
     enrollments?: EnrollmentCreateNestedManyWithoutStudentInput
@@ -16825,13 +17010,15 @@ export namespace Prisma {
     address?: string | null
     city?: string | null
     birthDate?: Date | string | null
-    profilePhoto?: Uint8Array | null
+    profilePhoto?: Bytes | null
     profilePhotoMime?: string | null
     planStartDate?: Date | string | null
     planEndDate?: Date | string | null
     planType?: string
     planStatus?: string
     password: string
+    mustChangePassword?: boolean
+    qrToken?: string
     createdAt?: Date | string
     plans?: PlanUncheckedCreateNestedManyWithoutStudentsInput
     enrollments?: EnrollmentUncheckedCreateNestedManyWithoutStudentInput
@@ -16865,13 +17052,15 @@ export namespace Prisma {
     address?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
     birthDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    profilePhoto?: NullableBytesFieldUpdateOperationsInput | Uint8Array | null
+    profilePhoto?: NullableBytesFieldUpdateOperationsInput | Bytes | null
     profilePhotoMime?: NullableStringFieldUpdateOperationsInput | string | null
     planStartDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     planEndDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     planType?: StringFieldUpdateOperationsInput | string
     planStatus?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
+    mustChangePassword?: BoolFieldUpdateOperationsInput | boolean
+    qrToken?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     plans?: PlanUpdateManyWithoutStudentsNestedInput
     enrollments?: EnrollmentUpdateManyWithoutStudentNestedInput
@@ -16890,13 +17079,15 @@ export namespace Prisma {
     address?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
     birthDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    profilePhoto?: NullableBytesFieldUpdateOperationsInput | Uint8Array | null
+    profilePhoto?: NullableBytesFieldUpdateOperationsInput | Bytes | null
     profilePhotoMime?: NullableStringFieldUpdateOperationsInput | string | null
     planStartDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     planEndDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     planType?: StringFieldUpdateOperationsInput | string
     planStatus?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
+    mustChangePassword?: BoolFieldUpdateOperationsInput | boolean
+    qrToken?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     plans?: PlanUncheckedUpdateManyWithoutStudentsNestedInput
     enrollments?: EnrollmentUncheckedUpdateManyWithoutStudentNestedInput
@@ -16914,13 +17105,15 @@ export namespace Prisma {
     address?: string | null
     city?: string | null
     birthDate?: Date | string | null
-    profilePhoto?: Uint8Array | null
+    profilePhoto?: Bytes | null
     profilePhotoMime?: string | null
     planStartDate?: Date | string | null
     planEndDate?: Date | string | null
     planType?: string
     planStatus?: string
     password: string
+    mustChangePassword?: boolean
+    qrToken?: string
     createdAt?: Date | string
     plans?: PlanCreateNestedManyWithoutStudentsInput
     enrollments?: EnrollmentCreateNestedManyWithoutStudentInput
@@ -16939,13 +17132,15 @@ export namespace Prisma {
     address?: string | null
     city?: string | null
     birthDate?: Date | string | null
-    profilePhoto?: Uint8Array | null
+    profilePhoto?: Bytes | null
     profilePhotoMime?: string | null
     planStartDate?: Date | string | null
     planEndDate?: Date | string | null
     planType?: string
     planStatus?: string
     password: string
+    mustChangePassword?: boolean
+    qrToken?: string
     createdAt?: Date | string
     plans?: PlanUncheckedCreateNestedManyWithoutStudentsInput
     enrollments?: EnrollmentUncheckedCreateNestedManyWithoutStudentInput
@@ -16979,13 +17174,15 @@ export namespace Prisma {
     address?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
     birthDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    profilePhoto?: NullableBytesFieldUpdateOperationsInput | Uint8Array | null
+    profilePhoto?: NullableBytesFieldUpdateOperationsInput | Bytes | null
     profilePhotoMime?: NullableStringFieldUpdateOperationsInput | string | null
     planStartDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     planEndDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     planType?: StringFieldUpdateOperationsInput | string
     planStatus?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
+    mustChangePassword?: BoolFieldUpdateOperationsInput | boolean
+    qrToken?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     plans?: PlanUpdateManyWithoutStudentsNestedInput
     enrollments?: EnrollmentUpdateManyWithoutStudentNestedInput
@@ -17004,13 +17201,15 @@ export namespace Prisma {
     address?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
     birthDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    profilePhoto?: NullableBytesFieldUpdateOperationsInput | Uint8Array | null
+    profilePhoto?: NullableBytesFieldUpdateOperationsInput | Bytes | null
     profilePhotoMime?: NullableStringFieldUpdateOperationsInput | string | null
     planStartDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     planEndDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     planType?: StringFieldUpdateOperationsInput | string
     planStatus?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
+    mustChangePassword?: BoolFieldUpdateOperationsInput | boolean
+    qrToken?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     plans?: PlanUncheckedUpdateManyWithoutStudentsNestedInput
     enrollments?: EnrollmentUncheckedUpdateManyWithoutStudentNestedInput
@@ -17070,7 +17269,10 @@ export namespace Prisma {
 
   export type PlanUpdateWithoutStudentsInput = {
     name?: StringFieldUpdateOperationsInput | string
-    price?: FloatFieldUpdateOperationsInput | number
+    label?: StringFieldUpdateOperationsInput | string
+    price?: IntFieldUpdateOperationsInput | number
+    sessionsPerWeek?: NullableIntFieldUpdateOperationsInput | number | null
+    isScholarship?: BoolFieldUpdateOperationsInput | boolean
     description?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -17078,7 +17280,10 @@ export namespace Prisma {
   export type PlanUncheckedUpdateWithoutStudentsInput = {
     id?: IntFieldUpdateOperationsInput | number
     name?: StringFieldUpdateOperationsInput | string
-    price?: FloatFieldUpdateOperationsInput | number
+    label?: StringFieldUpdateOperationsInput | string
+    price?: IntFieldUpdateOperationsInput | number
+    sessionsPerWeek?: NullableIntFieldUpdateOperationsInput | number | null
+    isScholarship?: BoolFieldUpdateOperationsInput | boolean
     description?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -17086,7 +17291,10 @@ export namespace Prisma {
   export type PlanUncheckedUpdateManyWithoutStudentsInput = {
     id?: IntFieldUpdateOperationsInput | number
     name?: StringFieldUpdateOperationsInput | string
-    price?: FloatFieldUpdateOperationsInput | number
+    label?: StringFieldUpdateOperationsInput | string
+    price?: IntFieldUpdateOperationsInput | number
+    sessionsPerWeek?: NullableIntFieldUpdateOperationsInput | number | null
+    isScholarship?: BoolFieldUpdateOperationsInput | boolean
     description?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -17242,13 +17450,15 @@ export namespace Prisma {
     address?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
     birthDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    profilePhoto?: NullableBytesFieldUpdateOperationsInput | Uint8Array | null
+    profilePhoto?: NullableBytesFieldUpdateOperationsInput | Bytes | null
     profilePhotoMime?: NullableStringFieldUpdateOperationsInput | string | null
     planStartDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     planEndDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     planType?: StringFieldUpdateOperationsInput | string
     planStatus?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
+    mustChangePassword?: BoolFieldUpdateOperationsInput | boolean
+    qrToken?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     enrollments?: EnrollmentUpdateManyWithoutStudentNestedInput
     payments?: PaymentUpdateManyWithoutStudentNestedInput
@@ -17267,13 +17477,15 @@ export namespace Prisma {
     address?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
     birthDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    profilePhoto?: NullableBytesFieldUpdateOperationsInput | Uint8Array | null
+    profilePhoto?: NullableBytesFieldUpdateOperationsInput | Bytes | null
     profilePhotoMime?: NullableStringFieldUpdateOperationsInput | string | null
     planStartDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     planEndDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     planType?: StringFieldUpdateOperationsInput | string
     planStatus?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
+    mustChangePassword?: BoolFieldUpdateOperationsInput | boolean
+    qrToken?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     enrollments?: EnrollmentUncheckedUpdateManyWithoutStudentNestedInput
     payments?: PaymentUncheckedUpdateManyWithoutStudentNestedInput
@@ -17292,13 +17504,15 @@ export namespace Prisma {
     address?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
     birthDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    profilePhoto?: NullableBytesFieldUpdateOperationsInput | Uint8Array | null
+    profilePhoto?: NullableBytesFieldUpdateOperationsInput | Bytes | null
     profilePhotoMime?: NullableStringFieldUpdateOperationsInput | string | null
     planStartDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     planEndDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     planType?: StringFieldUpdateOperationsInput | string
     planStatus?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
+    mustChangePassword?: BoolFieldUpdateOperationsInput | boolean
+    qrToken?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 

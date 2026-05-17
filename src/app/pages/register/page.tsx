@@ -15,7 +15,7 @@ const Register = () => {
     const [birthDate, setBirthDate] = useState('');
     const [planStartDate, setPlanStartDate] = useState('');
     const [planEndDate, setPlanEndDate] = useState('');
-    const [planType, setPlanType] = useState('Basic');
+    const [planType, setPlanType] = useState('1x');
     const [planStatus, setPlanStatus] = useState('Active');
     const [errors, setErrors] = useState<{ [key: string]: string }>({});
 
@@ -249,9 +249,11 @@ const Register = () => {
                             required
                             className="mt-1 block w-full border border-neutral-800 bg-neutral-900 rounded-md p-2"
                         >
-                            <option value="Basic">Básico</option>
-                            <option value="Premium">Premium</option>
-                            <option value="VIP">VIP</option>
+                            <option value="1x">1 vez/semana — $40.000</option>
+                            <option value="2x">2 veces/semana — $50.000</option>
+                            <option value="3x">3 veces/semana — $62.000</option>
+                            <option value="4x">4 veces/semana — $75.000</option>
+                            <option value="Beca">Beca — $40.000</option>
                         </select>
                     </div>
                     <div>
@@ -315,7 +317,7 @@ const Register = () => {
                             setBirthDate('');
                             setPlanStartDate('');
                             setPlanEndDate('');
-                            setPlanType('Basic');
+                            setPlanType('1x');
                             setPlanStatus('Active');
                             setPassword('');
                             setConfirmPassword('');

@@ -2,6 +2,7 @@
 import React, { useEffect, useId, useState } from 'react'
 import Input from '@/components/ui/Input'
 import Button from '@/components/ui/Button'
+import { calculatePlanAlert } from '@/lib/planAlerts'
 
 type StudentFormValues = {
   name: string
@@ -15,12 +16,23 @@ type StudentFormValues = {
   planStartDate: string
   planEndDate: string
   planType: string
-  planStatus: string
-  password: string
 }
 
-const PLAN_TYPES = ['Basic', 'Premium', 'VIP']
-const PLAN_STATUSES = ['Active', 'ExpiringSoon', 'Expired', 'NoPlan']
+const PLAN_OPTIONS = [
+  { value: '1x',   label: '1 vez/semana',    price: 40000 },
+  { value: '2x',   label: '2 veces/semana',  price: 50000 },
+  { value: '3x',   label: '3 veces/semana',  price: 62000 },
+  { value: '4x',   label: '4 veces/semana',  price: 75000 },
+  { value: 'Beca', label: 'Beca',             price: 40000 },
+] as const
+const VALID_PLAN_VALUES = new Set(PLAN_OPTIONS.map((p) => p.value))
+function resolveValidPlanType(value?: string | null): string {
+  return value && VALID_PLAN_VALUES.has(value) ? value : PLAN_OPTIONS[0].value
+}
+
+function formatCLP(amount: number) {
+  return `$${amount.toLocaleString('es-CL')}`
+}
 
 function toInputDate(value?: string | Date | null): string {
   if (!value) return ''
@@ -35,7 +47,6 @@ function normalizePayload(form: StudentFormValues) {
 
   return {
     name: form.name.trim(),
-    firstName: form.name.trim(),
     lastName: form.lastName.trim(),
     email: form.email.trim(),
     phone: emptyToNull(form.phone),
@@ -46,7 +57,6 @@ function normalizePayload(form: StudentFormValues) {
     planStartDate: parseDate(form.planStartDate),
     planEndDate: parseDate(form.planEndDate),
     planType: form.planType,
-    planStatus: form.planStatus,
   }
 }
 
@@ -68,9 +78,7 @@ export default function StudentForm({ initial, onSaved, variant = 'standalone' }
     birthDate: toInputDate(initial?.birthDate),
     planStartDate: toInputDate(initial?.planStartDate),
     planEndDate: toInputDate(initial?.planEndDate),
-    planType: initial?.planType || PLAN_TYPES[0],
-    planStatus: initial?.planStatus || PLAN_STATUSES[0],
-    password: '',
+    planType: resolveValidPlanType(initial?.planType),
   }))
   const [error, setError] = useState<string | null>(null)
   const [loading, setLoading] = useState(false)
@@ -92,8 +100,7 @@ export default function StudentForm({ initial, onSaved, variant = 'standalone' }
       birthDate: toInputDate(initial?.birthDate),
       planStartDate: toInputDate(initial?.planStartDate),
       planEndDate: toInputDate(initial?.planEndDate),
-      planType: initial?.planType || PLAN_TYPES[0],
-      planStatus: initial?.planStatus || PLAN_STATUSES[0],
+      planType: resolveValidPlanType(initial?.planType),
     }))
   }, [initial])
 
@@ -107,15 +114,6 @@ export default function StudentForm({ initial, onSaved, variant = 'standalone' }
       const url = initial?.id ? `/api/students/${initial.id}` : '/api/students'
       const payload: any = normalizePayload(form)
 
-      if (!initial?.id) {
-        if (!form.password) {
-          setError('La contraseña es obligatoria para crear una alumna.')
-          setLoading(false)
-          return
-        }
-        payload.password = form.password
-      }
-
       const response = await fetch(url, {
         method,
         headers: { 'Content-Type': 'application/json' },
@@ -128,7 +126,7 @@ export default function StudentForm({ initial, onSaved, variant = 'standalone' }
         return
       }
 
-      setForm((prev) => ({ ...prev, password: '' }))
+      setForm((prev) => ({ ...prev }))
       onSaved()
     } catch (err: any) {
       setError(String(err.message || err))
@@ -306,54 +304,44 @@ export default function StudentForm({ initial, onSaved, variant = 'standalone' }
                 onChange={(event) => setForm({ ...form, planType: event.target.value })}
                 className="w-full rounded-lg border border-neutral-300 bg-white px-3 py-2 text-sm shadow-sm transition focus:border-emerald-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/40 dark:border-neutral-600 dark:bg-neutral-900 dark:text-neutral-100"
               >
-                {PLAN_TYPES.map((type) => (
-                  <option key={type} value={type}>
-                    {type}
+                {PLAN_OPTIONS.map((plan) => (
+                  <option key={plan.value} value={plan.value}>
+                    {plan.label} — {formatCLP(plan.price)}
                   </option>
                 ))}
               </select>
             </div>
             <div className="flex flex-col gap-1">
-              <label htmlFor={`${formInstanceId}-planStatus`} className="text-sm font-medium text-neutral-700 dark:text-neutral-200">
+              <label className="text-sm font-medium text-neutral-700 dark:text-neutral-200">
                 Estado del plan
               </label>
-              <select
-                id={`${formInstanceId}-planStatus`}
-                value={form.planStatus}
-                onChange={(event) => setForm({ ...form, planStatus: event.target.value })}
-                className="w-full rounded-lg border border-neutral-300 bg-white px-3 py-2 text-sm shadow-sm transition focus:border-emerald-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/40 dark:border-neutral-600 dark:bg-neutral-900 dark:text-neutral-100"
-              >
-                {PLAN_STATUSES.map((status) => (
-                  <option key={status} value={status}>
-                    {status}
-                  </option>
-                ))}
-              </select>
+              {(() => {
+                const endDate = form.planEndDate ? new Date(form.planEndDate) : null
+                const { status } = calculatePlanAlert(endDate)
+                const badges: Record<string, string> = {
+                  ACTIVE: 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400',
+                  EXPIRING_SOON: 'bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400',
+                  EXPIRED: 'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400',
+                  NO_PLAN: 'bg-neutral-100 text-neutral-500 dark:bg-neutral-800 dark:text-neutral-400',
+                }
+                const labels: Record<string, string> = {
+                  ACTIVE: 'Activo',
+                  EXPIRING_SOON: 'Por vencer',
+                  EXPIRED: 'Vencido',
+                  NO_PLAN: 'Sin fecha fin',
+                }
+                return (
+                  <div className="flex items-center h-9">
+                    <span className={`inline-flex items-center rounded-md px-2.5 py-1 text-xs font-semibold ${badges[status] ?? badges.NO_PLAN}`}>
+                      {labels[status] ?? status}
+                    </span>
+                    <span className="ml-2 text-xs text-neutral-400">(calculado desde fecha fin)</span>
+                  </div>
+                )
+              })()}
             </div>
           </div>
         </section>
-
-        {!isEditing && (
-          <section className="space-y-3">
-            <SectionTitle>Credenciales de acceso</SectionTitle>
-            <p className="text-sm text-neutral-500 dark:text-neutral-400">
-              La alumna podrá iniciar sesión con estas credenciales. Podrás actualizar la contraseña más tarde desde el perfil.
-            </p>
-            <div className="flex flex-col gap-1 md:w-1/2">
-              <label htmlFor={`${formInstanceId}-password`} className="text-sm font-medium text-neutral-700 dark:text-neutral-200">
-                Contraseña <span className="text-red-500">*</span>
-              </label>
-              <Input
-                id={`${formInstanceId}-password`}
-                required
-                type="password"
-                value={form.password}
-                onChange={(event) => setForm({ ...form, password: event.target.value })}
-                placeholder="Contraseña temporal"
-              />
-            </div>
-          </section>
-        )}
 
         {error && (
           <div className="rounded-lg border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-600 dark:border-red-800/60 dark:bg-red-950/60 dark:text-red-300">

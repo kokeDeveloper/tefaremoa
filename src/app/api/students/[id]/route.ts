@@ -15,7 +15,22 @@ export async function GET(req: Request, { params }: { params: Promise<{ id: stri
 
     const { id } = await params;
     const idNum = Number(id);
-    const student = await prisma.student.findUnique({ where: { id: idNum } });
+    const student = await prisma.student.findUnique({
+      where: { id: idNum },
+      include: {
+        enrollments: {
+          include: {
+            class: {
+              include: {
+                instructor: { select: { id: true, name: true } },
+                _count: { select: { enrollments: true } },
+              },
+            },
+          },
+          orderBy: { createdAt: 'asc' },
+        },
+      },
+    });
     if (!student) return NextResponse.json({ error: 'Not found' }, { status: 404 });
     return NextResponse.json(student);
   } catch (err) {
@@ -35,7 +50,9 @@ export async function PUT(req: Request, { params }: { params: Promise<{ id: stri
     const { id } = await params;
     const idNum = Number(id);
     const body = await req.json();
-    const update: any = { ...body };
+    // Strip fields that are not part of the Student Prisma model
+    const { firstName: _firstName, planStatus: _ps, ...rest } = body;
+    const update: any = { ...rest };
     if (body.password) {
       update.password = await bcrypt.hash(body.password, 10);
     }

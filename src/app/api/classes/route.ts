@@ -11,7 +11,13 @@ export async function GET(req: Request) {
     const token = match ? match[1] : null;
     if (!token || !verifyToken(token)) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
-    const classes = await prisma.class.findMany({ orderBy: { schedule: 'asc' } });
+    const classes = await prisma.class.findMany({
+      orderBy: { schedule: 'asc' },
+      include: {
+        instructor: { select: { id: true, name: true } },
+        _count: { select: { enrollments: true } },
+      },
+    });
     return NextResponse.json(classes);
   } catch (err) {
     return NextResponse.json({ error: String(err) }, { status: 500 });
