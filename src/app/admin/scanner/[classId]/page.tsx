@@ -1,14 +1,14 @@
 "use client";
 
-import dynamic from "next/dynamic";
+import dynamicImport from "next/dynamic";
 import { useEffect, useRef, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { cn } from "@/util/cn";
 import { IconArrowLeft, IconQrcode, IconUserCheck, IconAlertTriangle, IconX } from "@tabler/icons-react";
 
-export const dynamicPage = "force-dynamic";
+export const dynamic = "force-dynamic";
 
-const QrScannerCamera = dynamic(() => import("./QrScannerCamera"), { ssr: false });
+const QrScannerCamera = dynamicImport(() => import("./QrScannerCamera"), { ssr: false });
 
 // ── Types ──────────────────────────────────────────────────────────────────────
 

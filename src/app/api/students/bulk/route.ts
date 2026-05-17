@@ -156,7 +156,7 @@ export async function POST(req: Request) {
         await prisma.student.create({
           data: {
             name: nombre,
-            lastName: apellidos || null,
+            lastName: apellidos || "",
             email,
             phone: telefono,
             nickname: apodo,
