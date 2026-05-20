@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { PrismaClient } from '@/app/generated/prisma';
+import { verifyToken } from '@/lib/jwt';
 
 const prisma = new PrismaClient();
 
@@ -72,7 +73,16 @@ export async function POST(req: Request) {
     const emailFromContact = contact.includes('@') ? contact.toLowerCase() : null;
     let studentId: number | null = null;
 
-    if (emailFromContact) {
+    // 1. Prioridad: vincular desde token de sesión del estudiante
+    const cookie = req.headers.get('cookie') || '';
+    const tokenMatch = cookie.match(/token=([^;]+)/);
+    const payload = tokenMatch ? verifyToken(tokenMatch[1]) : null;
+    if (payload && payload.role === 'student' && typeof payload.id === 'number') {
+      studentId = payload.id;
+    }
+
+    // 2. Fallback: vincular por email en campo contacto
+    if (!studentId && emailFromContact) {
       const student = await prisma.student.findUnique({ where: { email: emailFromContact } });
       if (student) {
         studentId = student.id;
