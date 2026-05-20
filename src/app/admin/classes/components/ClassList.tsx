@@ -84,10 +84,10 @@ export default function ClassList({ classes, onEdit, onDeleted, onSelectDetail }
                         href={`/admin/scanner/${cls.id}`}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="p-1.5 rounded hover:bg-violet-50 dark:hover:bg-violet-900/20 text-neutral-400 hover:text-violet-600 transition-colors"
-                        title="Escáner de asistencia"
+                        className="flex items-center gap-1 px-2 py-1 rounded-md bg-violet-600/15 hover:bg-violet-600/30 text-violet-400 hover:text-violet-300 text-xs font-medium transition-colors border border-violet-500/20"
+                        title="Pasar lista / escáner QR"
                       >
-                        <IconScan size={16} />
+                        <IconScan size={14} /> Lista
                       </a>
                       <button
                         onClick={() => onEdit(cls)}

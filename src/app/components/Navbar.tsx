@@ -74,7 +74,7 @@ const Navbar: React.FC = () => {
 
                         <div className="ml-auto hidden md:flex items-center gap-3">
                             <Link
-                                href="/admin"
+                                href="/admin/student-login"
                                 aria-label="Iniciar sesión"
                                 className="relative inline-flex h-12 w-12 items-center justify-center overflow-hidden rounded-full border border-white/20 text-white transition"
                             >
@@ -144,7 +144,7 @@ const Navbar: React.FC = () => {
                     </div>
                     <div className="mt-8 flex items-center justify-center gap-4">
                         <Link
-                            href="/admin"
+                            href="/admin/student-login"
                             aria-label="Iniciar sesión"
                             onClick={() => setMenuOpen(false)}
                             className="relative inline-flex h-12 w-12 items-center justify-center overflow-hidden rounded-full border border-white/20 text-white"

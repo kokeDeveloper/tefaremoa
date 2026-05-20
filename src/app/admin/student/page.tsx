@@ -1,11 +1,18 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import Button from "@/components/ui/Button";
 import { cn } from "@/util/cn";
-import { IconMenu2, IconX, IconUserEdit, IconCamera, IconHeartRateMonitor, IconLogout } from "@tabler/icons-react";
-
+import { Vortex } from "@/app/components/vortex";
+import {
+  IconMenu2,
+  IconX,
+  IconUserEdit,
+  IconCamera,
+  IconHeartPlus,
+  IconLogout,
+} from "@tabler/icons-react";
 
 export const dynamic = "force-dynamic";
 
@@ -67,10 +74,10 @@ function formatAmount(amount: number) {
 }
 
 const PLAN_STATUS_STYLES: Record<string, { label: string; classes: string }> = {
-  Active: { label: "Activo", classes: "bg-emerald-500/20 text-emerald-300 border-emerald-500/40" },
-  ExpiringSoon: { label: "Por vencer", classes: "bg-amber-500/20 text-amber-300 border-amber-500/40" },
-  Expired: { label: "Vencido", classes: "bg-red-500/20 text-red-300 border-red-500/40" },
-  NoPlan: { label: "Sin plan", classes: "bg-neutral-500/20 text-neutral-400 border-neutral-500/40" },
+  Active: { label: "Activo", classes: "bg-emerald-500/10 text-emerald-400 border-emerald-500/30" },
+  ExpiringSoon: { label: "Por vencer", classes: "bg-amber-500/10 text-amber-400 border-amber-500/30" },
+  Expired: { label: "Vencido", classes: "bg-red-500/10 text-red-400 border-red-500/30" },
+  NoPlan: { label: "Sin plan", classes: "bg-neutral-800 text-neutral-500 border-neutral-700" },
 };
 
 const COMPLETENESS_LABELS: Record<string, string> = {
@@ -92,6 +99,7 @@ export default function StudentIndexPage() {
   const [data, setData] = useState<DashboardData | null>(null);
   const [photoOk, setPhotoOk] = useState(true);
   const [menuOpen, setMenuOpen] = useState(false);
+  const menuRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     let mounted = true;
@@ -121,6 +129,18 @@ export default function StudentIndexPage() {
   const initials = useMemo(() => getInitials(data?.name || ""), [data?.name]);
   const photoSrc = useMemo(() => `/api/student/profile-photo?t=${Date.now()}`, []);
 
+  // Close menu when clicking outside
+  useEffect(() => {
+    if (!menuOpen) return;
+    const handler = (e: MouseEvent) => {
+      if (menuRef.current && !menuRef.current.contains(e.target as Node)) {
+        setMenuOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handler);
+    return () => document.removeEventListener("mousedown", handler);
+  }, [menuOpen]);
+
   const logout = async () => {
     try { await fetch("/api/auth/logout", { method: "POST" }); } finally {
       router.push("/admin/student-login");
@@ -129,18 +149,22 @@ export default function StudentIndexPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-neutral-900">
-        <div className="text-neutral-400 text-sm">Cargando…</div>
+      <div className="min-h-screen flex items-center justify-center bg-black">
+        <div className="flex flex-col items-center gap-3">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/tefaremoa.svg" alt="Te Fare Mo'a" className="h-10 w-auto opacity-40 animate-pulse" />
+          <p className="text-neutral-600 text-xs tracking-widest uppercase">Cargando…</p>
+        </div>
       </div>
     );
   }
 
   if (error || !data) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-neutral-900 px-4">
-        <div className="w-full max-w-md rounded-xl bg-neutral-800 p-6 shadow-lg">
+      <div className="min-h-screen flex items-center justify-center bg-black px-4">
+        <div className="w-full max-w-md rounded-2xl bg-neutral-900 border border-neutral-800/60 p-6 shadow-2xl">
           <h1 className="text-lg font-semibold text-white mb-1">Acceso requerido</h1>
-          <p className="text-sm text-neutral-300 mb-4">{error || "No autorizado"}</p>
+          <p className="text-sm text-neutral-400 mb-4">{error || "No autorizado"}</p>
           <Button className="w-full" onClick={() => router.push("/admin/student-login")}>Ir a login</Button>
         </div>
       </div>
@@ -151,51 +175,112 @@ export default function StudentIndexPage() {
   const missingFields = Object.entries(data.profile.fields).filter(([, v]) => !v).map(([k]) => k);
 
   return (
-    <div className="min-h-screen bg-neutral-900">
+    <div className="min-h-screen bg-black">
 
-      {/* ── Header full-bleed ── */}
-      <div className="bg-neutral-900">
-        <div className="flex flex-col items-center gap-3 text-center pt-12 pb-8 px-4">
-          {/* Avatar */}
-          <div className="h-24 w-24 shrink-0 overflow-hidden rounded-full ring-4 ring-orange-500/70 bg-neutral-700 shadow-lg">
-            {photoOk ? (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img src={photoSrc} alt="Foto" className="h-full w-full object-cover" onError={() => setPhotoOk(false)} />
-            ) : (
-              <div className="h-full w-full flex items-center justify-center text-white text-2xl font-bold">
-                {initials || "A"}
-              </div>
-            )}
+      {/* ── Hamburger menu ── */}
+      <div ref={menuRef} className="fixed top-4 right-4 z-50">
+        <button
+          onClick={() => setMenuOpen((v) => !v)}
+          className="flex h-10 w-10 items-center justify-center rounded-full bg-black/80 backdrop-blur border border-orange-500/20 text-white shadow-lg transition hover:border-orange-500/50"
+          aria-label="Menú"
+        >
+          {menuOpen ? <IconX size={18} /> : <IconMenu2 size={18} />}
+        </button>
+
+        {menuOpen && (
+          <div className="absolute right-0 mt-2 w-52 rounded-2xl bg-neutral-950 border border-neutral-800/60 shadow-2xl overflow-hidden">
+            <button
+              className="flex w-full items-center gap-3 px-4 py-3 text-sm text-neutral-300 hover:bg-neutral-900 transition-colors"
+              onClick={() => { setMenuOpen(false); router.push("/admin/student-profile"); }}
+            >
+              <IconUserEdit size={15} className="text-orange-500/70 shrink-0" /> Editar perfil
+            </button>
+            <button
+              className="flex w-full items-center gap-3 px-4 py-3 text-sm text-neutral-300 hover:bg-neutral-900 transition-colors border-t border-neutral-800/40"
+              onClick={() => { setMenuOpen(false); router.push("/admin/student-photo"); }}
+            >
+              <IconCamera size={15} className="text-orange-500/70 shrink-0" /> Foto de perfil
+            </button>
+            <button
+              className="flex w-full items-center gap-3 px-4 py-3 text-sm text-neutral-300 hover:bg-neutral-900 transition-colors border-t border-neutral-800/40"
+              onClick={() => { setMenuOpen(false); router.push("/admin/student-anamnesis"); }}
+            >
+              <IconHeartPlus size={15} className="text-orange-500/70 shrink-0" /> Ficha de salud
+            </button>
+            <button
+              className="flex w-full items-center gap-3 px-4 py-3 text-sm text-red-400/80 hover:bg-neutral-900 transition-colors border-t border-neutral-800/40"
+              onClick={() => { setMenuOpen(false); logout(); }}
+            >
+              <IconLogout size={15} className="shrink-0" /> Cerrar sesión
+            </button>
           </div>
+        )}
+      </div>
+
+      {/* ── Header Vortex ── */}
+      <Vortex
+        particleCount={150}
+        baseHue={10}
+        rangeHue={20}
+        baseSpeed={0}
+        rangeSpeed={0.4}
+        backgroundColor="#000000"
+        containerClassName="bg-black"
+      >
+        <div className="flex flex-col items-center gap-3 text-center pt-10 pb-10 px-4">
+          {/* Logo academia */}
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/tefaremoa.svg" alt="Te Fare Mo'a" className="h-9 w-auto opacity-60 mb-1" />
+
+          {/* Avatar con borde degradado naranja */}
+          <div className="p-[3px] rounded-full shrink-0" style={{ background: 'linear-gradient(135deg, #f97316 0%, #000000 50%, #f97316 100%)' }}>
+            <div className="h-24 w-24 rounded-full overflow-hidden bg-neutral-950">
+              {photoOk ? (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img src={photoSrc} alt="Foto" className="h-full w-full object-cover" onError={() => setPhotoOk(false)} />
+              ) : (
+                <div className="h-full w-full flex items-center justify-center text-white text-2xl font-bold">
+                  {initials || "A"}
+                </div>
+              )}
+            </div>
+          </div>
+
           {/* Nombre y email */}
           <div>
-            <h1 className="text-xl font-bold text-white drop-shadow">{data.name} {data.lastName}</h1>
-            <p className="text-sm text-neutral-300 mt-0.5">{data.email}</p>
+            <h1 className="text-xl font-bold text-white tracking-tight">{data.name} {data.lastName}</h1>
+            <p className="text-xs text-neutral-500 mt-0.5">{data.email}</p>
           </div>
+
           {/* Badge plan */}
           <span className={cn("rounded-full border px-3 py-1 text-xs font-medium", planStyle.classes)}>
             {planStyle.label}
           </span>
         </div>
-      </div>
+      </Vortex>
+
+      {/* Separador sutil */}
+      <div className="h-px w-full" style={{ background: 'linear-gradient(90deg, transparent, #f97316 30%, #f97316 70%, transparent)' }} />
 
       {/* ── Contenido ── */}
-      <div className="mx-auto w-full max-w-2xl px-4 py-6 space-y-5">
+      <div className="mx-auto w-full max-w-2xl px-4 py-7 space-y-4">
 
         {/* ── Plan ── */}
-        <div className="rounded-xl bg-neutral-800 p-5 shadow">
-          <h2 className="text-sm font-semibold text-neutral-300 uppercase tracking-wide mb-3">Mi Plan</h2>
-          <div className="flex flex-wrap gap-x-8 gap-y-2 text-sm">
+        <div className="rounded-2xl bg-neutral-950 border border-neutral-800/50 p-5">
+          <h2 className="flex items-center gap-2 text-xs font-semibold text-neutral-500 uppercase tracking-widest mb-4">
+            <span className="h-px w-4 rounded-full bg-orange-500" />Mi Plan
+          </h2>
+          <div className="flex flex-wrap gap-x-8 gap-y-3 text-sm">
             <div>
-              <span className="text-neutral-500">Tipo</span>
+              <p className="text-neutral-600 text-xs mb-0.5">Tipo</p>
               <p className="text-white font-medium">{data.plan.type}</p>
             </div>
             <div>
-              <span className="text-neutral-500">Inicio</span>
+              <p className="text-neutral-600 text-xs mb-0.5">Inicio</p>
               <p className="text-white font-medium">{formatDate(data.plan.startDate)}</p>
             </div>
             <div>
-              <span className="text-neutral-500">Vencimiento</span>
+              <p className="text-neutral-600 text-xs mb-0.5">Vencimiento</p>
               <p className={cn("font-medium", data.plan.status === "Expired" ? "text-red-400" : data.plan.status === "ExpiringSoon" ? "text-amber-400" : "text-white")}>
                 {formatDate(data.plan.endDate)}
               </p>
@@ -204,21 +289,21 @@ export default function StudentIndexPage() {
         </div>
 
         {/* ── Clases inscriptas ── */}
-        <div className="rounded-xl bg-neutral-800 p-5 shadow">
-          <h2 className="text-sm font-semibold text-neutral-300 uppercase tracking-wide mb-3">
-            Mis Clases
-            <span className="ml-2 rounded-full bg-neutral-700 px-2 py-0.5 text-xs text-neutral-300">{data.enrollments.length}</span>
+        <div className="rounded-2xl bg-neutral-950 border border-neutral-800/50 p-5">
+          <h2 className="flex items-center gap-2 text-xs font-semibold text-neutral-500 uppercase tracking-widest mb-4">
+            <span className="h-px w-4 rounded-full bg-orange-500" />Mis Clases
+            <span className="ml-auto rounded-full bg-neutral-900 border border-neutral-800 px-2 py-0.5 text-[10px] text-neutral-500 font-normal normal-case tracking-normal">{data.enrollments.length}</span>
           </h2>
           {data.enrollments.length === 0 ? (
-            <p className="text-sm text-neutral-500">Aún no estás inscripta en ninguna clase.</p>
+            <p className="text-sm text-neutral-600">Aún no estás inscripta en ninguna clase.</p>
           ) : (
             <ul className="space-y-2">
               {data.enrollments.map((e) => (
-                <li key={e.id} className="rounded-lg bg-neutral-700/60 px-4 py-3">
+                <li key={e.id} className="rounded-xl bg-neutral-900/60 border border-neutral-800/30 px-4 py-3">
                   <p className="text-sm font-medium text-white">{e.className}</p>
-                  <p className="text-xs text-neutral-400 capitalize">{formatSchedule(e.schedule)}</p>
+                  <p className="text-xs text-neutral-500 capitalize mt-0.5">{formatSchedule(e.schedule)}</p>
                   {e.instructorName && (
-                    <p className="text-xs text-neutral-500 mt-0.5">Prof. {e.instructorName}</p>
+                    <p className="text-xs text-neutral-700 mt-0.5">Prof. {e.instructorName}</p>
                   )}
                 </li>
               ))}
@@ -228,13 +313,15 @@ export default function StudentIndexPage() {
 
         {/* ── Pagos recientes ── */}
         {data.payments.length > 0 && (
-          <div className="rounded-xl bg-neutral-800 p-5 shadow">
-            <h2 className="text-sm font-semibold text-neutral-300 uppercase tracking-wide mb-3">Pagos recientes</h2>
-            <ul className="divide-y divide-neutral-700/60">
+          <div className="rounded-2xl bg-neutral-950 border border-neutral-800/50 p-5">
+            <h2 className="flex items-center gap-2 text-xs font-semibold text-neutral-500 uppercase tracking-widest mb-4">
+              <span className="h-px w-4 rounded-full bg-orange-500" />Pagos recientes
+            </h2>
+            <ul className="divide-y divide-neutral-900">
               {data.payments.map((p) => (
-                <li key={p.id} className="flex items-center justify-between py-2 text-sm">
-                  <span className="text-neutral-400">{formatDate(p.date)}</span>
-                  <span className="font-medium text-orange-400">{formatAmount(p.amount)}</span>
+                <li key={p.id} className="flex items-center justify-between py-2.5 text-sm">
+                  <span className="text-neutral-600 text-xs">{formatDate(p.date)}</span>
+                  <span className="font-semibold text-orange-400 tabular-nums">{formatAmount(p.amount)}</span>
                 </li>
               ))}
             </ul>
@@ -243,21 +330,27 @@ export default function StudentIndexPage() {
 
         {/* ── Completeness ── */}
         {data.profile.completenessPercent < 100 && (
-          <div className="rounded-xl bg-neutral-800 p-5 shadow">
-            <div className="flex items-center justify-between mb-2">
-              <h2 className="text-sm font-semibold text-neutral-300 uppercase tracking-wide">Completar perfil</h2>
-              <span className="text-xs text-neutral-400">{data.profile.completenessPercent}%</span>
+          <div className="rounded-2xl bg-neutral-950 border border-neutral-800/50 p-5">
+            <div className="flex items-center justify-between mb-3">
+              <h2 className="flex items-center gap-2 text-xs font-semibold text-neutral-500 uppercase tracking-widest">
+                <span className="h-px w-4 rounded-full bg-orange-500" />Completar perfil
+              </h2>
+              <span className="text-xs font-semibold text-orange-400">{data.profile.completenessPercent}%</span>
             </div>
-            <div className="h-1.5 w-full rounded-full bg-neutral-700 mb-3">
+            {/* Barra de progreso con degradado naranja */}
+            <div className="h-1.5 w-full rounded-full bg-neutral-900 border border-neutral-800/40 mb-4 overflow-hidden">
               <div
-                className="h-1.5 rounded-full bg-orange-500 transition-all"
-                style={{ width: `${data.profile.completenessPercent}%` }}
+                className="h-full rounded-full transition-all duration-700"
+                style={{
+                  width: `${data.profile.completenessPercent}%`,
+                  background: 'linear-gradient(90deg, #92400e 0%, #f97316 60%, #fb923c 100%)',
+                  boxShadow: '0 0 8px rgba(249,115,22,0.5)',
+                }}
               />
             </div>
-            <p className="text-xs text-neutral-500 mb-1">Falta completar:</p>
             <ul className="flex flex-wrap gap-1.5">
               {missingFields.map((f) => (
-                <li key={f} className="rounded-md bg-neutral-700 px-2 py-0.5 text-xs text-neutral-400">
+                <li key={f} className="rounded-lg bg-neutral-900 border border-neutral-800/50 px-2.5 py-1 text-xs text-neutral-500">
                   {COMPLETENESS_LABELS[f] ?? f}
                 </li>
               ))}
@@ -266,78 +359,33 @@ export default function StudentIndexPage() {
         )}
 
         {/* ── Mi QR ── */}
-        <div className="rounded-xl bg-neutral-800 p-5 shadow">
-          <h2 className="text-sm font-semibold text-neutral-300 uppercase tracking-wide mb-3">Mi QR de asistencia</h2>
-          <p className="text-xs text-neutral-500 mb-4">Presentá este código en clase para registrar tu asistencia.</p>
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src="/api/student/qr"
-            alt="Mi código QR"
-            className="mx-auto w-48 h-48 rounded-lg bg-white p-1"
-          />
+        <div className="rounded-2xl bg-neutral-950 border border-neutral-800/50 p-5">
+          <h2 className="flex items-center gap-2 text-xs font-semibold text-neutral-500 uppercase tracking-widest mb-1">
+            <span className="h-px w-4 rounded-full bg-orange-500" />Mi QR de asistencia
+          </h2>
+          <p className="text-xs text-neutral-700 mb-5">Presentá este código en clase para registrar tu asistencia.</p>
+          {/* Marco con degradado naranja */}
+          <div className="mx-auto w-fit p-[3px] rounded-2xl" style={{ background: 'linear-gradient(135deg, #f97316, #000000 50%, #f97316)' }}>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/api/student/qr"
+              alt="Mi código QR"
+              className="w-48 h-48 rounded-xl bg-white p-2 block"
+            />
+          </div>
           <a
             href="/api/student/qr"
             download="mi-qr-tefaremoa.png"
-            className="mt-3 block text-center text-xs text-neutral-400 hover:text-neutral-200 transition-colors"
+            className="mt-4 block text-center text-xs text-neutral-600 hover:text-orange-500 transition-colors"
           >
             Descargar imagen
           </a>
         </div>
 
-        {/* ── Spacer para el menú flotante ── */}
-        <div className="h-20" />
+        {/* Firma discreta */}
+        <p className="text-center text-[10px] text-neutral-800 pb-4 tracking-widest uppercase">Te Fare Mo&apos;a</p>
 
       </div>
-
-      {/* ── Menú sandwich flotante ── */}
-      {menuOpen && (
-        <div
-          className="fixed inset-0 z-40"
-          onClick={() => setMenuOpen(false)}
-        />
-      )}
-      <div className="fixed bottom-6 right-6 z-50 flex flex-col items-end gap-2">
-        {menuOpen && (
-          <div className="flex flex-col gap-2 mb-2 animate-in slide-in-from-bottom-4 duration-200">
-            <button
-              onClick={() => { setMenuOpen(false); router.push("/admin/student-profile"); }}
-              className="flex items-center gap-3 rounded-2xl bg-neutral-700 px-4 py-3 text-sm text-white shadow-lg hover:bg-neutral-600 transition-colors"
-            >
-              <IconUserEdit size={18} />
-              Editar perfil
-            </button>
-            <button
-              onClick={() => { setMenuOpen(false); router.push("/admin/student-photo"); }}
-              className="flex items-center gap-3 rounded-2xl bg-neutral-700 px-4 py-3 text-sm text-white shadow-lg hover:bg-neutral-600 transition-colors"
-            >
-              <IconCamera size={18} />
-              Foto de perfil
-            </button>
-            <button
-              onClick={() => { setMenuOpen(false); router.push("/admin/student-anamnesis"); }}
-              className="flex items-center gap-3 rounded-2xl bg-neutral-700 px-4 py-3 text-sm text-white shadow-lg hover:bg-neutral-600 transition-colors"
-            >
-              <IconHeartRateMonitor size={18} />
-              Ficha de salud
-            </button>
-            <button
-              onClick={() => { setMenuOpen(false); logout(); }}
-              className="flex items-center gap-3 rounded-2xl bg-red-700 px-4 py-3 text-sm text-white shadow-lg hover:bg-red-600 transition-colors"
-            >
-              <IconLogout size={18} />
-              Cerrar sesión
-            </button>
-          </div>
-        )}
-        <button
-          onClick={() => setMenuOpen((v) => !v)}
-          className="flex h-14 w-14 items-center justify-center rounded-full bg-orange-500 shadow-xl hover:bg-orange-400 transition-colors text-white"
-          aria-label="Menú"
-        >
-          {menuOpen ? <IconX size={24} /> : <IconMenu2 size={24} />}
-        </button>
-      </div>
-
     </div>
   );
 }
