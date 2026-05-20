@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import Image from 'next/image';
 import Input from '@/components/ui/Input';
 import Button from '@/components/ui/Button';
 
@@ -44,6 +45,7 @@ export default function StudentLoginPage() {
   return (
     <div className="min-h-screen flex items-center justify-center bg-neutral-900 px-4">
       <div className="flex w-full max-w-sm flex-col items-center gap-5">
+        <Image src="/tefaremoa.svg" alt="Te Fare Mo'a" width={110} height={110} priority />
         <form onSubmit={handleSubmit} className="w-full rounded-xl bg-neutral-800 p-6 shadow-lg">
           <h2 className="mb-4 text-lg font-semibold text-white">Acceso de alumna</h2>
           {error && (

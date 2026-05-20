@@ -265,13 +265,13 @@ export const Vortex = (props: VortexProps) => {
     }, []);
 
     return (
-        <div className={cn("relative w-full", props.containerClassName)}>
+        <div className={cn("relative w-full", props.containerClassName)} style={{ background: backgroundColor }}>
             <div
                 ref={containerRef}
                 className="absolute inset-0 z-0"
-                style={{ opacity: 1 }}
+                style={{ opacity: 1, background: backgroundColor }}
             >
-                <canvas ref={canvasRef} style={{ display: 'block', width: '100%', height: '100%' }}></canvas>
+                <canvas ref={canvasRef} style={{ display: 'block', width: '100%', height: '100%', background: backgroundColor }}></canvas>
             </div>
 
             <div className={cn("relative z-10", props.className)}>

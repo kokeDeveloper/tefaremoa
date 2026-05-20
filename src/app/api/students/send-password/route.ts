@@ -7,7 +7,7 @@ import crypto from "crypto";
 
 const prisma = new PrismaClient();
 
-const STUDENT_PORTAL_URL = process.env.NEXT_PUBLIC_STUDENT_PORTAL_URL || "https://tefaremoa.com";
+const STUDENT_PORTAL_URL = process.env.NEXT_PUBLIC_STUDENT_PORTAL_URL || "https://tefaremoa.com/admin/student-login";
 // Usa el logo servido desde /public; permite override por env si se requiere.
 const LOGO_URL = process.env.NEXT_PUBLIC_LOGO_URL || "/tefaremoa.svg";
 
