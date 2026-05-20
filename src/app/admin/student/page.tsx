@@ -4,6 +4,8 @@ import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import Button from "@/components/ui/Button";
 import { cn } from "@/util/cn";
+import { IconMenu2, IconX, IconUserEdit, IconCamera, IconHeartRateMonitor, IconLogout } from "@tabler/icons-react";
+
 
 export const dynamic = "force-dynamic";
 
@@ -89,6 +91,7 @@ export default function StudentIndexPage() {
   const [error, setError] = useState<string | null>(null);
   const [data, setData] = useState<DashboardData | null>(null);
   const [photoOk, setPhotoOk] = useState(true);
+  const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
     let mounted = true;
@@ -148,29 +151,36 @@ export default function StudentIndexPage() {
   const missingFields = Object.entries(data.profile.fields).filter(([, v]) => !v).map(([k]) => k);
 
   return (
-    <div className="min-h-screen bg-neutral-900 px-4 py-8">
-      <div className="mx-auto w-full max-w-2xl space-y-5">
+    <div className="min-h-screen bg-neutral-900">
 
-        {/* ── Header ── */}
-        <div className="rounded-xl bg-neutral-800 p-5 shadow flex items-center gap-4">
-          <div className="h-16 w-16 shrink-0 overflow-hidden rounded-full bg-neutral-700">
+      {/* ── Header full-bleed ── */}
+      <div className="bg-neutral-900">
+        <div className="flex flex-col items-center gap-3 text-center pt-12 pb-8 px-4">
+          {/* Avatar */}
+          <div className="h-24 w-24 shrink-0 overflow-hidden rounded-full ring-4 ring-orange-500/70 bg-neutral-700 shadow-lg">
             {photoOk ? (
               // eslint-disable-next-line @next/next/no-img-element
               <img src={photoSrc} alt="Foto" className="h-full w-full object-cover" onError={() => setPhotoOk(false)} />
             ) : (
-              <div className="h-full w-full flex items-center justify-center text-white text-lg font-semibold">
+              <div className="h-full w-full flex items-center justify-center text-white text-2xl font-bold">
                 {initials || "A"}
               </div>
             )}
           </div>
-          <div className="min-w-0 flex-1">
-            <h1 className="text-lg font-semibold text-white truncate">{data.name} {data.lastName}</h1>
-            <p className="text-sm text-neutral-400 truncate">{data.email}</p>
+          {/* Nombre y email */}
+          <div>
+            <h1 className="text-xl font-bold text-white drop-shadow">{data.name} {data.lastName}</h1>
+            <p className="text-sm text-neutral-300 mt-0.5">{data.email}</p>
           </div>
-          <span className={cn("shrink-0 rounded-full border px-3 py-1 text-xs font-medium", planStyle.classes)}>
+          {/* Badge plan */}
+          <span className={cn("rounded-full border px-3 py-1 text-xs font-medium", planStyle.classes)}>
             {planStyle.label}
           </span>
         </div>
+      </div>
+
+      {/* ── Contenido ── */}
+      <div className="mx-auto w-full max-w-2xl px-4 py-6 space-y-5">
 
         {/* ── Plan ── */}
         <div className="rounded-xl bg-neutral-800 p-5 shadow">
@@ -224,7 +234,7 @@ export default function StudentIndexPage() {
               {data.payments.map((p) => (
                 <li key={p.id} className="flex items-center justify-between py-2 text-sm">
                   <span className="text-neutral-400">{formatDate(p.date)}</span>
-                  <span className="font-medium text-emerald-400">{formatAmount(p.amount)}</span>
+                  <span className="font-medium text-orange-400">{formatAmount(p.amount)}</span>
                 </li>
               ))}
             </ul>
@@ -240,7 +250,7 @@ export default function StudentIndexPage() {
             </div>
             <div className="h-1.5 w-full rounded-full bg-neutral-700 mb-3">
               <div
-                className="h-1.5 rounded-full bg-emerald-500 transition-all"
+                className="h-1.5 rounded-full bg-orange-500 transition-all"
                 style={{ width: `${data.profile.completenessPercent}%` }}
               />
             </div>
@@ -274,23 +284,60 @@ export default function StudentIndexPage() {
           </a>
         </div>
 
-        {/* ── Acciones ── */}
-        <div className="grid gap-2 sm:grid-cols-2">
-          <Button className="w-full bg-neutral-700 text-neutral-100 hover:bg-neutral-600" onClick={() => router.push("/admin/student-profile")}>
-            Editar perfil
-          </Button>
-          <Button className="w-full bg-neutral-700 text-neutral-100 hover:bg-neutral-600" onClick={() => router.push("/admin/student-photo")}>
-            Foto de perfil
-          </Button>
-          <Button className="w-full bg-neutral-700 text-neutral-100 hover:bg-neutral-600" onClick={() => router.push("/admin/student-anamnesis")}>
-            Ficha de salud
-          </Button>
-          <Button className="w-full" onClick={logout}>
-            Cerrar sesión
-          </Button>
-        </div>
+        {/* ── Spacer para el menú flotante ── */}
+        <div className="h-20" />
 
       </div>
+
+      {/* ── Menú sandwich flotante ── */}
+      {menuOpen && (
+        <div
+          className="fixed inset-0 z-40"
+          onClick={() => setMenuOpen(false)}
+        />
+      )}
+      <div className="fixed bottom-6 right-6 z-50 flex flex-col items-end gap-2">
+        {menuOpen && (
+          <div className="flex flex-col gap-2 mb-2 animate-in slide-in-from-bottom-4 duration-200">
+            <button
+              onClick={() => { setMenuOpen(false); router.push("/admin/student-profile"); }}
+              className="flex items-center gap-3 rounded-2xl bg-neutral-700 px-4 py-3 text-sm text-white shadow-lg hover:bg-neutral-600 transition-colors"
+            >
+              <IconUserEdit size={18} />
+              Editar perfil
+            </button>
+            <button
+              onClick={() => { setMenuOpen(false); router.push("/admin/student-photo"); }}
+              className="flex items-center gap-3 rounded-2xl bg-neutral-700 px-4 py-3 text-sm text-white shadow-lg hover:bg-neutral-600 transition-colors"
+            >
+              <IconCamera size={18} />
+              Foto de perfil
+            </button>
+            <button
+              onClick={() => { setMenuOpen(false); router.push("/admin/student-anamnesis"); }}
+              className="flex items-center gap-3 rounded-2xl bg-neutral-700 px-4 py-3 text-sm text-white shadow-lg hover:bg-neutral-600 transition-colors"
+            >
+              <IconHeartRateMonitor size={18} />
+              Ficha de salud
+            </button>
+            <button
+              onClick={() => { setMenuOpen(false); logout(); }}
+              className="flex items-center gap-3 rounded-2xl bg-red-700 px-4 py-3 text-sm text-white shadow-lg hover:bg-red-600 transition-colors"
+            >
+              <IconLogout size={18} />
+              Cerrar sesión
+            </button>
+          </div>
+        )}
+        <button
+          onClick={() => setMenuOpen((v) => !v)}
+          className="flex h-14 w-14 items-center justify-center rounded-full bg-orange-500 shadow-xl hover:bg-orange-400 transition-colors text-white"
+          aria-label="Menú"
+        >
+          {menuOpen ? <IconX size={24} /> : <IconMenu2 size={24} />}
+        </button>
+      </div>
+
     </div>
   );
 }
