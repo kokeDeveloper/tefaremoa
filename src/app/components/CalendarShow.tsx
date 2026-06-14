@@ -51,7 +51,7 @@ const MOCK_REHEARSALS: Rehearsal[] = [
     title: "'Ote'a Heivara'a",
     date: new Date(2026, 5, 24),
     timeRange: "20:00 – 20:45",
-    participants: "Catalina R. · Javiera H. · Vanessa A. · Valentina C. · Ángela O.",
+    participants: "Catalina R. · Javiera H. · Vanessa A. · Valentina C. · Paula R. · Natalia Cad. · Ángela O.",
   },
   {
     id: "5",
@@ -67,7 +67,7 @@ const MOCK_REHEARSALS: Rehearsal[] = [
     date: new Date(2026, 6, 1),
     timeRange: "20:00 – 20:45",
     participants:
-      "Michélle E. · Natalia B. · Nathalie C. · Natalia Ca. · Daniela V. · Micaela Ca. · Margarita O. · Paula R. · Ángela O.",
+      "Michélle E. · Natalia B. · Nathalie C. · Daniela V. · Micaela Ca. · Margarita O.",
   },
   {
     id: "7",
