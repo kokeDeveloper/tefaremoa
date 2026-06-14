@@ -21,17 +21,17 @@ const monthlyPlans: PricingPlan[] = [
     {
         id: 2,
         frequency: 2,
-        price: 50000,
+        price: 52000,
     },
     {
         id: 3,
         frequency: 3,
-        price: 62000,
+        price: 65000,
     },
     {
         id: 4,
         frequency: 4,
-        price: 75000,
+        price: 77000,
         isPopular: true,
     },
 ];
