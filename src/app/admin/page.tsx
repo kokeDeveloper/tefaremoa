@@ -72,7 +72,7 @@ export default async function AdminSSOPage({ searchParams }: Props) {
           callback interno:
         </p>
         <pre style={{ background: '#eee', padding: 12, borderRadius: 4 }}>
-{`NEXT_PUBLIC_SSO_URL=/api/auth/sso?email=admin%40example.com`}
+          {`NEXT_PUBLIC_SSO_URL=/api/auth/sso?email=admin%40example.com`}
         </pre>
         <p>
           Luego vuelve a <a href="/admin">/admin</a>.
