@@ -1,4 +1,5 @@
 import AboutClass from "./components/AboutClass";
+import AnnualShow from "./components/AnnualShow";
 import BannerVideo from "./components/BannerVideo";
 import CarouselTefare from "./components/CarouselTefare";
 import TrialCTA from "./components/TrialCTA";
@@ -73,6 +74,7 @@ export default function Home() {
       />
       <main>
         <BannerVideo />
+        <AnnualShow />
         <CarouselTefare />
         <TrialCTA />
         {/*<UpcomingWorkshops /> */}
