@@ -1,5 +1,6 @@
 "use client"
 
+import AnnualShow from "@/app/components/AnnualShow"
 import BannerVideoSection from "@/app/components/BannerVideoSection"
 import WorkshopModule from "@/app/components/WorkshopModule"
 import { TimelineTFM } from "@/app/components/timeline2"
@@ -19,7 +20,7 @@ export default function EventosPage() {
         <section className="bg-black text-white">
             <BannerVideoSection title="Eventos" />
 
-            {/* //<WorkshopModule /> */}
+            <AnnualShow />
 
             <div className="relative border-y border-white/5">
                 <div className="absolute inset-0 bg-gradient-to-b from-transparent via-orange-500/5 to-transparent pointer-events-none" />
