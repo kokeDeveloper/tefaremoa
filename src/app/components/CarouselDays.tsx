@@ -51,7 +51,7 @@ const data: ClassSchedule[] = [
         day: "Viernes",
         class: "Multinivel",
         descrbe: "'Ōte'a y 'Aparima",
-        teacher: "Materna Rapu",
+        teacher: "Matarena Rapu",
         timeClass: "19:00 - 20:30",
         src: "/jue.png",
     },

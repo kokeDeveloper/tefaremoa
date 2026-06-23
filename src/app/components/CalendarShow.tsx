@@ -50,7 +50,7 @@ const MOCK_REHEARSALS: Rehearsal[] = [
     id: "4",
     title: "'Ote'a Heivara'a",
     date: new Date(2026, 5, 24),
-    timeRange: "20:00 – 20:45",
+    timeRange: "20:15 – 21:00",
     participants: "Catalina R. · Javiera H. · Vanessa A. · Valentina C. · Paula R. · Natalia Cad. · Ángela O.",
   },
   {
@@ -63,7 +63,7 @@ const MOCK_REHEARSALS: Rehearsal[] = [
   },
   {
     id: "6",
-    title: "'Ote'a Láser Red",
+    title: "'Ote'a Láser Red / 'Ote'a Heivara'a",
     date: new Date(2026, 6, 1),
     timeRange: "20:00 – 20:45",
     participants:
@@ -71,9 +71,9 @@ const MOCK_REHEARSALS: Rehearsal[] = [
   },
   {
     id: "7",
-    title: "Ensayo General + Confección",
+    title: "Workshop",
     date: new Date(2026, 6, 4),
-    notes: "11:00 – 13:30  Ensayo General\n15:00 – 21:00  Confección de trajes",
+    notes: "11:00 – 12:30  Confección de trajes\n15:00 – 21:00  ",
   },
   {
     id: "8",
@@ -85,23 +85,29 @@ const MOCK_REHEARSALS: Rehearsal[] = [
   {
     id: "9",
     title: "Ensayo Músicos",
-    date: new Date(2026, 6, 11), // sábado — probable typo en el original (listado como "4 jul")
+    date: new Date(2026, 6, 11),
     timeRange: "12:00 – 14:00",
   },
-  {
+    {
     id: "10",
+    title: "Ensayo General",
+    date: new Date(2026, 6, 12),
+    timeRange: "14:30 – 16:30",
+  },
+  {
+    id: "11",
     title: "'Ote'a Láser Red y 'Ote'a Heivara'a",
     date: new Date(2026, 6, 15),
     timeRange: "20:00 – 20:50",
   },
   {
-    id: "11",
+    id: "12",
     title: "Ensayo General",
     date: new Date(2026, 6, 19),
     timeRange: "14:30 – 17:30",
   },
   {
-    id: "12",
+    id: "13",
     title: "Ensayo por grupos + General",
     date: new Date(2026, 6, 26),
     timeRange: "11:30 – 16:30",
@@ -109,7 +115,7 @@ const MOCK_REHEARSALS: Rehearsal[] = [
       "11:00 – 11:30  Grupo Lunes\n11:30 – 12:00  Grupo Miércoles\n12:00 – 12:30  Grupo Jueves\n12:30 – 13:00  Grupo Viernes\n13:00 – 14:15  Almuerzo\n14:15 – 16:30  Ensayo General",
   },
   {
-    id: "13",
+    id: "14",
     title: "Ensayo SOS",
     date: new Date(2026, 6, 29),
     timeRange: "20:00 – 21:00",
