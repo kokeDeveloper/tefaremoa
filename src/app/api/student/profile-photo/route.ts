@@ -50,12 +50,28 @@ export async function POST(req: Request) {
   try {
     const payload = getStudentPayload(req);
     if (!payload) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+      return NextResponse.json(
+        { error: "No autorizada. Vuelve a iniciar sesión." },
+        { status: 401 }
+      );
     }
 
-    const form = await req.formData().catch(() => null);
-    if (!form) {
-      return NextResponse.json({ error: "Invalid form" }, { status: 400 });
+    let form: FormData | null = null;
+    try {
+      form = await req.formData();
+    } catch (formErr: unknown) {
+      const msg = formErr instanceof Error ? formErr.message : String(formErr);
+      // Payload Too Large viene del proxy (nginx) o de Next.js
+      if (/too large|payload|entity/i.test(msg)) {
+        return NextResponse.json(
+          { error: "La imagen es demasiado grande. El servidor rechazó la solicitud (máx. 2MB). Revisa la configuración del proxy." },
+          { status: 413 }
+        );
+      }
+      return NextResponse.json(
+        { error: `No se pudo leer el formulario: ${msg}` },
+        { status: 400 }
+      );
     }
 
     const file = form.get("file");
@@ -64,11 +80,17 @@ export async function POST(req: Request) {
     }
 
     if (!ALLOWED_MIME.has(file.type)) {
-      return NextResponse.json({ error: "Formato no permitido. Usa JPG/PNG/WEBP." }, { status: 400 });
+      return NextResponse.json(
+        { error: `Formato no permitido (${file.type || "desconocido"}). Usa JPG, PNG o WEBP.` },
+        { status: 400 }
+      );
     }
 
     if (file.size > MAX_BYTES) {
-      return NextResponse.json({ error: "La imagen supera el máximo (2MB)." }, { status: 400 });
+      return NextResponse.json(
+        { error: `La imagen pesa ${(file.size / 1_000_000).toFixed(1)} MB y supera el máximo de 2 MB.` },
+        { status: 400 }
+      );
     }
 
     const ab = await file.arrayBuffer();
@@ -80,8 +102,13 @@ export async function POST(req: Request) {
     });
 
     return NextResponse.json({ ok: true });
-  } catch {
-    return NextResponse.json({ error: "No se pudo guardar la foto." }, { status: 500 });
+  } catch (err: unknown) {
+    const msg = err instanceof Error ? err.message : String(err);
+    console.error("[profile-photo POST]", msg);
+    return NextResponse.json(
+      { error: `No se pudo guardar la foto: ${msg}` },
+      { status: 500 }
+    );
   } finally {
     await prisma.$disconnect();
   }
