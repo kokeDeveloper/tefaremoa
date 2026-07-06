@@ -373,23 +373,23 @@ function YesNoCard({ label, helper, value, onChange, details, onDetailsChange }:
   const isYes = value === "yes";
   return (
     <div className="rounded-xl border border-neutral-200 bg-white/80 p-4 shadow-sm dark:border-neutral-700 dark:bg-neutral-900/60">
-      <div className="flex items-start justify-between gap-3">
+      <div className="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between sm:gap-3">
         <div>
           <p className="text-sm font-semibold text-neutral-900 dark:text-neutral-50">{label}</p>
           {helper && <p className="text-xs text-neutral-500 dark:text-neutral-400">{helper}</p>}
         </div>
-        <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wide">
+        <div className="flex shrink-0 items-center gap-2 text-xs font-semibold uppercase tracking-wide">
           <button
             type="button"
             onClick={() => onChange("yes")}
-            className={`rounded-full px-3 py-1 transition ${isYes ? 'bg-emerald-600 text-white shadow' : 'bg-neutral-200 text-neutral-700 dark:bg-neutral-800 dark:text-neutral-200'}`}
+            className={`rounded-full px-4 py-1.5 transition ${isYes ? 'bg-emerald-600 text-white shadow' : 'bg-neutral-200 text-neutral-700 dark:bg-neutral-800 dark:text-neutral-200'}`}
           >
             Sí
           </button>
           <button
             type="button"
             onClick={() => onChange("no")}
-            className={`rounded-full px-3 py-1 transition ${value === 'no' ? 'bg-rose-500 text-white shadow' : 'bg-neutral-200 text-neutral-700 dark:bg-neutral-800 dark:text-neutral-200'}`}
+            className={`rounded-full px-4 py-1.5 transition ${value === 'no' ? 'bg-rose-500 text-white shadow' : 'bg-neutral-200 text-neutral-700 dark:bg-neutral-800 dark:text-neutral-200'}`}
           >
             No
           </button>
