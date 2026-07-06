@@ -75,7 +75,9 @@ export async function POST(req: Request) {
     }
 
     const file = form.get("file");
-    if (!(file instanceof File)) {
+    // Usamos instanceof Blob en lugar de instanceof File porque en Node.js 18
+    // el global File no está disponible (es experimental); File extiende Blob.
+    if (!(file instanceof Blob)) {
       return NextResponse.json({ error: "Archivo requerido." }, { status: 400 });
     }
 
