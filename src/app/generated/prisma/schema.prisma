@@ -173,3 +173,27 @@ model DanceEvaluation {
   @@unique([studentId, evaluationDate])
   @@index([evaluationDate])
 }
+
+// ── Galería de eventos ────────────────────────────────────────────────────────
+
+model GalleryEvent {
+  id          Int            @id @default(autoincrement())
+  name        String
+  description String?        @db.Text
+  eventDate   DateTime?
+  isPublished Boolean        @default(false)
+  createdAt   DateTime       @default(now())
+  updatedAt   DateTime       @updatedAt
+  photos      GalleryPhoto[]
+}
+
+model GalleryPhoto {
+  id        Int          @id @default(autoincrement())
+  event     GalleryEvent @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  eventId   Int
+  filename  String
+  title     String?
+  sizeBytes Int?
+  order     Int          @default(0)
+  createdAt DateTime     @default(now())
+}
