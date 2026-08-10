@@ -19,6 +19,15 @@ export function getPhotoPath(eventId: number, filename: string): string {
   return path.join(getEventDir(eventId), filename);
 }
 
+export function getThumbFilename(filename: string): string {
+  const ext = path.extname(filename);
+  return `thumb_${path.basename(filename, ext)}.jpg`;
+}
+
+export function getThumbPath(eventId: number, filename: string): string {
+  return path.join(getEventDir(eventId), getThumbFilename(filename));
+}
+
 export function safeFilename(original: string): string {
   const ext = path.extname(original).toLowerCase().replace(/[^.a-z0-9]/g, "") || ".jpg";
   const base = path.basename(original, path.extname(original))

@@ -167,8 +167,9 @@ export default function StudentGalleryPage() {
                     onClick={() => setLightbox(photo)}>
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img
-                      src={`/api/student/gallery/${activeEvent.id}/photos/${photo.id}/file`}
+                      src={`/api/student/gallery/${activeEvent.id}/photos/${photo.id}/file?thumb=1`}
                       alt={photo.title || "foto"}
+                      loading="lazy"
                       className="w-full h-full object-cover transition group-hover:brightness-75"
                     />
                     <div className="absolute inset-0 flex items-end justify-end p-2 opacity-0 group-hover:opacity-100 transition">

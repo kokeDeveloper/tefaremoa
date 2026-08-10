@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { PrismaClient } from "@/app/generated/prisma";
 import { verifyToken } from "@/lib/auth";
 import fs from "fs";
-import { getPhotoPath } from "@/lib/galleryStorage";
+import { getPhotoPath, getThumbPath } from "@/lib/galleryStorage";
 
 function getAdminPayload(req: Request) {
   const cookie = req.headers.get("cookie") || "";
@@ -27,17 +27,19 @@ export async function GET(
     });
     if (!photo) return NextResponse.json({ error: "No encontrada." }, { status: 404 });
 
-    const filepath = getPhotoPath(Number(id), photo.filename);
+    const thumb = new URL(req.url).searchParams.get("thumb") === "1";
+    const thumbPath = getThumbPath(Number(id), photo.filename);
+    const fullPath = getPhotoPath(Number(id), photo.filename);
+    const filepath = thumb && fs.existsSync(thumbPath) ? thumbPath : fullPath;
     if (!fs.existsSync(filepath)) return NextResponse.json({ error: "Archivo no encontrado." }, { status: 404 });
 
     const buffer = fs.readFileSync(filepath);
-    const ext = photo.filename.split(".").pop()?.toLowerCase() || "jpg";
-    const mime = ext === "png" ? "image/png" : ext === "webp" ? "image/webp" : "image/jpeg";
+    const mime = thumb ? "image/jpeg" : (photo.filename.endsWith(".png") ? "image/png" : photo.filename.endsWith(".webp") ? "image/webp" : "image/jpeg");
 
     return new NextResponse(buffer, {
       headers: {
         "Content-Type": mime,
-        "Cache-Control": "private, max-age=60",
+        "Cache-Control": "private, max-age=3600",
         "Content-Disposition": "inline",
       },
     });

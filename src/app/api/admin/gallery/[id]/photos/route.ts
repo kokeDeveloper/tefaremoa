@@ -3,7 +3,8 @@ import { PrismaClient } from "@/app/generated/prisma";
 import { verifyToken } from "@/lib/auth";
 import fs from "fs";
 import path from "path";
-import { ensureEventDir, safeFilename, getPhotoPath } from "@/lib/galleryStorage";
+import sharp from "sharp";
+import { ensureEventDir, safeFilename, getPhotoPath, getThumbPath } from "@/lib/galleryStorage";
 
 const ALLOWED_MIME = new Set(["image/jpeg", "image/png", "image/webp"]);
 const MAX_BYTES = 15_000_000; // 15MB por foto
@@ -71,6 +72,17 @@ export async function POST(
     const buffer = Buffer.from(await file.arrayBuffer());
     fs.writeFileSync(filepath, buffer);
 
+    // Generar thumbnail (600px ancho, JPEG 75%)
+    try {
+      const thumbPath = getThumbPath(eventId, filename);
+      await sharp(buffer)
+        .resize({ width: 600, withoutEnlargement: true })
+        .jpeg({ quality: 75 })
+        .toFile(thumbPath);
+    } catch (thumbErr) {
+      console.warn("[gallery] thumb generation failed", thumbErr);
+    }
+
     const title = (form.get("title") as string)?.trim() || null;
     const photo = await prisma.galleryPhoto.create({
       data: { eventId, filename, title, sizeBytes: file.size },
@@ -99,7 +111,9 @@ export async function DELETE(
     if (!photo) return NextResponse.json({ error: "Foto no encontrada." }, { status: 404 });
 
     const filepath = getPhotoPath(eventId, photo.filename);
+    const thumbPath = getThumbPath(eventId, photo.filename);
     if (fs.existsSync(filepath)) fs.unlinkSync(filepath);
+    if (fs.existsSync(thumbPath)) fs.unlinkSync(thumbPath);
 
     await prisma.galleryPhoto.delete({ where: { id: photoId } });
     return NextResponse.json({ ok: true });

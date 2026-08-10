@@ -219,8 +219,9 @@ export default function GallerySection() {
               <div key={photo.id} className="group relative rounded-lg overflow-hidden bg-neutral-100 dark:bg-neutral-800 aspect-square">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
-                  src={`/api/admin/gallery/${activeEvent.id}/photos/${photo.id}/file`}
+                  src={`/api/admin/gallery/${activeEvent.id}/photos/${photo.id}/file?thumb=1`}
                   alt={photo.title || "foto"}
+                  loading="lazy"
                   className="w-full h-full object-cover cursor-pointer transition group-hover:brightness-75"
                   onClick={() => setLightbox(photo)}
                 />

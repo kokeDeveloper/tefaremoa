@@ -3,7 +3,7 @@ import { PrismaClient } from "@/app/generated/prisma";
 import { verifyToken } from "@/lib/jwt";
 import fs from "fs";
 import path from "path";
-import { getPhotoPath } from "@/lib/galleryStorage";
+import { getPhotoPath, getThumbPath } from "@/lib/galleryStorage";
 
 function getStudentPayload(req: Request) {
   const cookie = req.headers.get("cookie") || "";
@@ -28,13 +28,16 @@ export async function GET(
     });
     if (!photo) return NextResponse.json({ error: "Foto no encontrada." }, { status: 404 });
 
-    const filepath = getPhotoPath(Number(id), photo.filename);
+    const thumb = new URL(req.url).searchParams.get("thumb") === "1";
+    const download = new URL(req.url).searchParams.get("dl") === "1";
+    const thumbPath = getThumbPath(Number(id), photo.filename);
+    const fullPath = getPhotoPath(Number(id), photo.filename);
+    const filepath = thumb && !download && fs.existsSync(thumbPath) ? thumbPath : fullPath;
     if (!fs.existsSync(filepath)) return NextResponse.json({ error: "Archivo no disponible." }, { status: 404 });
 
     const buffer = fs.readFileSync(filepath);
     const ext = path.extname(photo.filename).toLowerCase().slice(1) || "jpg";
-    const mime = ext === "png" ? "image/png" : ext === "webp" ? "image/webp" : "image/jpeg";
-    const download = new URL(req.url).searchParams.get("dl") === "1";
+    const mime = thumb ? "image/jpeg" : (ext === "png" ? "image/png" : ext === "webp" ? "image/webp" : "image/jpeg");
     const disposition = download
       ? `attachment; filename="${photo.title || photo.filename}"`
       : "inline";
@@ -42,7 +45,7 @@ export async function GET(
     return new NextResponse(buffer, {
       headers: {
         "Content-Type": mime,
-        "Cache-Control": "private, max-age=300",
+        "Cache-Control": "private, max-age=3600",
         "Content-Disposition": disposition,
         "Content-Length": String(buffer.length),
       },
