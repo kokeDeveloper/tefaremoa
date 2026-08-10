@@ -4,6 +4,7 @@ import Link from 'next/link'
 import StudentForm from './StudentForm'
 import Modal from '@/components/ui/Modal'
 import Button from '@/components/ui/Button'
+import StudentAvatar from '@/app/admin/components/StudentAvatar'
 
 type Student = {
   id: number
@@ -76,7 +77,7 @@ export default function StudentList({ students, onDeleted }: Props) {
           <thead className="bg-neutral-100 dark:bg-neutral-800 text-neutral-700 dark:text-neutral-200">
             <tr>
               <th className="px-3 py-2 text-left font-semibold">ID</th>
-              <th className="px-3 py-2 text-left font-semibold">Nombre</th>
+              <th className="px-3 py-2 text-left font-semibold" style={{ minWidth: 160 }}>Alumna</th>
               <th className="px-3 py-2 text-left font-semibold">Correo</th>
               <th className="px-3 py-2 text-left font-semibold">Plan</th>
               <th className="px-3 py-2 text-left font-semibold">Estado</th>
@@ -90,8 +91,9 @@ export default function StudentList({ students, onDeleted }: Props) {
                 <tr className="bg-white dark:bg-neutral-900">
                   <td className="px-3 py-3 font-mono text-xs text-neutral-500">#{student.id}</td>
                   <td className="px-3 py-3">
-                    <div className="font-medium">
-                      {student.name} {student.lastName ?? ''}
+                    <div className="flex items-center gap-2">
+                      <StudentAvatar studentId={student.id} name={student.name} lastName={student.lastName} />
+                      <span className="font-medium">{student.name} {student.lastName ?? ''}</span>
                     </div>
                   </td>
                   <td className="px-3 py-3">

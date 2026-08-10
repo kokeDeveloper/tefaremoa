@@ -47,14 +47,14 @@ const data: ClassSchedule[] = [
         timeClass: "18:30 - 20:00",
         src: "/jue.png",
     },
-    {
-        day: "Viernes",
-        class: "Multinivel",
-        descrbe: "'Ōte'a y 'Aparima",
-        teacher: "Matarena Rapu",
-        timeClass: "19:00 - 20:30",
-        src: "/jue.png",
-    },
+    //{
+    //     day: "Viernes",
+    //     class: "Multinivel",
+    //     descrbe: "'Ōte'a y 'Aparima",
+    //     teacher: "Matarena Rapu",
+    //     timeClass: "19:00 - 20:30",
+    //     src: "/jue.png",
+    // },
 ];
 
 const WHATSAPP_PHONE = '56971075886'

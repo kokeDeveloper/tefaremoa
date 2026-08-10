@@ -19,9 +19,6 @@ export default function EventosPage() {
     return (
         <section className="bg-black text-white">
             <BannerVideoSection title="Eventos" />
-
-            
-
             <div className="relative border-y border-white/5">
                 <div className="absolute inset-0 bg-gradient-to-b from-transparent via-orange-500/5 to-transparent pointer-events-none" />
                 <div className="relative max-w-6xl mx-auto px-4 md:px-8 lg:px-10 py-16">

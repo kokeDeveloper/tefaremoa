@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import StudentAvatar from "@/app/admin/components/StudentAvatar";
 
 type PlanStatus = "EXPIRED" | "EXPIRING_SOON" | "ACTIVE" | "NO_PLAN";
 
@@ -207,8 +208,9 @@ function AlertGroup({ title, students, state }: AlertGroupProps) {
             {students.map((student) => (
               <tr key={student.id} className="bg-white dark:bg-neutral-900">
                 <td className="px-3 py-2">
-                  <div className="font-medium">
-                    {student.name} {student.lastName ?? ""}
+                  <div className="flex items-center gap-2">
+                    <StudentAvatar studentId={student.id} name={student.name} lastName={student.lastName} />
+                    <span className="font-medium">{student.name} {student.lastName ?? ""}</span>
                   </div>
                 </td>
                 <td className="px-3 py-2">{student.email}</td>
