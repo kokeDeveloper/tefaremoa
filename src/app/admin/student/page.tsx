@@ -11,6 +11,7 @@ import {
   IconUserEdit,
   IconCamera,
   IconHeartPlus,
+  IconPhoto,
   IconLogout,
 } from "@tabler/icons-react";
 
@@ -206,6 +207,12 @@ export default function StudentIndexPage() {
               onClick={() => { setMenuOpen(false); router.push("/admin/student-anamnesis"); }}
             >
               <IconHeartPlus size={15} className="text-orange-500/70 shrink-0" /> Ficha de salud
+            </button>
+            <button
+              className="flex w-full items-center gap-3 px-4 py-3 text-sm text-neutral-300 hover:bg-neutral-900 transition-colors border-t border-neutral-800/40"
+              onClick={() => { setMenuOpen(false); router.push("/admin/student-gallery"); }}
+            >
+              <IconPhoto size={15} className="text-orange-500/70 shrink-0" /> Galería exclusiva
             </button>
             <button
               className="flex w-full items-center gap-3 px-4 py-3 text-sm text-red-400/80 hover:bg-neutral-900 transition-colors border-t border-neutral-800/40"
