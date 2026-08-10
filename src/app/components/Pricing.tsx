@@ -16,24 +16,24 @@ const monthlyPlans: PricingPlan[] = [
     {
         id: 1,
         frequency: 1,
-        price: 40000,
+        price: 42000,
     },
     {
         id: 2,
         frequency: 2,
-        price: 52000,
+        price: 55000,
     },
     {
         id: 3,
         frequency: 3,
-        price: 65000,
+        price: 68000,
     },
-    {
-        id: 4,
-        frequency: 4,
-        price: 77000,
-        isPopular: true,
-    },
+    // {
+    //     id: 4,
+    //     frequency: 4,
+    //     price: 77000,
+    //     isPopular: true,
+    // },
 ];
 
 const getMonthlyClassCount = (frequency: number) => frequency * WEEKS_PER_MONTH;

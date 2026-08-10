@@ -16,7 +16,7 @@ export default function Clases() {
         <BannerVideoSection title="Clases de Danza" />
         
         <ClassTime />
-        <CalendarShow />
+        {/* <CalendarShow /> */}
         <AboutClass />
         {/* <ContentClass /> */}
         <GalleryClass />
