@@ -10,19 +10,32 @@ const prisma = new PrismaClient();
 const VALID_PLAN_TYPES = ['1x', '2x', '3x', '4x', 'Beca'];
 
 /**
+ * Detects the delimiter used in a CSV file.
+ * Supports comma and semicolon (Excel español exports with ;).
+ */
+function detectDelimiter(firstLine: string): ',' | ';' {
+  const commas = (firstLine.match(/,/g) || []).length;
+  const semicolons = (firstLine.match(/;/g) || []).length;
+  return semicolons > commas ? ';' : ',';
+}
+
+/**
  * Minimal RFC-4180-compliant CSV parser.
+ * Auto-detects delimiter (comma or semicolon).
  * Returns an array of row arrays (strings).
  */
 function parseCSV(text: string): string[][] {
   const rows: string[][] = [];
-  const lines = text.replace(/\r\n/g, '\n').replace(/\r/g, '\n').split('\n');
+  const lines = text.replace(/\r\n/g, '\n').replace(/\r/g, '\n').split('\n').filter((l) => l.trim() !== '');
+  if (lines.length === 0) return rows;
+
+  const sep = detectDelimiter(lines[0]);
+
   for (const line of lines) {
-    if (line.trim() === '') continue;
     const fields: string[] = [];
     let i = 0;
     while (i < line.length) {
       if (line[i] === '"') {
-        // quoted field
         i++;
         let field = '';
         while (i < line.length) {
@@ -38,9 +51,9 @@ function parseCSV(text: string): string[][] {
           }
         }
         fields.push(field);
-        if (line[i] === ',') i++;
+        if (line[i] === sep) i++;
       } else {
-        const end = line.indexOf(',', i);
+        const end = line.indexOf(sep, i);
         if (end === -1) {
           fields.push(line.slice(i));
           break;
