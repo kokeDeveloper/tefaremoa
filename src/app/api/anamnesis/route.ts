@@ -55,7 +55,6 @@ export async function POST(req: Request) {
     }
 
     const name = toStringOrNull(body.name);
-    const contact = toStringOrNull(body.contact);
     const age = toNumberOrNull(body.age);
     const weightKg = toNumberOrNull(body.weightKg);
     const heightM = toNumberOrNull(body.heightM);
@@ -63,30 +62,38 @@ export async function POST(req: Request) {
     const sessionDurationMinutes = toNumberOrNull(body.sessionDurationMinutes);
     const consentAccepted = Boolean(body.consentAccepted);
 
-    if (!name || !contact) {
-      return NextResponse.json({ error: 'Nombre y contacto son obligatorios.' }, { status: 400 });
+    if (!name) {
+      return NextResponse.json({ error: 'El nombre es obligatorio.' }, { status: 400 });
     }
     if (!consentAccepted) {
       return NextResponse.json({ error: 'Debes aceptar el consentimiento.' }, { status: 400 });
     }
 
-    const emailFromContact = contact.includes('@') ? contact.toLowerCase() : null;
     let studentId: number | null = null;
+    let resolvedContact: string | null = null;
 
-    // 1. Prioridad: vincular desde token de sesión del estudiante
+    // 1. Vincular desde token de sesión del estudiante y tomar su email como contacto
     const cookie = req.headers.get('cookie') || '';
     const tokenMatch = cookie.match(/token=([^;]+)/);
     const payload = tokenMatch ? verifyToken(tokenMatch[1]) : null;
     if (payload && payload.role === 'student' && typeof payload.id === 'number') {
       studentId = payload.id;
+      const student = await prisma.student.findUnique({
+        where: { id: studentId },
+        select: { email: true },
+      });
+      resolvedContact = student?.email ?? null;
     }
 
-    // 2. Fallback: vincular por email en campo contacto
-    if (!studentId && emailFromContact) {
-      const student = await prisma.student.findUnique({ where: { email: emailFromContact } });
-      if (student) {
-        studentId = student.id;
-      }
+    // 2. Fallback: si no hay token, usar contacto enviado desde el form (flujo legacy)
+    if (!resolvedContact) {
+      resolvedContact = toStringOrNull(body.contact);
+    }
+
+    // 3. Fallback: vincular por email si viene en contacto y no hay sesión
+    if (!studentId && resolvedContact?.includes('@')) {
+      const student = await prisma.student.findUnique({ where: { email: resolvedContact.toLowerCase() } });
+      if (student) studentId = student.id;
     }
 
     const record = await prisma.anamnesis.create({
@@ -94,7 +101,7 @@ export async function POST(req: Request) {
         studentId: studentId ?? undefined,
         name,
         age,
-        contact,
+        contact: resolvedContact,
         weightKg,
         heightM,
         injuries: toStringOrNull(body.injuries),

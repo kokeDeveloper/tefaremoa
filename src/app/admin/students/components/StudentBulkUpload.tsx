@@ -66,6 +66,9 @@ function downloadTemplate() {
       ${toRow(TEMPLATE_HEADERS, true)}
       ${toRow(TEMPLATE_EXAMPLE)}
       <Row>
+        <Cell ss:StyleID="note"><Data ss:Type="String">// Obligatorios: nombre, email — Opcionales: apellidos, telefono, apodo, direccion, ciudad, fechaNacimiento, inicioPlan, finPlan, tipoPlan</Data></Cell>
+      </Row>
+      <Row>
         <Cell ss:StyleID="note"><Data ss:Type="String">// tipoPlan válidos: 1x | 2x | 3x | 4x | Beca — fechas en formato YYYY-MM-DD</Data></Cell>
       </Row>
     </Table>

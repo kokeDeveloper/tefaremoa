@@ -135,7 +135,7 @@ model Anamnesis {
   studentId               Int?
   name                    String
   age                     Int?
-  contact                 String
+  contact                 String?
   weightKg                Float?
   heightM                 Float?
   injuries                String?

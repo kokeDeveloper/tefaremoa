@@ -10241,7 +10241,7 @@ export namespace Prisma {
     studentId: number | null
     name: string
     age: number | null
-    contact: string
+    contact: string | null
     weightKg: number | null
     heightM: number | null
     injuries: string | null
@@ -10333,7 +10333,7 @@ export namespace Prisma {
       studentId: number | null
       name: string
       age: number | null
-      contact: string
+      contact: string | null
       weightKg: number | null
       heightM: number | null
       injuries: string | null
@@ -13055,7 +13055,7 @@ export namespace Prisma {
     studentId?: IntNullableFilter<"Anamnesis"> | number | null
     name?: StringFilter<"Anamnesis"> | string
     age?: IntNullableFilter<"Anamnesis"> | number | null
-    contact?: StringFilter<"Anamnesis"> | string
+    contact?: StringNullableFilter<"Anamnesis"> | string | null
     weightKg?: FloatNullableFilter<"Anamnesis"> | number | null
     heightM?: FloatNullableFilter<"Anamnesis"> | number | null
     injuries?: StringNullableFilter<"Anamnesis"> | string | null
@@ -13076,7 +13076,7 @@ export namespace Prisma {
     studentId?: SortOrderInput | SortOrder
     name?: SortOrder
     age?: SortOrderInput | SortOrder
-    contact?: SortOrder
+    contact?: SortOrderInput | SortOrder
     weightKg?: SortOrderInput | SortOrder
     heightM?: SortOrderInput | SortOrder
     injuries?: SortOrderInput | SortOrder
@@ -13101,7 +13101,7 @@ export namespace Prisma {
     studentId?: IntNullableFilter<"Anamnesis"> | number | null
     name?: StringFilter<"Anamnesis"> | string
     age?: IntNullableFilter<"Anamnesis"> | number | null
-    contact?: StringFilter<"Anamnesis"> | string
+    contact?: StringNullableFilter<"Anamnesis"> | string | null
     weightKg?: FloatNullableFilter<"Anamnesis"> | number | null
     heightM?: FloatNullableFilter<"Anamnesis"> | number | null
     injuries?: StringNullableFilter<"Anamnesis"> | string | null
@@ -13122,7 +13122,7 @@ export namespace Prisma {
     studentId?: SortOrderInput | SortOrder
     name?: SortOrder
     age?: SortOrderInput | SortOrder
-    contact?: SortOrder
+    contact?: SortOrderInput | SortOrder
     weightKg?: SortOrderInput | SortOrder
     heightM?: SortOrderInput | SortOrder
     injuries?: SortOrderInput | SortOrder
@@ -13150,7 +13150,7 @@ export namespace Prisma {
     studentId?: IntNullableWithAggregatesFilter<"Anamnesis"> | number | null
     name?: StringWithAggregatesFilter<"Anamnesis"> | string
     age?: IntNullableWithAggregatesFilter<"Anamnesis"> | number | null
-    contact?: StringWithAggregatesFilter<"Anamnesis"> | string
+    contact?: StringNullableWithAggregatesFilter<"Anamnesis"> | string | null
     weightKg?: FloatNullableWithAggregatesFilter<"Anamnesis"> | number | null
     heightM?: FloatNullableWithAggregatesFilter<"Anamnesis"> | number | null
     injuries?: StringNullableWithAggregatesFilter<"Anamnesis"> | string | null
@@ -13829,7 +13829,7 @@ export namespace Prisma {
   export type AnamnesisCreateInput = {
     name: string
     age?: number | null
-    contact: string
+    contact?: string | null
     weightKg?: number | null
     heightM?: number | null
     injuries?: string | null
@@ -13850,7 +13850,7 @@ export namespace Prisma {
     studentId?: number | null
     name: string
     age?: number | null
-    contact: string
+    contact?: string | null
     weightKg?: number | null
     heightM?: number | null
     injuries?: string | null
@@ -13868,7 +13868,7 @@ export namespace Prisma {
   export type AnamnesisUpdateInput = {
     name?: StringFieldUpdateOperationsInput | string
     age?: NullableIntFieldUpdateOperationsInput | number | null
-    contact?: StringFieldUpdateOperationsInput | string
+    contact?: NullableStringFieldUpdateOperationsInput | string | null
     weightKg?: NullableFloatFieldUpdateOperationsInput | number | null
     heightM?: NullableFloatFieldUpdateOperationsInput | number | null
     injuries?: NullableStringFieldUpdateOperationsInput | string | null
@@ -13889,7 +13889,7 @@ export namespace Prisma {
     studentId?: NullableIntFieldUpdateOperationsInput | number | null
     name?: StringFieldUpdateOperationsInput | string
     age?: NullableIntFieldUpdateOperationsInput | number | null
-    contact?: StringFieldUpdateOperationsInput | string
+    contact?: NullableStringFieldUpdateOperationsInput | string | null
     weightKg?: NullableFloatFieldUpdateOperationsInput | number | null
     heightM?: NullableFloatFieldUpdateOperationsInput | number | null
     injuries?: NullableStringFieldUpdateOperationsInput | string | null
@@ -13909,7 +13909,7 @@ export namespace Prisma {
     studentId?: number | null
     name: string
     age?: number | null
-    contact: string
+    contact?: string | null
     weightKg?: number | null
     heightM?: number | null
     injuries?: string | null
@@ -13927,7 +13927,7 @@ export namespace Prisma {
   export type AnamnesisUpdateManyMutationInput = {
     name?: StringFieldUpdateOperationsInput | string
     age?: NullableIntFieldUpdateOperationsInput | number | null
-    contact?: StringFieldUpdateOperationsInput | string
+    contact?: NullableStringFieldUpdateOperationsInput | string | null
     weightKg?: NullableFloatFieldUpdateOperationsInput | number | null
     heightM?: NullableFloatFieldUpdateOperationsInput | number | null
     injuries?: NullableStringFieldUpdateOperationsInput | string | null
@@ -13947,7 +13947,7 @@ export namespace Prisma {
     studentId?: NullableIntFieldUpdateOperationsInput | number | null
     name?: StringFieldUpdateOperationsInput | string
     age?: NullableIntFieldUpdateOperationsInput | number | null
-    contact?: StringFieldUpdateOperationsInput | string
+    contact?: NullableStringFieldUpdateOperationsInput | string | null
     weightKg?: NullableFloatFieldUpdateOperationsInput | number | null
     heightM?: NullableFloatFieldUpdateOperationsInput | number | null
     injuries?: NullableStringFieldUpdateOperationsInput | string | null
@@ -15983,7 +15983,7 @@ export namespace Prisma {
   export type AnamnesisCreateWithoutStudentInput = {
     name: string
     age?: number | null
-    contact: string
+    contact?: string | null
     weightKg?: number | null
     heightM?: number | null
     injuries?: string | null
@@ -16002,7 +16002,7 @@ export namespace Prisma {
     id?: number
     name: string
     age?: number | null
-    contact: string
+    contact?: string | null
     weightKg?: number | null
     heightM?: number | null
     injuries?: string | null
@@ -16192,7 +16192,7 @@ export namespace Prisma {
     studentId?: IntNullableFilter<"Anamnesis"> | number | null
     name?: StringFilter<"Anamnesis"> | string
     age?: IntNullableFilter<"Anamnesis"> | number | null
-    contact?: StringFilter<"Anamnesis"> | string
+    contact?: StringNullableFilter<"Anamnesis"> | string | null
     weightKg?: FloatNullableFilter<"Anamnesis"> | number | null
     heightM?: FloatNullableFilter<"Anamnesis"> | number | null
     injuries?: StringNullableFilter<"Anamnesis"> | string | null
@@ -17240,7 +17240,7 @@ export namespace Prisma {
     id?: number
     name: string
     age?: number | null
-    contact: string
+    contact?: string | null
     weightKg?: number | null
     heightM?: number | null
     injuries?: string | null
@@ -17353,7 +17353,7 @@ export namespace Prisma {
   export type AnamnesisUpdateWithoutStudentInput = {
     name?: StringFieldUpdateOperationsInput | string
     age?: NullableIntFieldUpdateOperationsInput | number | null
-    contact?: StringFieldUpdateOperationsInput | string
+    contact?: NullableStringFieldUpdateOperationsInput | string | null
     weightKg?: NullableFloatFieldUpdateOperationsInput | number | null
     heightM?: NullableFloatFieldUpdateOperationsInput | number | null
     injuries?: NullableStringFieldUpdateOperationsInput | string | null
@@ -17372,7 +17372,7 @@ export namespace Prisma {
     id?: IntFieldUpdateOperationsInput | number
     name?: StringFieldUpdateOperationsInput | string
     age?: NullableIntFieldUpdateOperationsInput | number | null
-    contact?: StringFieldUpdateOperationsInput | string
+    contact?: NullableStringFieldUpdateOperationsInput | string | null
     weightKg?: NullableFloatFieldUpdateOperationsInput | number | null
     heightM?: NullableFloatFieldUpdateOperationsInput | number | null
     injuries?: NullableStringFieldUpdateOperationsInput | string | null
@@ -17391,7 +17391,7 @@ export namespace Prisma {
     id?: IntFieldUpdateOperationsInput | number
     name?: StringFieldUpdateOperationsInput | string
     age?: NullableIntFieldUpdateOperationsInput | number | null
-    contact?: StringFieldUpdateOperationsInput | string
+    contact?: NullableStringFieldUpdateOperationsInput | string | null
     weightKg?: NullableFloatFieldUpdateOperationsInput | number | null
     heightM?: NullableFloatFieldUpdateOperationsInput | number | null
     injuries?: NullableStringFieldUpdateOperationsInput | string | null

@@ -8,7 +8,6 @@ export type YesNo = "yes" | "no" | "";
 export type FormState = {
   name: string;
   age: string;
-  contact: string;
   weightKg: string;
   heightM: string;
   injuriesYN: YesNo;
@@ -31,7 +30,6 @@ export type FormState = {
 export const initialState: FormState = {
   name: "",
   age: "",
-  contact: "",
   weightKg: "",
   heightM: "",
   injuriesYN: "",
@@ -175,16 +173,6 @@ export function AnamnesisForm({ studentName, redirectTo, logoutOnSuccess = true 
                   onChange={handleChange("age")}
                   className="rounded-lg border border-neutral-300 px-3 py-2 text-sm dark:border-neutral-600 dark:bg-neutral-800"
                   placeholder="Ej: 28"
-                />
-              </div>
-              <div className="flex flex-col gap-2 md:col-span-2">
-                <label className="text-sm font-medium">Correo o teléfono de contacto *</label>
-                <input
-                  required
-                  value={form.contact}
-                  onChange={handleChange("contact")}
-                  className="rounded-lg border border-neutral-300 px-3 py-2 text-sm dark:border-neutral-600 dark:bg-neutral-800"
-                  placeholder="correo@ejemplo.com / +56 9 ..."
                 />
               </div>
             </div>
