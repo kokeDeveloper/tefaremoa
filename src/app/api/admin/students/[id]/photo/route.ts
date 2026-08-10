@@ -40,12 +40,17 @@ export async function GET(
       return NextResponse.json({ error: "Sin foto" }, { status: 404 });
     }
 
+    const buffer = Buffer.isBuffer(student.profilePhoto)
+      ? student.profilePhoto
+      : Buffer.from(student.profilePhoto as any);
+
     const headers = new Headers();
     headers.set("Content-Type", student.profilePhotoMime);
     headers.set("Cache-Control", "private, max-age=300");
 
-    return new NextResponse(student.profilePhoto as any, { status: 200, headers });
+    return new NextResponse(buffer, { status: 200, headers });
   } catch (err) {
+    console.error("[admin photo GET]", String(err));
     return NextResponse.json({ error: String(err) }, { status: 500 });
   } finally {
     await prisma.$disconnect();
