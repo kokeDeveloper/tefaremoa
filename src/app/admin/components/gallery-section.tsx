@@ -131,19 +131,33 @@ export default function GallerySection() {
     setUploadFeedback(null);
     setUploadProgress({ done: 0, total: files.length });
     let ok = 0;
+    const failed: string[] = [];
     for (let i = 0; i < files.length; i++) {
       const form = new FormData();
       form.set("file", files[i]);
-      const res = await fetch(`/api/admin/gallery/${activeEvent.id}/photos`, {
-        method: "POST",
-        credentials: "include",
-        body: form,
-      });
-      if (res.ok) ok++;
+      try {
+        const res = await fetch(`/api/admin/gallery/${activeEvent.id}/photos`, {
+          method: "POST",
+          credentials: "include",
+          body: form,
+        });
+        if (res.ok) {
+          ok++;
+        } else {
+          const d = await res.json().catch(() => ({}));
+          failed.push(files[i].name + (d.error ? ` (${d.error})` : ""));
+        }
+      } catch (err) {
+        failed.push(files[i].name + " (error de red)");
+      }
       setUploadProgress({ done: i + 1, total: files.length });
     }
     setUploading(false);
-    setUploadFeedback(`${ok} de ${files.length} foto(s) subida(s).`);
+    setUploadFeedback(
+      failed.length === 0
+        ? `${ok} foto(s) subida(s) correctamente.`
+        : `${ok} subida(s). ${failed.length} fallida(s): ${failed.slice(0, 3).join(", ")}${failed.length > 3 ? ` y ${failed.length - 3} más` : ""}`
+    );
     fetchPhotos(activeEvent.id);
     fetchEvents();
   };
