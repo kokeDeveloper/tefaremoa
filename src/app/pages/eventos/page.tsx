@@ -20,7 +20,7 @@ export default function EventosPage() {
         <section className="bg-black text-white">
             <BannerVideoSection title="Eventos" />
 
-            <AnnualShow />
+            
 
             <div className="relative border-y border-white/5">
                 <div className="absolute inset-0 bg-gradient-to-b from-transparent via-orange-500/5 to-transparent pointer-events-none" />

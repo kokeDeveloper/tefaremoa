@@ -74,7 +74,6 @@ export default function Home() {
       />
       <main>
         <BannerVideo />
-        <AnnualShow />
         <CarouselTefare />
         <TrialCTA />
         {/*<UpcomingWorkshops /> */}
