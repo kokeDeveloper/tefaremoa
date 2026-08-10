@@ -2,15 +2,12 @@ import { NextResponse } from "next/server";
 import { PrismaClient } from "@/app/generated/prisma";
 import { verifyToken } from "@/lib/auth";
 
-const prisma = new PrismaClient();
-
 function getAdminPayload(req: Request) {
   const cookie = req.headers.get("cookie") || "";
   const match = cookie.match(/token=([^;]+)/);
   const token = match ? match[1] : null;
   const payload = token ? verifyToken(token) : null;
   if (!payload) return null;
-  // Los tokens de admin no tienen role "student"
   if ((payload as any).role === "student") return null;
   return payload;
 }
@@ -19,6 +16,7 @@ export async function GET(
   req: Request,
   { params }: { params: Promise<{ id: string }> }
 ) {
+  const prisma = new PrismaClient();
   try {
     const adminPayload = getAdminPayload(req);
     if (!adminPayload) {
