@@ -55,7 +55,8 @@ function parseCSV(text: string): string[][] {
   return rows;
 }
 
-const EXPECTED_HEADERS = [
+const REQUIRED_HEADERS = ['nombre', 'email'];
+const ALL_KNOWN_HEADERS = [
   'nombre', 'apellidos', 'email', 'telefono', 'apodo',
   'direccion', 'ciudad', 'fechaNacimiento', 'inicioPlan', 'finPlan', 'tipoPlan',
 ];
@@ -83,20 +84,24 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: 'El archivo está vacío o solo tiene encabezados.' }, { status: 400 });
     }
 
-    // Validate header row (case-insensitive, trimmed)
+    // Validate that only required headers are present
     const headers = rows[0].map((h) => h.trim().toLowerCase());
-    const missingHeaders = EXPECTED_HEADERS.filter(
+    const missingHeaders = REQUIRED_HEADERS.filter(
       (h) => !headers.includes(h.toLowerCase())
     );
     if (missingHeaders.length > 0) {
       return NextResponse.json(
-        { error: `Faltan columnas: ${missingHeaders.join(', ')}. Descarga la plantilla para ver el formato correcto.` },
+        { error: `Faltan columnas obligatorias: ${missingHeaders.join(', ')}. El CSV debe tener al menos "nombre" y "email".` },
         { status: 400 }
       );
     }
 
-    // Map header positions
+    // Helper: returns value only if column exists in this CSV
     const col = (name: string) => headers.indexOf(name.toLowerCase());
+    const get = (row: string[], name: string) => {
+      const idx = col(name);
+      return idx >= 0 ? row[idx]?.trim() || null : null;
+    };
 
     const dataRows = rows.slice(1);
     const results: { row: number; email: string; status: 'created' | 'skipped'; reason?: string }[] = [];
