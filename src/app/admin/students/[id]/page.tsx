@@ -1,4 +1,4 @@
-"use client"
+﻿"use client"
 import React, { useCallback, useEffect, useState } from 'react'
 import { useRouter, useParams } from 'next/navigation'
 import Link from 'next/link'
@@ -43,7 +43,7 @@ export default function StudentDetailPage() {
   const tabClass = (t: Tab) => cn(
     'flex items-center gap-1.5 px-1 py-3 text-sm border-b-2 transition-colors mr-5',
     tab === t
-      ? 'border-emerald-500 text-emerald-700 dark:text-emerald-400 font-medium'
+      ? 'border-orange-500 text-orange-700 dark:text-orange-400 font-medium'
       : 'border-transparent text-neutral-500 hover:text-neutral-800 dark:hover:text-neutral-200'
   )
 
@@ -80,7 +80,7 @@ export default function StudentDetailPage() {
         <button onClick={() => setTab('clases')} className={tabClass('clases')}>
           <IconSchool size={15} /> Clases inscritas
           {student.enrollments?.length > 0 && (
-            <span className="ml-1 inline-flex items-center justify-center rounded-full bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-400 text-xs w-5 h-5 font-semibold">
+            <span className="ml-1 inline-flex items-center justify-center rounded-full bg-orange-100 dark:bg-orange-900/30 text-orange-700 dark:text-orange-400 text-xs w-5 h-5 font-semibold">
               {student.enrollments.length}
             </span>
           )}

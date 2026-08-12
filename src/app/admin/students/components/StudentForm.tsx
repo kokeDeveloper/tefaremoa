@@ -1,4 +1,4 @@
-"use client"
+﻿"use client"
 import React, { useEffect, useId, useState } from 'react'
 import Input from '@/components/ui/Input'
 import Button from '@/components/ui/Button'
@@ -302,7 +302,7 @@ export default function StudentForm({ initial, onSaved, variant = 'standalone' }
                 id={`${formInstanceId}-planType`}
                 value={form.planType}
                 onChange={(event) => setForm({ ...form, planType: event.target.value })}
-                className="w-full rounded-lg border border-neutral-300 bg-white px-3 py-2 text-sm shadow-sm transition focus:border-emerald-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/40 dark:border-neutral-600 dark:bg-neutral-900 dark:text-neutral-100"
+                className="w-full rounded-lg border border-neutral-300 bg-white px-3 py-2 text-sm shadow-sm transition focus:border-orange-500 focus:outline-none focus:ring-2 focus:ring-orange-500/40 dark:border-neutral-600 dark:bg-neutral-900 dark:text-neutral-100"
               >
                 {PLAN_OPTIONS.map((plan) => (
                   <option key={plan.value} value={plan.value}>
@@ -319,7 +319,7 @@ export default function StudentForm({ initial, onSaved, variant = 'standalone' }
                 const endDate = form.planEndDate ? new Date(form.planEndDate) : null
                 const { status } = calculatePlanAlert(endDate)
                 const badges: Record<string, string> = {
-                  ACTIVE: 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400',
+                  ACTIVE: 'bg-orange-100 text-orange-700 dark:bg-orange-900/30 dark:text-orange-400',
                   EXPIRING_SOON: 'bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400',
                   EXPIRED: 'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400',
                   NO_PLAN: 'bg-neutral-100 text-neutral-500 dark:bg-neutral-800 dark:text-neutral-400',
@@ -352,7 +352,7 @@ export default function StudentForm({ initial, onSaved, variant = 'standalone' }
         <div className="flex items-center justify-end">
           <Button
             disabled={loading}
-            className="bg-emerald-600 px-4 py-2 text-sm font-semibold text-white shadow transition hover:bg-emerald-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-600 disabled:cursor-not-allowed disabled:opacity-60"
+            className="bg-orange-600 px-4 py-2 text-sm font-semibold text-white shadow transition hover:bg-orange-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600 disabled:cursor-not-allowed disabled:opacity-60"
           >
             {loading ? 'Guardando…' : isEditing ? 'Actualizar alumna' : 'Crear alumna'}
           </Button>

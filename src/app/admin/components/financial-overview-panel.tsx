@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useCallback, useEffect, useMemo, useState, type ReactNode } from "react";
 import {
@@ -153,7 +153,7 @@ export function FinancialOverviewPanel() {
     }
 
     const trendArrow = kpis.monthOverMonthDifference > 0 ? "↑" : "↓";
-    const trendColor = kpis.monthOverMonthDifference > 0 ? "text-emerald-500" : "text-rose-500";
+    const trendColor = kpis.monthOverMonthDifference > 0 ? "text-orange-500" : "text-rose-500";
     return (
       <span className={trendColor}>
         {trendArrow} {currencyFormatter.format(Math.abs(kpis.monthOverMonthDifference))} ({
@@ -190,7 +190,7 @@ export function FinancialOverviewPanel() {
           type="button"
           onClick={() => void loadMetrics()}
           className={cn(
-            "inline-flex items-center gap-1 rounded-lg border border-neutral-200 px-3 py-1.5 text-sm font-medium text-neutral-600 transition hover:bg-neutral-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-800",
+            "inline-flex items-center gap-1 rounded-lg border border-neutral-200 px-3 py-1.5 text-sm font-medium text-neutral-600 transition hover:bg-neutral-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-orange-500 dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-800",
             isLoading && "pointer-events-none opacity-60"
           )}
           aria-label="Actualizar datos financieros"
@@ -218,7 +218,7 @@ export function FinancialOverviewPanel() {
               : "Sin pagos registrados."
           }
           icon={<IconCurrencyDollar className="h-4 w-4" aria-hidden />}
-          accentClass="border-l-4 border-emerald-500/70"
+          accentClass="border-l-4 border-orange-500/70"
         />
         <MetricTile
           label="Comparativa mensual"
@@ -235,7 +235,7 @@ export function FinancialOverviewPanel() {
         />
         {typeof monthOverMonthHelper !== "string" && (
           <div className="sm:col-span-2">
-            <div className="rounded-lg border border-emerald-200/60 bg-emerald-50/60 p-3 text-xs text-emerald-700 dark:border-emerald-500/40 dark:bg-emerald-900/20 dark:text-emerald-200">
+            <div className="rounded-lg border border-orange-200/60 bg-orange-50/60 p-3 text-xs text-orange-700 dark:border-orange-500/40 dark:bg-orange-900/20 dark:text-orange-200">
               {monthOverMonthHelper}
             </div>
           </div>

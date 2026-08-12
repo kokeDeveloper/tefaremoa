@@ -1,4 +1,4 @@
-"use client"
+﻿"use client"
 import React, { useMemo, useState } from 'react'
 import Link from 'next/link'
 import StudentForm from './StudentForm'
@@ -109,7 +109,7 @@ export default function StudentList({ students, onDeleted }: Props) {
                     {student._count !== undefined ? (
                       <span className={`inline-flex items-center justify-center w-6 h-6 rounded-full text-xs font-semibold ${
                         student._count.enrollments > 0
-                          ? 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400'
+                          ? 'bg-orange-100 text-orange-700 dark:bg-orange-900/30 dark:text-orange-400'
                           : 'bg-neutral-100 text-neutral-400 dark:bg-neutral-800'
                       }`}>
                         {student._count.enrollments}
@@ -133,7 +133,7 @@ export default function StudentList({ students, onDeleted }: Props) {
                       <button
                         onClick={() => sendPassword(student.id)}
                         disabled={sendingId === student.id}
-                        className="px-3 py-1 text-xs font-semibold uppercase tracking-wide rounded border border-emerald-500 text-emerald-600 hover:bg-emerald-500/10 transition disabled:opacity-60 disabled:cursor-not-allowed"
+                        className="px-3 py-1 text-xs font-semibold uppercase tracking-wide rounded border border-orange-500 text-orange-600 hover:bg-orange-500/10 transition disabled:opacity-60 disabled:cursor-not-allowed"
                       >
                         {sendingId === student.id ? 'Enviando…' : 'Enviar contraseña'}
                       </button>
@@ -207,7 +207,7 @@ function StatusBadge({ status }: { status?: string | null }) {
   const styles: Record<string, string> = {
     expired: 'bg-red-600 text-white',
     expiringsoon: 'bg-amber-500 text-neutral-900',
-    active: 'bg-emerald-600 text-white',
+    active: 'bg-orange-600 text-white',
     noplan: 'bg-neutral-500 text-white',
   }
 

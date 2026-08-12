@@ -1,4 +1,4 @@
-"use client"
+﻿"use client"
 import React, { useState, useEffect, useMemo, useCallback } from 'react'
 import Image from 'next/image'
 import { useSearchParams } from 'next/navigation'
@@ -10,6 +10,7 @@ import { Sidebar, SidebarBody, SidebarLink } from "./components/sidebar";
   IconClipboardList,
   IconSettings,
   IconUserBolt,
+  IconUserCheck,
   IconCashRegister,
   IconRefresh,
   IconSchool,
@@ -21,6 +22,7 @@ import { FinancialOverviewPanel } from "./components/financial-overview-panel";
 import { StudentManagementSection } from "./components/student-management-section";
 import { EvaluationEntrySection } from "./components/evaluation-entry-section";
 import { ClassesSection } from "./components/classes-section";
+import { AttendanceSection } from "./components/AttendanceSection";
 import GallerySection from "./components/gallery-section";
 import type { DashboardSummary } from "@/lib/dashboardMetrics";
 
@@ -38,30 +40,36 @@ interface DashboardCardDefinition {
 export function AdminDashboard() {
   const searchParams = useSearchParams();
   const sectionParam = searchParams?.get("section")?.toLowerCase() ?? "dashboard";
-  const activeSection = sectionParam === "students" ? "students" : sectionParam === "evaluations" ? "evaluations" : sectionParam === "classes" ? "classes" : sectionParam === "gallery" ? "gallery" : "dashboard";
+  const activeSection = sectionParam === "students" ? "students" : sectionParam === "evaluations" ? "evaluations" : sectionParam === "classes" ? "classes" : sectionParam === "gallery" ? "gallery" : sectionParam === "attendance" ? "attendance" : "dashboard";
 
   const dashboardIconClass = cn(
     "h-5 w-5 shrink-0",
     activeSection === "dashboard"
-      ? "text-emerald-600 dark:text-emerald-300"
+      ? "text-orange-600 dark:text-orange-300"
       : "text-neutral-700 dark:text-neutral-200"
   );
   const studentsIconClass = cn(
     "h-5 w-5 shrink-0",
     activeSection === "students"
-      ? "text-emerald-600 dark:text-emerald-300"
+      ? "text-orange-600 dark:text-orange-300"
       : "text-neutral-700 dark:text-neutral-200"
   );
   const evaluationsIconClass = cn(
     "h-5 w-5 shrink-0",
     activeSection === "evaluations"
-      ? "text-emerald-600 dark:text-emerald-300"
+      ? "text-orange-600 dark:text-orange-300"
       : "text-neutral-700 dark:text-neutral-200"
   );
   const classesIconClass = cn(
     "h-5 w-5 shrink-0",
     activeSection === "classes"
-      ? "text-emerald-600 dark:text-emerald-300"
+      ? "text-orange-600 dark:text-orange-300"
+      : "text-neutral-700 dark:text-neutral-200"
+  );
+  const attendanceIconClass = cn(
+    "h-5 w-5 shrink-0",
+    activeSection === "attendance"
+      ? "text-orange-600 dark:text-orange-300"
       : "text-neutral-700 dark:text-neutral-200"
   );
 
@@ -89,6 +97,12 @@ export function AdminDashboard() {
       icon: <IconSchool className={classesIconClass} />,
     },
     {
+      label: "Asistencia",
+      href: "/admin?section=attendance",
+      isActive: activeSection === "attendance",
+      icon: <IconUserCheck className={attendanceIconClass} />,
+    },
+    {
       label: "Evaluaciones",
       href: "/admin?section=evaluations",
       isActive: activeSection === "evaluations",
@@ -98,7 +112,7 @@ export function AdminDashboard() {
       label: "Galería",
       href: "/admin?section=gallery",
       isActive: activeSection === "gallery",
-      icon: <IconPhoto className={cn("h-5 w-5 shrink-0", activeSection === "gallery" ? "text-emerald-600 dark:text-emerald-300" : "text-neutral-700 dark:text-neutral-200")} />,
+      icon: <IconPhoto className={cn("h-5 w-5 shrink-0", activeSection === "gallery" ? "text-orange-600 dark:text-orange-300" : "text-neutral-700 dark:text-neutral-200")} />,
     },
     {
       label: "Configuración",
@@ -163,7 +177,7 @@ export function AdminDashboard() {
                 label: adminName ?? "Usuario",
                 href: "#",
                 icon: (
-                  <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-emerald-500 text-xs font-semibold uppercase text-white dark:bg-emerald-600">
+                  <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-orange-500 text-xs font-semibold uppercase text-white dark:bg-orange-600">
                     {(adminName ?? "U").slice(0, 2)}
                   </span>
                 ),
@@ -225,6 +239,19 @@ export function AdminDashboard() {
               transition={{ duration: 0.18, ease: "easeOut" }}
             >
               <ClassesSection />
+            </motion.div>
+          )}
+
+          {activeSection === "attendance" && (
+            <motion.div
+              key="attendance"
+              className="flex w-full"
+              initial={{ opacity: 0, x: 12 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -12 }}
+              transition={{ duration: 0.18, ease: "easeOut" }}
+            >
+              <AttendanceSection />
             </motion.div>
           )}
 
@@ -373,6 +400,13 @@ const DashboardOverview = () => {
         }`
       : `No hay talleres próximos en los siguientes ${workshops.horizonDays} días.`;
 
+    const att = summaryData.stats.weeklyAttendance;
+    const attendanceTrendText = att.trend.difference > 0
+      ? `↑ ${att.trend.difference} más que la semana pasada.`
+      : att.trend.difference < 0
+      ? `↓ ${Math.abs(att.trend.difference)} menos que la semana pasada.`
+      : "Sin variación vs la semana pasada.";
+
     cards = [
       {
         key: "active-students",
@@ -380,7 +414,7 @@ const DashboardOverview = () => {
         value: numberFormatter.format(summaryData.stats.activeStudents.total),
         description: "Planes vigentes al día de hoy.",
         extra: `Referencia: ${dateFormatter.format(new Date(summaryData.referenceDate))}`,
-        accentClass: "border-l-4 border-emerald-500/80",
+        accentClass: "border-l-4 border-orange-500/80",
       },
       {
         key: "expiring-plans",
@@ -406,6 +440,14 @@ const DashboardOverview = () => {
         extra: nextWorkshopInfo,
         accentClass: "border-l-4 border-violet-500/80",
       },
+      {
+        key: "weekly-attendance",
+        title: "Asistencias esta semana",
+        value: numberFormatter.format(att.total),
+        description: "Registros desde el lunes hasta hoy.",
+        extra: attendanceTrendText,
+        accentClass: "border-l-4 border-teal-500/80",
+      },
     ];
   } else {
     cards = [
@@ -414,7 +456,7 @@ const DashboardOverview = () => {
         title: "Alumnas activas",
         value: isSummaryLoading ? "..." : "—",
         description: isSummaryLoading ? "Cargando datos..." : "Sin datos disponibles.",
-        accentClass: "border-l-4 border-emerald-500/40",
+        accentClass: "border-l-4 border-orange-500/40",
       },
       {
         key: "expiring-plans",
@@ -436,6 +478,13 @@ const DashboardOverview = () => {
         value: isSummaryLoading ? "..." : "—",
         description: isSummaryLoading ? "Cargando datos..." : "Sin datos disponibles.",
         accentClass: "border-l-4 border-violet-500/40",
+      },
+      {
+        key: "weekly-attendance",
+        title: "Asistencias esta semana",
+        value: isSummaryLoading ? "..." : "—",
+        description: isSummaryLoading ? "Cargando datos..." : "Sin datos disponibles.",
+        accentClass: "border-l-4 border-teal-500/40",
       },
     ];
   }
@@ -473,7 +522,7 @@ const DashboardOverview = () => {
               type="button"
               onClick={() => void loadSummary()}
               className={cn(
-                "inline-flex items-center gap-1 rounded-lg border border-neutral-200 px-3 py-1.5 text-sm font-medium text-neutral-600 transition hover:bg-neutral-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-800",
+                "inline-flex items-center gap-1 rounded-lg border border-neutral-200 px-3 py-1.5 text-sm font-medium text-neutral-600 transition hover:bg-neutral-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-orange-500 dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-800",
                 isSummaryLoading && "pointer-events-none opacity-60"
               )}
               aria-label="Actualizar indicadores del tablero"

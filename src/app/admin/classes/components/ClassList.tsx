@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 import React, { useState } from 'react'
 import { IconEdit, IconTrash, IconUsers, IconScan } from '@tabler/icons-react'
 import { ClassRecord } from './ClassForm'
@@ -66,7 +66,7 @@ export default function ClassList({ classes, onEdit, onDeleted, onSelectDetail }
                   <td className="py-2.5 px-3 text-neutral-600 dark:text-neutral-400">{cls.instructor?.name ?? '–'}</td>
                   <td className="py-2.5 px-3 text-neutral-600 dark:text-neutral-400 capitalize">{scheduleLabel}</td>
                   <td className="py-2.5 px-3 text-center">
-                    <span className={`font-semibold ${isFull ? 'text-amber-600 dark:text-amber-400' : 'text-emerald-700 dark:text-emerald-400'}`}>
+                    <span className={`font-semibold ${isFull ? 'text-amber-600 dark:text-amber-400' : 'text-orange-700 dark:text-orange-400'}`}>
                       {enrolled}
                     </span>
                     <span className="text-neutral-400"> / {cls.capacity}</span>
@@ -75,7 +75,7 @@ export default function ClassList({ classes, onEdit, onDeleted, onSelectDetail }
                     <div className="flex items-center justify-end gap-1">
                       <button
                         onClick={() => onSelectDetail(cls.id)}
-                        className="p-1.5 rounded hover:bg-emerald-50 dark:hover:bg-emerald-900/20 text-neutral-400 hover:text-emerald-600 transition-colors"
+                        className="p-1.5 rounded hover:bg-orange-50 dark:hover:bg-orange-900/20 text-neutral-400 hover:text-orange-600 transition-colors"
                         title="Ver inscritas"
                       >
                         <IconUsers size={16} />

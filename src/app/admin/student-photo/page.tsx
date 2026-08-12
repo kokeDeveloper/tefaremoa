@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
@@ -133,7 +133,7 @@ export default function StudentPhotoPage() {
             <div className="mt-4 rounded border border-red-500/60 bg-red-500/10 px-3 py-2 text-sm text-red-200">{error}</div>
           )}
           {message && (
-            <div className="mt-4 rounded border border-emerald-500/60 bg-emerald-500/10 px-3 py-2 text-sm text-emerald-100">{message}</div>
+            <div className="mt-4 rounded border border-orange-500/60 bg-orange-500/10 px-3 py-2 text-sm text-orange-100">{message}</div>
           )}
 
           <div className="mt-6 flex items-center gap-4">

@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { IconPhoto, IconPlus, IconTrash, IconUpload, IconEye, IconEyeOff, IconX, IconChevronLeft } from "@tabler/icons-react";
 import Button from "@/components/ui/Button";
@@ -189,7 +189,7 @@ export default function GallerySection() {
         <div className="flex flex-wrap gap-2 items-center">
           <button
             onClick={() => togglePublish(activeEvent)}
-            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold border transition ${activeEvent.isPublished ? "border-emerald-500 text-emerald-600 hover:bg-emerald-50 dark:hover:bg-emerald-900/20" : "border-neutral-400 text-neutral-500 hover:bg-neutral-100 dark:hover:bg-neutral-800"}`}
+            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold border transition ${activeEvent.isPublished ? "border-orange-500 text-orange-600 hover:bg-orange-50 dark:hover:bg-orange-900/20" : "border-neutral-400 text-neutral-500 hover:bg-neutral-100 dark:hover:bg-neutral-800"}`}
           >
             {activeEvent.isPublished ? <><IconEye size={14} /> Publicado</> : <><IconEyeOff size={14} /> Sin publicar</>}
           </button>
@@ -218,7 +218,7 @@ export default function GallerySection() {
         {uploading && uploadProgress && (
           <div className="text-sm text-neutral-500">Subiendo {uploadProgress.done}/{uploadProgress.total}…</div>
         )}
-        {uploadFeedback && <div className="text-sm text-emerald-600 dark:text-emerald-400">{uploadFeedback}</div>}
+        {uploadFeedback && <div className="text-sm text-orange-600 dark:text-orange-400">{uploadFeedback}</div>}
 
         {/* Photo grid */}
         {photosLoading ? (
@@ -332,7 +332,7 @@ export default function GallerySection() {
                   <p className="font-semibold truncate">{ev.name}</p>
                   {ev.eventDate && <p className="text-xs text-neutral-400 mt-0.5">{formatDate(ev.eventDate)}</p>}
                 </div>
-                <span className={`shrink-0 text-[10px] font-semibold px-2 py-0.5 rounded-full ${ev.isPublished ? "bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400" : "bg-neutral-100 text-neutral-500 dark:bg-neutral-800"}`}>
+                <span className={`shrink-0 text-[10px] font-semibold px-2 py-0.5 rounded-full ${ev.isPublished ? "bg-orange-100 text-orange-700 dark:bg-orange-900/30 dark:text-orange-400" : "bg-neutral-100 text-neutral-500 dark:bg-neutral-800"}`}>
                   {ev.isPublished ? "Publicado" : "Borrador"}
                 </span>
               </div>

@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 import React, { useCallback, useEffect, useState } from 'react'
 import { IconTrash, IconPlus, IconAlertTriangle, IconSchool } from '@tabler/icons-react'
 import Button from '@/components/ui/Button'
@@ -124,7 +124,7 @@ export default function StudentEnrollmentsPanel({ studentId, planStatus, enrollm
         </p>
         {!showSelector && (
           <Button
-            className="bg-emerald-600 text-white text-xs px-3 py-1.5 hover:bg-emerald-700 flex items-center gap-1"
+            className="bg-orange-600 text-white text-xs px-3 py-1.5 hover:bg-orange-700 flex items-center gap-1"
             onClick={handleShowSelector}
           >
             <IconPlus size={14} /> Inscribir en clase
@@ -144,7 +144,7 @@ export default function StudentEnrollmentsPanel({ studentId, planStatus, enrollm
             <select
               value={selectedClassId}
               onChange={(e) => setSelectedClassId(Number(e.target.value))}
-              className="w-full rounded-md border border-neutral-300 dark:border-neutral-600 bg-white dark:bg-neutral-800 px-3 py-2 text-sm text-neutral-900 dark:text-neutral-100 focus:outline-none focus:ring-2 focus:ring-emerald-500"
+              className="w-full rounded-md border border-neutral-300 dark:border-neutral-600 bg-white dark:bg-neutral-800 px-3 py-2 text-sm text-neutral-900 dark:text-neutral-100 focus:outline-none focus:ring-2 focus:ring-orange-500"
             >
               <option value={0}>Seleccionar clase…</option>
               {availableClasses.map((c) => {
@@ -170,7 +170,7 @@ export default function StudentEnrollmentsPanel({ studentId, planStatus, enrollm
               Cancelar
             </Button>
             <Button
-              className="bg-emerald-600 text-white text-xs px-3 py-1.5 hover:bg-emerald-700 disabled:opacity-50"
+              className="bg-orange-600 text-white text-xs px-3 py-1.5 hover:bg-orange-700 disabled:opacity-50"
               onClick={handleEnroll}
               disabled={enrolling || !selectedClassId}
             >

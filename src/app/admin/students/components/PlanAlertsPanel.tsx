@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import React from "react";
 import StudentAvatar from "@/app/admin/components/StudentAvatar";
@@ -52,7 +52,7 @@ interface Props {
 const badgeColors: Record<PlanStatus, string> = {
   EXPIRED: "bg-red-600 text-white",
   EXPIRING_SOON: "bg-amber-500 text-neutral-900",
-  ACTIVE: "bg-emerald-600 text-white",
+  ACTIVE: "bg-orange-600 text-white",
   NO_PLAN: "bg-neutral-500 text-white",
 };
 
@@ -174,7 +174,7 @@ export default function PlanAlertsPanel({ data, loading, error, onRefresh, thres
       )}
 
       {!loading && !error && data && data.totals.expired === 0 && data.totals.expiringSoon === 0 && (!data.students.noPlan || data.students.noPlan.length === 0) && (
-        <p className="text-sm text-emerald-600 mt-4">No hay alertas pendientes, ¡todo bajo control!</p>
+        <p className="text-sm text-orange-600 mt-4">No hay alertas pendientes, ¡todo bajo control!</p>
       )}
     </div>
   );
@@ -263,7 +263,7 @@ const PLAN_STATUS_LABELS: Record<string, string> = {
 }
 
 const PLAN_STATUS_BADGE: Record<string, string> = {
-  Active: "bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400",
+  Active: "bg-orange-100 text-orange-700 dark:bg-orange-900/30 dark:text-orange-400",
   ExpiringSoon: "bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400",
   Expired: "bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400",
   NoPlan: "bg-neutral-100 text-neutral-500 dark:bg-neutral-800 dark:text-neutral-400",
