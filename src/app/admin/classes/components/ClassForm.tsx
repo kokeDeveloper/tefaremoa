@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 import React, { useEffect, useState } from 'react'
 import Button from '@/components/ui/Button'
 import Input from '@/components/ui/Input'
@@ -110,7 +110,7 @@ export default function ClassForm({ initial, onSaved, onCancel }: Props) {
             name="instructorId"
             value={form.instructorId}
             onChange={handleChange}
-            className="w-full rounded-md border border-neutral-300 dark:border-neutral-600 bg-white dark:bg-neutral-800 px-3 py-2 text-sm text-neutral-900 dark:text-neutral-100 focus:outline-none focus:ring-2 focus:ring-emerald-500"
+            className="w-full rounded-md border border-neutral-300 dark:border-neutral-600 bg-white dark:bg-neutral-800 px-3 py-2 text-sm text-neutral-900 dark:text-neutral-100 focus:outline-none focus:ring-2 focus:ring-orange-500"
           >
             <option value={0}>Seleccionar…</option>
             {instructors.map((i) => (
@@ -126,7 +126,7 @@ export default function ClassForm({ initial, onSaved, onCancel }: Props) {
         <Button type="button" className="bg-neutral-100 dark:bg-neutral-700 text-neutral-700 dark:text-neutral-200 hover:bg-neutral-200 dark:hover:bg-neutral-600" onClick={onCancel} disabled={saving}>
           Cancelar
         </Button>
-        <Button type="submit" className="bg-emerald-600 text-white hover:bg-emerald-700 disabled:opacity-50" disabled={saving}>
+        <Button type="submit" className="bg-orange-600 text-white hover:bg-orange-700 disabled:opacity-50" disabled={saving}>
           {saving ? 'Guardando…' : initial ? 'Guardar cambios' : 'Crear clase'}
         </Button>
       </div>

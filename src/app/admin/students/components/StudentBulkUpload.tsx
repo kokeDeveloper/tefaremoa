@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 import React, { useRef, useState } from 'react'
 import { IconUpload, IconDownload, IconFileTypeCsv, IconX, IconCheck, IconAlertTriangle } from '@tabler/icons-react'
 import Button from '@/components/ui/Button'
@@ -162,7 +162,7 @@ export default function StudentBulkUpload({ onUploaded }: Props) {
         <button
           type="button"
           onClick={downloadTemplate}
-          className="flex items-center gap-1.5 rounded-lg border border-emerald-300 bg-emerald-50 px-3 py-1.5 text-xs font-medium text-emerald-700 transition hover:bg-emerald-100 dark:border-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-400 dark:hover:bg-emerald-900/40"
+          className="flex items-center gap-1.5 rounded-lg border border-orange-300 bg-orange-50 px-3 py-1.5 text-xs font-medium text-orange-700 transition hover:bg-orange-100 dark:border-orange-700 dark:bg-orange-950/40 dark:text-orange-400 dark:hover:bg-orange-900/40"
         >
           <IconDownload size={14} />
           Descargar plantilla Excel (.xls)
@@ -176,8 +176,8 @@ export default function StudentBulkUpload({ onUploaded }: Props) {
         onClick={() => !file && inputRef.current?.click()}
         className={`relative flex flex-col items-center justify-center gap-3 rounded-xl border-2 border-dashed px-6 py-8 text-center transition
           ${file
-            ? 'border-emerald-400 bg-emerald-50 dark:border-emerald-700 dark:bg-emerald-950/20'
-            : 'cursor-pointer border-neutral-300 bg-neutral-50 hover:border-emerald-400 hover:bg-emerald-50/40 dark:border-neutral-600 dark:bg-neutral-800/30 dark:hover:border-emerald-600'
+            ? 'border-orange-400 bg-orange-50 dark:border-orange-700 dark:bg-orange-950/20'
+            : 'cursor-pointer border-neutral-300 bg-neutral-50 hover:border-orange-400 hover:bg-orange-50/40 dark:border-neutral-600 dark:bg-neutral-800/30 dark:hover:border-orange-600'
           }`}
       >
         <input
@@ -190,7 +190,7 @@ export default function StudentBulkUpload({ onUploaded }: Props) {
 
         {file ? (
           <>
-            <IconFileTypeCsv size={32} className="text-emerald-500" />
+            <IconFileTypeCsv size={32} className="text-orange-500" />
             <div className="flex items-center gap-2">
               <span className="text-sm font-medium text-neutral-800 dark:text-neutral-200">{file.name}</span>
               <button
@@ -228,7 +228,7 @@ export default function StudentBulkUpload({ onUploaded }: Props) {
           <Button
             disabled={loading}
             onClick={handleUpload}
-            className="flex items-center gap-2 bg-emerald-600 px-4 py-2 text-sm font-semibold text-white hover:bg-emerald-500 disabled:opacity-60"
+            className="flex items-center gap-2 bg-orange-600 px-4 py-2 text-sm font-semibold text-white hover:bg-orange-500 disabled:opacity-60"
           >
             <IconUpload size={15} />
             {loading ? 'Importando…' : 'Importar alumnas'}
@@ -248,7 +248,7 @@ export default function StudentBulkUpload({ onUploaded }: Props) {
       {response && (
         <div className="space-y-3">
           <div className="flex flex-wrap gap-3 text-sm">
-            <span className="inline-flex items-center gap-1.5 rounded-md bg-emerald-100 px-3 py-1.5 font-medium text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400">
+            <span className="inline-flex items-center gap-1.5 rounded-md bg-orange-100 px-3 py-1.5 font-medium text-orange-700 dark:bg-orange-900/30 dark:text-orange-400">
               <IconCheck size={14} />
               {response.created} creada{response.created !== 1 ? 's' : ''}
             </span>

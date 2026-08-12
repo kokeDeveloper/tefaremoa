@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
@@ -75,7 +75,7 @@ function formatAmount(amount: number) {
 }
 
 const PLAN_STATUS_STYLES: Record<string, { label: string; classes: string }> = {
-  Active: { label: "Activo", classes: "bg-emerald-500/10 text-emerald-400 border-emerald-500/30" },
+  Active: { label: "Activo", classes: "bg-orange-500/10 text-orange-400 border-orange-500/30" },
   ExpiringSoon: { label: "Por vencer", classes: "bg-amber-500/10 text-amber-400 border-amber-500/30" },
   Expired: { label: "Vencido", classes: "bg-red-500/10 text-red-400 border-red-500/30" },
   NoPlan: { label: "Sin plan", classes: "bg-neutral-800 text-neutral-500 border-neutral-700" },

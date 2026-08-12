@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 import React, { useCallback, useEffect, useState } from 'react'
 import Button from '@/components/ui/Button'
 import Input from '@/components/ui/Input'
@@ -103,7 +103,7 @@ export default function InstructorManager() {
     <div className="flex flex-col gap-4">
       <div className="flex items-center justify-between">
         <h3 className="text-sm font-semibold text-neutral-700 dark:text-neutral-300">Instructores</h3>
-        <Button className="bg-emerald-600 text-white text-xs px-3 py-1.5 hover:bg-emerald-700 flex items-center gap-1" onClick={openCreate}>
+        <Button className="bg-orange-600 text-white text-xs px-3 py-1.5 hover:bg-orange-700 flex items-center gap-1" onClick={openCreate}>
           <IconUserPlus size={14} /> Nuevo instructor
         </Button>
       </div>
@@ -164,7 +164,7 @@ export default function InstructorManager() {
             <Button type="button" className="bg-neutral-100 dark:bg-neutral-700 text-neutral-700 dark:text-neutral-200" onClick={() => setShowForm(false)} disabled={saving}>
               Cancelar
             </Button>
-            <Button type="submit" className="bg-emerald-600 text-white hover:bg-emerald-700 disabled:opacity-50" disabled={saving}>
+            <Button type="submit" className="bg-orange-600 text-white hover:bg-orange-700 disabled:opacity-50" disabled={saving}>
               {saving ? 'Guardando…' : editingId ? 'Guardar' : 'Crear'}
             </Button>
           </div>

@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useEffect, useMemo, useState, type ReactNode } from "react";
 import { IconAlertTriangle, IconCash, IconRefresh, IconUsers } from "@tabler/icons-react";
@@ -94,7 +94,7 @@ export function PaymentReminderPanel() {
           type="button"
           onClick={() => void loadData()}
           className={cn(
-            "inline-flex items-center gap-1 rounded-lg border border-neutral-200 px-3 py-1.5 text-sm font-medium text-neutral-600 transition hover:bg-neutral-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-800",
+            "inline-flex items-center gap-1 rounded-lg border border-neutral-200 px-3 py-1.5 text-sm font-medium text-neutral-600 transition hover:bg-neutral-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-orange-500 dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-800",
             isLoading && "pointer-events-none opacity-60"
           )}
           aria-label="Actualizar recordatorios de pago"
@@ -111,8 +111,8 @@ export function PaymentReminderPanel() {
       )}
 
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-        <div className="rounded-lg border border-emerald-200/60 bg-emerald-50/60 p-4 dark:border-emerald-500/40 dark:bg-emerald-900/10">
-          <div className="flex items-center gap-2 text-sm font-semibold text-emerald-700 dark:text-emerald-200">
+        <div className="rounded-lg border border-orange-200/60 bg-orange-50/60 p-4 dark:border-orange-500/40 dark:bg-orange-900/10">
+          <div className="flex items-center gap-2 text-sm font-semibold text-orange-700 dark:text-orange-200">
             <IconUsers className="h-4 w-4" aria-hidden />
             Resumen
           </div>

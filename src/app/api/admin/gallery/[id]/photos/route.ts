@@ -73,14 +73,20 @@ export async function POST(
     fs.writeFileSync(filepath, buffer);
 
     // Generar thumbnail (600px ancho, JPEG 75%)
+    // Usamos toBuffer() en vez de toFile() para controlar la memoria
     try {
       const thumbPath = getThumbPath(eventId, filename);
-      await sharp(buffer)
+      const thumbBuffer = await sharp(buffer, { limitInputPixels: 268402689 })
+        .rotate() // corrige orientación EXIF sin recodificar
         .resize({ width: 600, withoutEnlargement: true })
-        .jpeg({ quality: 75 })
-        .toFile(thumbPath);
+        .jpeg({ quality: 75, mozjpeg: true })
+        .toBuffer();
+      fs.writeFileSync(thumbPath, thumbBuffer);
+      // Liberar referencias explícitamente
+      thumbBuffer.fill(0);
     } catch (thumbErr) {
-      console.warn("[gallery] thumb generation failed", thumbErr);
+      console.warn("[gallery] thumb generation failed", String(thumbErr));
+      // Continuar aunque falle el thumbnail — la foto original ya está guardada
     }
 
     const title = (form.get("title") as string)?.trim() || null;
