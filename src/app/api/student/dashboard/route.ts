@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { PrismaClient } from "@/app/generated/prisma";
 import { verifyToken } from "@/lib/jwt";
+import { REQUIRED_DOCUMENT_KEYS } from "@/lib/documentTexts";
 
 const prisma = new PrismaClient();
 
@@ -55,6 +56,9 @@ export async function GET(req: Request) {
           take: 1,
           select: { id: true },
         },
+        consents: {
+          select: { documentKey: true },
+        },
       },
     });
 
@@ -75,13 +79,18 @@ export async function GET(req: Request) {
     const completedCount = Object.values(completenessFields).filter(Boolean).length;
     const completenessPercent = Math.round((completedCount / Object.keys(completenessFields).length) * 100);
 
+    const hasAnamnesis = student.anamneses.length > 0;
+    const acceptedKeys = student.consents.map((c) => c.documentKey);
+    const hasConsents = REQUIRED_DOCUMENT_KEYS.every((k) => acceptedKeys.includes(k));
+
     return NextResponse.json({
       id: student.id,
       name: student.name,
       lastName: student.lastName,
       email: student.email,
       hasPhoto: !!student.profilePhoto,
-      hasAnamnesis: student.anamneses.length > 0,
+      hasAnamnesis,
+      hasConsents,
       plan: {
         type: student.planType,
         status: student.planStatus,

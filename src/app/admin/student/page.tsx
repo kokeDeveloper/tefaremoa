@@ -13,6 +13,7 @@ import {
   IconHeartPlus,
   IconPhoto,
   IconLogout,
+  IconFileText,
 } from "@tabler/icons-react";
 
 export const dynamic = "force-dynamic";
@@ -26,6 +27,7 @@ type DashboardData = {
   email: string;
   hasPhoto: boolean;
   hasAnamnesis: boolean;
+  hasConsents: boolean;
   plan: {
     type: string;
     status: string;
@@ -111,7 +113,11 @@ export default function StudentIndexPage() {
         if (!mounted) return;
         if (!res.ok) throw new Error(json?.error || "No autorizado");
         setData(json as DashboardData);
-        // Redirect to anamnesis if not filled
+        // Redirect to consents if not yet accepted, then anamnesis
+        if (!json.hasConsents) {
+          router.replace("/admin/student-consents");
+          return;
+        }
         if (!json.hasAnamnesis) {
           router.replace("/admin/student-anamnesis");
           return;
@@ -201,6 +207,12 @@ export default function StudentIndexPage() {
               onClick={() => { setMenuOpen(false); router.push("/admin/student-photo"); }}
             >
               <IconCamera size={15} className="text-orange-500/70 shrink-0" /> Foto de perfil
+            </button>
+            <button
+              className="flex w-full items-center gap-3 px-4 py-3 text-sm text-neutral-300 hover:bg-neutral-900 transition-colors border-t border-neutral-800/40"
+              onClick={() => { setMenuOpen(false); router.push("/admin/student-consents"); }}
+            >
+              <IconFileText size={15} className="text-orange-500/70 shrink-0" /> Documentos y compromisos
             </button>
             <button
               className="flex w-full items-center gap-3 px-4 py-3 text-sm text-neutral-300 hover:bg-neutral-900 transition-colors border-t border-neutral-800/40"

@@ -73,6 +73,11 @@ export type GalleryEvent = $Result.DefaultSelection<Prisma.$GalleryEventPayload>
  * 
  */
 export type GalleryPhoto = $Result.DefaultSelection<Prisma.$GalleryPhotoPayload>
+/**
+ * Model DocumentConsent
+ * 
+ */
+export type DocumentConsent = $Result.DefaultSelection<Prisma.$DocumentConsentPayload>
 
 /**
  * Enums
@@ -341,6 +346,16 @@ export class PrismaClient<
     * ```
     */
   get galleryPhoto(): Prisma.GalleryPhotoDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.documentConsent`: Exposes CRUD operations for the **DocumentConsent** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more DocumentConsents
+    * const documentConsents = await prisma.documentConsent.findMany()
+    * ```
+    */
+  get documentConsent(): Prisma.DocumentConsentDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -793,7 +808,8 @@ export namespace Prisma {
     Anamnesis: 'Anamnesis',
     DanceEvaluation: 'DanceEvaluation',
     GalleryEvent: 'GalleryEvent',
-    GalleryPhoto: 'GalleryPhoto'
+    GalleryPhoto: 'GalleryPhoto',
+    DocumentConsent: 'DocumentConsent'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -812,7 +828,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "student" | "plan" | "class" | "instructor" | "enrollment" | "payment" | "attendance" | "admin" | "anamnesis" | "danceEvaluation" | "galleryEvent" | "galleryPhoto"
+      modelProps: "student" | "plan" | "class" | "instructor" | "enrollment" | "payment" | "attendance" | "admin" | "anamnesis" | "danceEvaluation" | "galleryEvent" | "galleryPhoto" | "documentConsent"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1608,6 +1624,72 @@ export namespace Prisma {
           }
         }
       }
+      DocumentConsent: {
+        payload: Prisma.$DocumentConsentPayload<ExtArgs>
+        fields: Prisma.DocumentConsentFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.DocumentConsentFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DocumentConsentPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.DocumentConsentFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DocumentConsentPayload>
+          }
+          findFirst: {
+            args: Prisma.DocumentConsentFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DocumentConsentPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.DocumentConsentFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DocumentConsentPayload>
+          }
+          findMany: {
+            args: Prisma.DocumentConsentFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DocumentConsentPayload>[]
+          }
+          create: {
+            args: Prisma.DocumentConsentCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DocumentConsentPayload>
+          }
+          createMany: {
+            args: Prisma.DocumentConsentCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          delete: {
+            args: Prisma.DocumentConsentDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DocumentConsentPayload>
+          }
+          update: {
+            args: Prisma.DocumentConsentUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DocumentConsentPayload>
+          }
+          deleteMany: {
+            args: Prisma.DocumentConsentDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.DocumentConsentUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.DocumentConsentUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DocumentConsentPayload>
+          }
+          aggregate: {
+            args: Prisma.DocumentConsentAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateDocumentConsent>
+          }
+          groupBy: {
+            args: Prisma.DocumentConsentGroupByArgs<ExtArgs>
+            result: $Utils.Optional<DocumentConsentGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.DocumentConsentCountArgs<ExtArgs>
+            result: $Utils.Optional<DocumentConsentCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -1716,6 +1798,7 @@ export namespace Prisma {
     danceEvaluation?: DanceEvaluationOmit
     galleryEvent?: GalleryEventOmit
     galleryPhoto?: GalleryPhotoOmit
+    documentConsent?: DocumentConsentOmit
   }
 
   /* Types for Logging */
@@ -1802,6 +1885,7 @@ export namespace Prisma {
     attendances: number
     anamneses: number
     danceEvaluations: number
+    consents: number
   }
 
   export type StudentCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -1811,6 +1895,7 @@ export namespace Prisma {
     attendances?: boolean | StudentCountOutputTypeCountAttendancesArgs
     anamneses?: boolean | StudentCountOutputTypeCountAnamnesesArgs
     danceEvaluations?: boolean | StudentCountOutputTypeCountDanceEvaluationsArgs
+    consents?: boolean | StudentCountOutputTypeCountConsentsArgs
   }
 
   // Custom InputTypes
@@ -1864,6 +1949,13 @@ export namespace Prisma {
    */
   export type StudentCountOutputTypeCountDanceEvaluationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: DanceEvaluationWhereInput
+  }
+
+  /**
+   * StudentCountOutputType without action
+   */
+  export type StudentCountOutputTypeCountConsentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: DocumentConsentWhereInput
   }
 
 
@@ -2320,6 +2412,7 @@ export namespace Prisma {
     attendances?: boolean | Student$attendancesArgs<ExtArgs>
     anamneses?: boolean | Student$anamnesesArgs<ExtArgs>
     danceEvaluations?: boolean | Student$danceEvaluationsArgs<ExtArgs>
+    consents?: boolean | Student$consentsArgs<ExtArgs>
     _count?: boolean | StudentCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["student"]>
 
@@ -2355,6 +2448,7 @@ export namespace Prisma {
     attendances?: boolean | Student$attendancesArgs<ExtArgs>
     anamneses?: boolean | Student$anamnesesArgs<ExtArgs>
     danceEvaluations?: boolean | Student$danceEvaluationsArgs<ExtArgs>
+    consents?: boolean | Student$consentsArgs<ExtArgs>
     _count?: boolean | StudentCountOutputTypeDefaultArgs<ExtArgs>
   }
 
@@ -2367,6 +2461,7 @@ export namespace Prisma {
       attendances: Prisma.$AttendancePayload<ExtArgs>[]
       anamneses: Prisma.$AnamnesisPayload<ExtArgs>[]
       danceEvaluations: Prisma.$DanceEvaluationPayload<ExtArgs>[]
+      consents: Prisma.$DocumentConsentPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: number
@@ -2734,6 +2829,7 @@ export namespace Prisma {
     attendances<T extends Student$attendancesArgs<ExtArgs> = {}>(args?: Subset<T, Student$attendancesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AttendancePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     anamneses<T extends Student$anamnesesArgs<ExtArgs> = {}>(args?: Subset<T, Student$anamnesesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AnamnesisPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     danceEvaluations<T extends Student$danceEvaluationsArgs<ExtArgs> = {}>(args?: Subset<T, Student$danceEvaluationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DanceEvaluationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    consents<T extends Student$consentsArgs<ExtArgs> = {}>(args?: Subset<T, Student$consentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DocumentConsentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -3266,6 +3362,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: DanceEvaluationScalarFieldEnum | DanceEvaluationScalarFieldEnum[]
+  }
+
+  /**
+   * Student.consents
+   */
+  export type Student$consentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DocumentConsent
+     */
+    select?: DocumentConsentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DocumentConsent
+     */
+    omit?: DocumentConsentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DocumentConsentInclude<ExtArgs> | null
+    where?: DocumentConsentWhereInput
+    orderBy?: DocumentConsentOrderByWithRelationInput | DocumentConsentOrderByWithRelationInput[]
+    cursor?: DocumentConsentWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: DocumentConsentScalarFieldEnum | DocumentConsentScalarFieldEnum[]
   }
 
   /**
@@ -14333,6 +14453,973 @@ export namespace Prisma {
 
 
   /**
+   * Model DocumentConsent
+   */
+
+  export type AggregateDocumentConsent = {
+    _count: DocumentConsentCountAggregateOutputType | null
+    _avg: DocumentConsentAvgAggregateOutputType | null
+    _sum: DocumentConsentSumAggregateOutputType | null
+    _min: DocumentConsentMinAggregateOutputType | null
+    _max: DocumentConsentMaxAggregateOutputType | null
+  }
+
+  export type DocumentConsentAvgAggregateOutputType = {
+    id: number | null
+    studentId: number | null
+  }
+
+  export type DocumentConsentSumAggregateOutputType = {
+    id: number | null
+    studentId: number | null
+  }
+
+  export type DocumentConsentMinAggregateOutputType = {
+    id: number | null
+    studentId: number | null
+    documentKey: string | null
+    documentVersion: string | null
+    acceptedAt: Date | null
+  }
+
+  export type DocumentConsentMaxAggregateOutputType = {
+    id: number | null
+    studentId: number | null
+    documentKey: string | null
+    documentVersion: string | null
+    acceptedAt: Date | null
+  }
+
+  export type DocumentConsentCountAggregateOutputType = {
+    id: number
+    studentId: number
+    documentKey: number
+    documentVersion: number
+    acceptedAt: number
+    _all: number
+  }
+
+
+  export type DocumentConsentAvgAggregateInputType = {
+    id?: true
+    studentId?: true
+  }
+
+  export type DocumentConsentSumAggregateInputType = {
+    id?: true
+    studentId?: true
+  }
+
+  export type DocumentConsentMinAggregateInputType = {
+    id?: true
+    studentId?: true
+    documentKey?: true
+    documentVersion?: true
+    acceptedAt?: true
+  }
+
+  export type DocumentConsentMaxAggregateInputType = {
+    id?: true
+    studentId?: true
+    documentKey?: true
+    documentVersion?: true
+    acceptedAt?: true
+  }
+
+  export type DocumentConsentCountAggregateInputType = {
+    id?: true
+    studentId?: true
+    documentKey?: true
+    documentVersion?: true
+    acceptedAt?: true
+    _all?: true
+  }
+
+  export type DocumentConsentAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which DocumentConsent to aggregate.
+     */
+    where?: DocumentConsentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of DocumentConsents to fetch.
+     */
+    orderBy?: DocumentConsentOrderByWithRelationInput | DocumentConsentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: DocumentConsentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` DocumentConsents from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` DocumentConsents.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned DocumentConsents
+    **/
+    _count?: true | DocumentConsentCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: DocumentConsentAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: DocumentConsentSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: DocumentConsentMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: DocumentConsentMaxAggregateInputType
+  }
+
+  export type GetDocumentConsentAggregateType<T extends DocumentConsentAggregateArgs> = {
+        [P in keyof T & keyof AggregateDocumentConsent]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateDocumentConsent[P]>
+      : GetScalarType<T[P], AggregateDocumentConsent[P]>
+  }
+
+
+
+
+  export type DocumentConsentGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: DocumentConsentWhereInput
+    orderBy?: DocumentConsentOrderByWithAggregationInput | DocumentConsentOrderByWithAggregationInput[]
+    by: DocumentConsentScalarFieldEnum[] | DocumentConsentScalarFieldEnum
+    having?: DocumentConsentScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: DocumentConsentCountAggregateInputType | true
+    _avg?: DocumentConsentAvgAggregateInputType
+    _sum?: DocumentConsentSumAggregateInputType
+    _min?: DocumentConsentMinAggregateInputType
+    _max?: DocumentConsentMaxAggregateInputType
+  }
+
+  export type DocumentConsentGroupByOutputType = {
+    id: number
+    studentId: number
+    documentKey: string
+    documentVersion: string
+    acceptedAt: Date
+    _count: DocumentConsentCountAggregateOutputType | null
+    _avg: DocumentConsentAvgAggregateOutputType | null
+    _sum: DocumentConsentSumAggregateOutputType | null
+    _min: DocumentConsentMinAggregateOutputType | null
+    _max: DocumentConsentMaxAggregateOutputType | null
+  }
+
+  type GetDocumentConsentGroupByPayload<T extends DocumentConsentGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<DocumentConsentGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof DocumentConsentGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], DocumentConsentGroupByOutputType[P]>
+            : GetScalarType<T[P], DocumentConsentGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type DocumentConsentSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    studentId?: boolean
+    documentKey?: boolean
+    documentVersion?: boolean
+    acceptedAt?: boolean
+    student?: boolean | StudentDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["documentConsent"]>
+
+
+
+  export type DocumentConsentSelectScalar = {
+    id?: boolean
+    studentId?: boolean
+    documentKey?: boolean
+    documentVersion?: boolean
+    acceptedAt?: boolean
+  }
+
+  export type DocumentConsentOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "studentId" | "documentKey" | "documentVersion" | "acceptedAt", ExtArgs["result"]["documentConsent"]>
+  export type DocumentConsentInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    student?: boolean | StudentDefaultArgs<ExtArgs>
+  }
+
+  export type $DocumentConsentPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "DocumentConsent"
+    objects: {
+      student: Prisma.$StudentPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: number
+      studentId: number
+      documentKey: string
+      documentVersion: string
+      acceptedAt: Date
+    }, ExtArgs["result"]["documentConsent"]>
+    composites: {}
+  }
+
+  type DocumentConsentGetPayload<S extends boolean | null | undefined | DocumentConsentDefaultArgs> = $Result.GetResult<Prisma.$DocumentConsentPayload, S>
+
+  type DocumentConsentCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<DocumentConsentFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: DocumentConsentCountAggregateInputType | true
+    }
+
+  export interface DocumentConsentDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['DocumentConsent'], meta: { name: 'DocumentConsent' } }
+    /**
+     * Find zero or one DocumentConsent that matches the filter.
+     * @param {DocumentConsentFindUniqueArgs} args - Arguments to find a DocumentConsent
+     * @example
+     * // Get one DocumentConsent
+     * const documentConsent = await prisma.documentConsent.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends DocumentConsentFindUniqueArgs>(args: SelectSubset<T, DocumentConsentFindUniqueArgs<ExtArgs>>): Prisma__DocumentConsentClient<$Result.GetResult<Prisma.$DocumentConsentPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one DocumentConsent that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {DocumentConsentFindUniqueOrThrowArgs} args - Arguments to find a DocumentConsent
+     * @example
+     * // Get one DocumentConsent
+     * const documentConsent = await prisma.documentConsent.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends DocumentConsentFindUniqueOrThrowArgs>(args: SelectSubset<T, DocumentConsentFindUniqueOrThrowArgs<ExtArgs>>): Prisma__DocumentConsentClient<$Result.GetResult<Prisma.$DocumentConsentPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first DocumentConsent that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DocumentConsentFindFirstArgs} args - Arguments to find a DocumentConsent
+     * @example
+     * // Get one DocumentConsent
+     * const documentConsent = await prisma.documentConsent.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends DocumentConsentFindFirstArgs>(args?: SelectSubset<T, DocumentConsentFindFirstArgs<ExtArgs>>): Prisma__DocumentConsentClient<$Result.GetResult<Prisma.$DocumentConsentPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first DocumentConsent that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DocumentConsentFindFirstOrThrowArgs} args - Arguments to find a DocumentConsent
+     * @example
+     * // Get one DocumentConsent
+     * const documentConsent = await prisma.documentConsent.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends DocumentConsentFindFirstOrThrowArgs>(args?: SelectSubset<T, DocumentConsentFindFirstOrThrowArgs<ExtArgs>>): Prisma__DocumentConsentClient<$Result.GetResult<Prisma.$DocumentConsentPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more DocumentConsents that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DocumentConsentFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all DocumentConsents
+     * const documentConsents = await prisma.documentConsent.findMany()
+     * 
+     * // Get first 10 DocumentConsents
+     * const documentConsents = await prisma.documentConsent.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const documentConsentWithIdOnly = await prisma.documentConsent.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends DocumentConsentFindManyArgs>(args?: SelectSubset<T, DocumentConsentFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DocumentConsentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a DocumentConsent.
+     * @param {DocumentConsentCreateArgs} args - Arguments to create a DocumentConsent.
+     * @example
+     * // Create one DocumentConsent
+     * const DocumentConsent = await prisma.documentConsent.create({
+     *   data: {
+     *     // ... data to create a DocumentConsent
+     *   }
+     * })
+     * 
+     */
+    create<T extends DocumentConsentCreateArgs>(args: SelectSubset<T, DocumentConsentCreateArgs<ExtArgs>>): Prisma__DocumentConsentClient<$Result.GetResult<Prisma.$DocumentConsentPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many DocumentConsents.
+     * @param {DocumentConsentCreateManyArgs} args - Arguments to create many DocumentConsents.
+     * @example
+     * // Create many DocumentConsents
+     * const documentConsent = await prisma.documentConsent.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends DocumentConsentCreateManyArgs>(args?: SelectSubset<T, DocumentConsentCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a DocumentConsent.
+     * @param {DocumentConsentDeleteArgs} args - Arguments to delete one DocumentConsent.
+     * @example
+     * // Delete one DocumentConsent
+     * const DocumentConsent = await prisma.documentConsent.delete({
+     *   where: {
+     *     // ... filter to delete one DocumentConsent
+     *   }
+     * })
+     * 
+     */
+    delete<T extends DocumentConsentDeleteArgs>(args: SelectSubset<T, DocumentConsentDeleteArgs<ExtArgs>>): Prisma__DocumentConsentClient<$Result.GetResult<Prisma.$DocumentConsentPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one DocumentConsent.
+     * @param {DocumentConsentUpdateArgs} args - Arguments to update one DocumentConsent.
+     * @example
+     * // Update one DocumentConsent
+     * const documentConsent = await prisma.documentConsent.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends DocumentConsentUpdateArgs>(args: SelectSubset<T, DocumentConsentUpdateArgs<ExtArgs>>): Prisma__DocumentConsentClient<$Result.GetResult<Prisma.$DocumentConsentPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more DocumentConsents.
+     * @param {DocumentConsentDeleteManyArgs} args - Arguments to filter DocumentConsents to delete.
+     * @example
+     * // Delete a few DocumentConsents
+     * const { count } = await prisma.documentConsent.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends DocumentConsentDeleteManyArgs>(args?: SelectSubset<T, DocumentConsentDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more DocumentConsents.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DocumentConsentUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many DocumentConsents
+     * const documentConsent = await prisma.documentConsent.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends DocumentConsentUpdateManyArgs>(args: SelectSubset<T, DocumentConsentUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one DocumentConsent.
+     * @param {DocumentConsentUpsertArgs} args - Arguments to update or create a DocumentConsent.
+     * @example
+     * // Update or create a DocumentConsent
+     * const documentConsent = await prisma.documentConsent.upsert({
+     *   create: {
+     *     // ... data to create a DocumentConsent
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the DocumentConsent we want to update
+     *   }
+     * })
+     */
+    upsert<T extends DocumentConsentUpsertArgs>(args: SelectSubset<T, DocumentConsentUpsertArgs<ExtArgs>>): Prisma__DocumentConsentClient<$Result.GetResult<Prisma.$DocumentConsentPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of DocumentConsents.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DocumentConsentCountArgs} args - Arguments to filter DocumentConsents to count.
+     * @example
+     * // Count the number of DocumentConsents
+     * const count = await prisma.documentConsent.count({
+     *   where: {
+     *     // ... the filter for the DocumentConsents we want to count
+     *   }
+     * })
+    **/
+    count<T extends DocumentConsentCountArgs>(
+      args?: Subset<T, DocumentConsentCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], DocumentConsentCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a DocumentConsent.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DocumentConsentAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends DocumentConsentAggregateArgs>(args: Subset<T, DocumentConsentAggregateArgs>): Prisma.PrismaPromise<GetDocumentConsentAggregateType<T>>
+
+    /**
+     * Group by DocumentConsent.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DocumentConsentGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends DocumentConsentGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: DocumentConsentGroupByArgs['orderBy'] }
+        : { orderBy?: DocumentConsentGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, DocumentConsentGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetDocumentConsentGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the DocumentConsent model
+   */
+  readonly fields: DocumentConsentFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for DocumentConsent.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__DocumentConsentClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    student<T extends StudentDefaultArgs<ExtArgs> = {}>(args?: Subset<T, StudentDefaultArgs<ExtArgs>>): Prisma__StudentClient<$Result.GetResult<Prisma.$StudentPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the DocumentConsent model
+   */
+  interface DocumentConsentFieldRefs {
+    readonly id: FieldRef<"DocumentConsent", 'Int'>
+    readonly studentId: FieldRef<"DocumentConsent", 'Int'>
+    readonly documentKey: FieldRef<"DocumentConsent", 'String'>
+    readonly documentVersion: FieldRef<"DocumentConsent", 'String'>
+    readonly acceptedAt: FieldRef<"DocumentConsent", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * DocumentConsent findUnique
+   */
+  export type DocumentConsentFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DocumentConsent
+     */
+    select?: DocumentConsentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DocumentConsent
+     */
+    omit?: DocumentConsentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DocumentConsentInclude<ExtArgs> | null
+    /**
+     * Filter, which DocumentConsent to fetch.
+     */
+    where: DocumentConsentWhereUniqueInput
+  }
+
+  /**
+   * DocumentConsent findUniqueOrThrow
+   */
+  export type DocumentConsentFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DocumentConsent
+     */
+    select?: DocumentConsentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DocumentConsent
+     */
+    omit?: DocumentConsentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DocumentConsentInclude<ExtArgs> | null
+    /**
+     * Filter, which DocumentConsent to fetch.
+     */
+    where: DocumentConsentWhereUniqueInput
+  }
+
+  /**
+   * DocumentConsent findFirst
+   */
+  export type DocumentConsentFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DocumentConsent
+     */
+    select?: DocumentConsentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DocumentConsent
+     */
+    omit?: DocumentConsentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DocumentConsentInclude<ExtArgs> | null
+    /**
+     * Filter, which DocumentConsent to fetch.
+     */
+    where?: DocumentConsentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of DocumentConsents to fetch.
+     */
+    orderBy?: DocumentConsentOrderByWithRelationInput | DocumentConsentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for DocumentConsents.
+     */
+    cursor?: DocumentConsentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` DocumentConsents from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` DocumentConsents.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of DocumentConsents.
+     */
+    distinct?: DocumentConsentScalarFieldEnum | DocumentConsentScalarFieldEnum[]
+  }
+
+  /**
+   * DocumentConsent findFirstOrThrow
+   */
+  export type DocumentConsentFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DocumentConsent
+     */
+    select?: DocumentConsentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DocumentConsent
+     */
+    omit?: DocumentConsentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DocumentConsentInclude<ExtArgs> | null
+    /**
+     * Filter, which DocumentConsent to fetch.
+     */
+    where?: DocumentConsentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of DocumentConsents to fetch.
+     */
+    orderBy?: DocumentConsentOrderByWithRelationInput | DocumentConsentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for DocumentConsents.
+     */
+    cursor?: DocumentConsentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` DocumentConsents from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` DocumentConsents.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of DocumentConsents.
+     */
+    distinct?: DocumentConsentScalarFieldEnum | DocumentConsentScalarFieldEnum[]
+  }
+
+  /**
+   * DocumentConsent findMany
+   */
+  export type DocumentConsentFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DocumentConsent
+     */
+    select?: DocumentConsentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DocumentConsent
+     */
+    omit?: DocumentConsentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DocumentConsentInclude<ExtArgs> | null
+    /**
+     * Filter, which DocumentConsents to fetch.
+     */
+    where?: DocumentConsentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of DocumentConsents to fetch.
+     */
+    orderBy?: DocumentConsentOrderByWithRelationInput | DocumentConsentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing DocumentConsents.
+     */
+    cursor?: DocumentConsentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` DocumentConsents from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` DocumentConsents.
+     */
+    skip?: number
+    distinct?: DocumentConsentScalarFieldEnum | DocumentConsentScalarFieldEnum[]
+  }
+
+  /**
+   * DocumentConsent create
+   */
+  export type DocumentConsentCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DocumentConsent
+     */
+    select?: DocumentConsentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DocumentConsent
+     */
+    omit?: DocumentConsentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DocumentConsentInclude<ExtArgs> | null
+    /**
+     * The data needed to create a DocumentConsent.
+     */
+    data: XOR<DocumentConsentCreateInput, DocumentConsentUncheckedCreateInput>
+  }
+
+  /**
+   * DocumentConsent createMany
+   */
+  export type DocumentConsentCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many DocumentConsents.
+     */
+    data: DocumentConsentCreateManyInput | DocumentConsentCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * DocumentConsent update
+   */
+  export type DocumentConsentUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DocumentConsent
+     */
+    select?: DocumentConsentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DocumentConsent
+     */
+    omit?: DocumentConsentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DocumentConsentInclude<ExtArgs> | null
+    /**
+     * The data needed to update a DocumentConsent.
+     */
+    data: XOR<DocumentConsentUpdateInput, DocumentConsentUncheckedUpdateInput>
+    /**
+     * Choose, which DocumentConsent to update.
+     */
+    where: DocumentConsentWhereUniqueInput
+  }
+
+  /**
+   * DocumentConsent updateMany
+   */
+  export type DocumentConsentUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update DocumentConsents.
+     */
+    data: XOR<DocumentConsentUpdateManyMutationInput, DocumentConsentUncheckedUpdateManyInput>
+    /**
+     * Filter which DocumentConsents to update
+     */
+    where?: DocumentConsentWhereInput
+    /**
+     * Limit how many DocumentConsents to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * DocumentConsent upsert
+   */
+  export type DocumentConsentUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DocumentConsent
+     */
+    select?: DocumentConsentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DocumentConsent
+     */
+    omit?: DocumentConsentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DocumentConsentInclude<ExtArgs> | null
+    /**
+     * The filter to search for the DocumentConsent to update in case it exists.
+     */
+    where: DocumentConsentWhereUniqueInput
+    /**
+     * In case the DocumentConsent found by the `where` argument doesn't exist, create a new DocumentConsent with this data.
+     */
+    create: XOR<DocumentConsentCreateInput, DocumentConsentUncheckedCreateInput>
+    /**
+     * In case the DocumentConsent was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<DocumentConsentUpdateInput, DocumentConsentUncheckedUpdateInput>
+  }
+
+  /**
+   * DocumentConsent delete
+   */
+  export type DocumentConsentDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DocumentConsent
+     */
+    select?: DocumentConsentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DocumentConsent
+     */
+    omit?: DocumentConsentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DocumentConsentInclude<ExtArgs> | null
+    /**
+     * Filter which DocumentConsent to delete.
+     */
+    where: DocumentConsentWhereUniqueInput
+  }
+
+  /**
+   * DocumentConsent deleteMany
+   */
+  export type DocumentConsentDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which DocumentConsents to delete
+     */
+    where?: DocumentConsentWhereInput
+    /**
+     * Limit how many DocumentConsents to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * DocumentConsent without action
+   */
+  export type DocumentConsentDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DocumentConsent
+     */
+    select?: DocumentConsentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DocumentConsent
+     */
+    omit?: DocumentConsentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DocumentConsentInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -14516,6 +15603,17 @@ export namespace Prisma {
   export type GalleryPhotoScalarFieldEnum = (typeof GalleryPhotoScalarFieldEnum)[keyof typeof GalleryPhotoScalarFieldEnum]
 
 
+  export const DocumentConsentScalarFieldEnum: {
+    id: 'id',
+    studentId: 'studentId',
+    documentKey: 'documentKey',
+    documentVersion: 'documentVersion',
+    acceptedAt: 'acceptedAt'
+  };
+
+  export type DocumentConsentScalarFieldEnum = (typeof DocumentConsentScalarFieldEnum)[keyof typeof DocumentConsentScalarFieldEnum]
+
+
   export const SortOrder: {
     asc: 'asc',
     desc: 'desc'
@@ -14646,6 +15744,14 @@ export namespace Prisma {
   export type GalleryPhotoOrderByRelevanceFieldEnum = (typeof GalleryPhotoOrderByRelevanceFieldEnum)[keyof typeof GalleryPhotoOrderByRelevanceFieldEnum]
 
 
+  export const DocumentConsentOrderByRelevanceFieldEnum: {
+    documentKey: 'documentKey',
+    documentVersion: 'documentVersion'
+  };
+
+  export type DocumentConsentOrderByRelevanceFieldEnum = (typeof DocumentConsentOrderByRelevanceFieldEnum)[keyof typeof DocumentConsentOrderByRelevanceFieldEnum]
+
+
   /**
    * Field references
    */
@@ -14753,6 +15859,7 @@ export namespace Prisma {
     attendances?: AttendanceListRelationFilter
     anamneses?: AnamnesisListRelationFilter
     danceEvaluations?: DanceEvaluationListRelationFilter
+    consents?: DocumentConsentListRelationFilter
   }
 
   export type StudentOrderByWithRelationInput = {
@@ -14781,6 +15888,7 @@ export namespace Prisma {
     attendances?: AttendanceOrderByRelationAggregateInput
     anamneses?: AnamnesisOrderByRelationAggregateInput
     danceEvaluations?: DanceEvaluationOrderByRelationAggregateInput
+    consents?: DocumentConsentOrderByRelationAggregateInput
     _relevance?: StudentOrderByRelevanceInput
   }
 
@@ -14813,6 +15921,7 @@ export namespace Prisma {
     attendances?: AttendanceListRelationFilter
     anamneses?: AnamnesisListRelationFilter
     danceEvaluations?: DanceEvaluationListRelationFilter
+    consents?: DocumentConsentListRelationFilter
   }, "id" | "email" | "qrToken">
 
   export type StudentOrderByWithAggregationInput = {
@@ -15632,6 +16741,65 @@ export namespace Prisma {
     createdAt?: DateTimeWithAggregatesFilter<"GalleryPhoto"> | Date | string
   }
 
+  export type DocumentConsentWhereInput = {
+    AND?: DocumentConsentWhereInput | DocumentConsentWhereInput[]
+    OR?: DocumentConsentWhereInput[]
+    NOT?: DocumentConsentWhereInput | DocumentConsentWhereInput[]
+    id?: IntFilter<"DocumentConsent"> | number
+    studentId?: IntFilter<"DocumentConsent"> | number
+    documentKey?: StringFilter<"DocumentConsent"> | string
+    documentVersion?: StringFilter<"DocumentConsent"> | string
+    acceptedAt?: DateTimeFilter<"DocumentConsent"> | Date | string
+    student?: XOR<StudentScalarRelationFilter, StudentWhereInput>
+  }
+
+  export type DocumentConsentOrderByWithRelationInput = {
+    id?: SortOrder
+    studentId?: SortOrder
+    documentKey?: SortOrder
+    documentVersion?: SortOrder
+    acceptedAt?: SortOrder
+    student?: StudentOrderByWithRelationInput
+    _relevance?: DocumentConsentOrderByRelevanceInput
+  }
+
+  export type DocumentConsentWhereUniqueInput = Prisma.AtLeast<{
+    id?: number
+    studentId_documentKey?: DocumentConsentStudentIdDocumentKeyCompoundUniqueInput
+    AND?: DocumentConsentWhereInput | DocumentConsentWhereInput[]
+    OR?: DocumentConsentWhereInput[]
+    NOT?: DocumentConsentWhereInput | DocumentConsentWhereInput[]
+    studentId?: IntFilter<"DocumentConsent"> | number
+    documentKey?: StringFilter<"DocumentConsent"> | string
+    documentVersion?: StringFilter<"DocumentConsent"> | string
+    acceptedAt?: DateTimeFilter<"DocumentConsent"> | Date | string
+    student?: XOR<StudentScalarRelationFilter, StudentWhereInput>
+  }, "id" | "studentId_documentKey">
+
+  export type DocumentConsentOrderByWithAggregationInput = {
+    id?: SortOrder
+    studentId?: SortOrder
+    documentKey?: SortOrder
+    documentVersion?: SortOrder
+    acceptedAt?: SortOrder
+    _count?: DocumentConsentCountOrderByAggregateInput
+    _avg?: DocumentConsentAvgOrderByAggregateInput
+    _max?: DocumentConsentMaxOrderByAggregateInput
+    _min?: DocumentConsentMinOrderByAggregateInput
+    _sum?: DocumentConsentSumOrderByAggregateInput
+  }
+
+  export type DocumentConsentScalarWhereWithAggregatesInput = {
+    AND?: DocumentConsentScalarWhereWithAggregatesInput | DocumentConsentScalarWhereWithAggregatesInput[]
+    OR?: DocumentConsentScalarWhereWithAggregatesInput[]
+    NOT?: DocumentConsentScalarWhereWithAggregatesInput | DocumentConsentScalarWhereWithAggregatesInput[]
+    id?: IntWithAggregatesFilter<"DocumentConsent"> | number
+    studentId?: IntWithAggregatesFilter<"DocumentConsent"> | number
+    documentKey?: StringWithAggregatesFilter<"DocumentConsent"> | string
+    documentVersion?: StringWithAggregatesFilter<"DocumentConsent"> | string
+    acceptedAt?: DateTimeWithAggregatesFilter<"DocumentConsent"> | Date | string
+  }
+
   export type StudentCreateInput = {
     name: string
     lastName: string
@@ -15657,6 +16825,7 @@ export namespace Prisma {
     attendances?: AttendanceCreateNestedManyWithoutStudentInput
     anamneses?: AnamnesisCreateNestedManyWithoutStudentInput
     danceEvaluations?: DanceEvaluationCreateNestedManyWithoutStudentInput
+    consents?: DocumentConsentCreateNestedManyWithoutStudentInput
   }
 
   export type StudentUncheckedCreateInput = {
@@ -15685,6 +16854,7 @@ export namespace Prisma {
     attendances?: AttendanceUncheckedCreateNestedManyWithoutStudentInput
     anamneses?: AnamnesisUncheckedCreateNestedManyWithoutStudentInput
     danceEvaluations?: DanceEvaluationUncheckedCreateNestedManyWithoutStudentInput
+    consents?: DocumentConsentUncheckedCreateNestedManyWithoutStudentInput
   }
 
   export type StudentUpdateInput = {
@@ -15712,6 +16882,7 @@ export namespace Prisma {
     attendances?: AttendanceUpdateManyWithoutStudentNestedInput
     anamneses?: AnamnesisUpdateManyWithoutStudentNestedInput
     danceEvaluations?: DanceEvaluationUpdateManyWithoutStudentNestedInput
+    consents?: DocumentConsentUpdateManyWithoutStudentNestedInput
   }
 
   export type StudentUncheckedUpdateInput = {
@@ -15740,6 +16911,7 @@ export namespace Prisma {
     attendances?: AttendanceUncheckedUpdateManyWithoutStudentNestedInput
     anamneses?: AnamnesisUncheckedUpdateManyWithoutStudentNestedInput
     danceEvaluations?: DanceEvaluationUncheckedUpdateManyWithoutStudentNestedInput
+    consents?: DocumentConsentUncheckedUpdateManyWithoutStudentNestedInput
   }
 
   export type StudentCreateManyInput = {
@@ -16569,6 +17741,58 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type DocumentConsentCreateInput = {
+    documentKey: string
+    documentVersion: string
+    acceptedAt?: Date | string
+    student: StudentCreateNestedOneWithoutConsentsInput
+  }
+
+  export type DocumentConsentUncheckedCreateInput = {
+    id?: number
+    studentId: number
+    documentKey: string
+    documentVersion: string
+    acceptedAt?: Date | string
+  }
+
+  export type DocumentConsentUpdateInput = {
+    documentKey?: StringFieldUpdateOperationsInput | string
+    documentVersion?: StringFieldUpdateOperationsInput | string
+    acceptedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    student?: StudentUpdateOneRequiredWithoutConsentsNestedInput
+  }
+
+  export type DocumentConsentUncheckedUpdateInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    studentId?: IntFieldUpdateOperationsInput | number
+    documentKey?: StringFieldUpdateOperationsInput | string
+    documentVersion?: StringFieldUpdateOperationsInput | string
+    acceptedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type DocumentConsentCreateManyInput = {
+    id?: number
+    studentId: number
+    documentKey: string
+    documentVersion: string
+    acceptedAt?: Date | string
+  }
+
+  export type DocumentConsentUpdateManyMutationInput = {
+    documentKey?: StringFieldUpdateOperationsInput | string
+    documentVersion?: StringFieldUpdateOperationsInput | string
+    acceptedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type DocumentConsentUncheckedUpdateManyInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    studentId?: IntFieldUpdateOperationsInput | number
+    documentKey?: StringFieldUpdateOperationsInput | string
+    documentVersion?: StringFieldUpdateOperationsInput | string
+    acceptedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type IntFilter<$PrismaModel = never> = {
     equals?: number | IntFieldRefInput<$PrismaModel>
     in?: number[]
@@ -16680,6 +17904,12 @@ export namespace Prisma {
     none?: DanceEvaluationWhereInput
   }
 
+  export type DocumentConsentListRelationFilter = {
+    every?: DocumentConsentWhereInput
+    some?: DocumentConsentWhereInput
+    none?: DocumentConsentWhereInput
+  }
+
   export type SortOrderInput = {
     sort: SortOrder
     nulls?: NullsOrder
@@ -16706,6 +17936,10 @@ export namespace Prisma {
   }
 
   export type DanceEvaluationOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type DocumentConsentOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -17619,6 +18853,51 @@ export namespace Prisma {
     order?: SortOrder
   }
 
+  export type DocumentConsentOrderByRelevanceInput = {
+    fields: DocumentConsentOrderByRelevanceFieldEnum | DocumentConsentOrderByRelevanceFieldEnum[]
+    sort: SortOrder
+    search: string
+  }
+
+  export type DocumentConsentStudentIdDocumentKeyCompoundUniqueInput = {
+    studentId: number
+    documentKey: string
+  }
+
+  export type DocumentConsentCountOrderByAggregateInput = {
+    id?: SortOrder
+    studentId?: SortOrder
+    documentKey?: SortOrder
+    documentVersion?: SortOrder
+    acceptedAt?: SortOrder
+  }
+
+  export type DocumentConsentAvgOrderByAggregateInput = {
+    id?: SortOrder
+    studentId?: SortOrder
+  }
+
+  export type DocumentConsentMaxOrderByAggregateInput = {
+    id?: SortOrder
+    studentId?: SortOrder
+    documentKey?: SortOrder
+    documentVersion?: SortOrder
+    acceptedAt?: SortOrder
+  }
+
+  export type DocumentConsentMinOrderByAggregateInput = {
+    id?: SortOrder
+    studentId?: SortOrder
+    documentKey?: SortOrder
+    documentVersion?: SortOrder
+    acceptedAt?: SortOrder
+  }
+
+  export type DocumentConsentSumOrderByAggregateInput = {
+    id?: SortOrder
+    studentId?: SortOrder
+  }
+
   export type PlanCreateNestedManyWithoutStudentsInput = {
     create?: XOR<PlanCreateWithoutStudentsInput, PlanUncheckedCreateWithoutStudentsInput> | PlanCreateWithoutStudentsInput[] | PlanUncheckedCreateWithoutStudentsInput[]
     connectOrCreate?: PlanCreateOrConnectWithoutStudentsInput | PlanCreateOrConnectWithoutStudentsInput[]
@@ -17660,6 +18939,13 @@ export namespace Prisma {
     connect?: DanceEvaluationWhereUniqueInput | DanceEvaluationWhereUniqueInput[]
   }
 
+  export type DocumentConsentCreateNestedManyWithoutStudentInput = {
+    create?: XOR<DocumentConsentCreateWithoutStudentInput, DocumentConsentUncheckedCreateWithoutStudentInput> | DocumentConsentCreateWithoutStudentInput[] | DocumentConsentUncheckedCreateWithoutStudentInput[]
+    connectOrCreate?: DocumentConsentCreateOrConnectWithoutStudentInput | DocumentConsentCreateOrConnectWithoutStudentInput[]
+    createMany?: DocumentConsentCreateManyStudentInputEnvelope
+    connect?: DocumentConsentWhereUniqueInput | DocumentConsentWhereUniqueInput[]
+  }
+
   export type PlanUncheckedCreateNestedManyWithoutStudentsInput = {
     create?: XOR<PlanCreateWithoutStudentsInput, PlanUncheckedCreateWithoutStudentsInput> | PlanCreateWithoutStudentsInput[] | PlanUncheckedCreateWithoutStudentsInput[]
     connectOrCreate?: PlanCreateOrConnectWithoutStudentsInput | PlanCreateOrConnectWithoutStudentsInput[]
@@ -17699,6 +18985,13 @@ export namespace Prisma {
     connectOrCreate?: DanceEvaluationCreateOrConnectWithoutStudentInput | DanceEvaluationCreateOrConnectWithoutStudentInput[]
     createMany?: DanceEvaluationCreateManyStudentInputEnvelope
     connect?: DanceEvaluationWhereUniqueInput | DanceEvaluationWhereUniqueInput[]
+  }
+
+  export type DocumentConsentUncheckedCreateNestedManyWithoutStudentInput = {
+    create?: XOR<DocumentConsentCreateWithoutStudentInput, DocumentConsentUncheckedCreateWithoutStudentInput> | DocumentConsentCreateWithoutStudentInput[] | DocumentConsentUncheckedCreateWithoutStudentInput[]
+    connectOrCreate?: DocumentConsentCreateOrConnectWithoutStudentInput | DocumentConsentCreateOrConnectWithoutStudentInput[]
+    createMany?: DocumentConsentCreateManyStudentInputEnvelope
+    connect?: DocumentConsentWhereUniqueInput | DocumentConsentWhereUniqueInput[]
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -17808,6 +19101,20 @@ export namespace Prisma {
     deleteMany?: DanceEvaluationScalarWhereInput | DanceEvaluationScalarWhereInput[]
   }
 
+  export type DocumentConsentUpdateManyWithoutStudentNestedInput = {
+    create?: XOR<DocumentConsentCreateWithoutStudentInput, DocumentConsentUncheckedCreateWithoutStudentInput> | DocumentConsentCreateWithoutStudentInput[] | DocumentConsentUncheckedCreateWithoutStudentInput[]
+    connectOrCreate?: DocumentConsentCreateOrConnectWithoutStudentInput | DocumentConsentCreateOrConnectWithoutStudentInput[]
+    upsert?: DocumentConsentUpsertWithWhereUniqueWithoutStudentInput | DocumentConsentUpsertWithWhereUniqueWithoutStudentInput[]
+    createMany?: DocumentConsentCreateManyStudentInputEnvelope
+    set?: DocumentConsentWhereUniqueInput | DocumentConsentWhereUniqueInput[]
+    disconnect?: DocumentConsentWhereUniqueInput | DocumentConsentWhereUniqueInput[]
+    delete?: DocumentConsentWhereUniqueInput | DocumentConsentWhereUniqueInput[]
+    connect?: DocumentConsentWhereUniqueInput | DocumentConsentWhereUniqueInput[]
+    update?: DocumentConsentUpdateWithWhereUniqueWithoutStudentInput | DocumentConsentUpdateWithWhereUniqueWithoutStudentInput[]
+    updateMany?: DocumentConsentUpdateManyWithWhereWithoutStudentInput | DocumentConsentUpdateManyWithWhereWithoutStudentInput[]
+    deleteMany?: DocumentConsentScalarWhereInput | DocumentConsentScalarWhereInput[]
+  }
+
   export type IntFieldUpdateOperationsInput = {
     set?: number
     increment?: number
@@ -17897,6 +19204,20 @@ export namespace Prisma {
     update?: DanceEvaluationUpdateWithWhereUniqueWithoutStudentInput | DanceEvaluationUpdateWithWhereUniqueWithoutStudentInput[]
     updateMany?: DanceEvaluationUpdateManyWithWhereWithoutStudentInput | DanceEvaluationUpdateManyWithWhereWithoutStudentInput[]
     deleteMany?: DanceEvaluationScalarWhereInput | DanceEvaluationScalarWhereInput[]
+  }
+
+  export type DocumentConsentUncheckedUpdateManyWithoutStudentNestedInput = {
+    create?: XOR<DocumentConsentCreateWithoutStudentInput, DocumentConsentUncheckedCreateWithoutStudentInput> | DocumentConsentCreateWithoutStudentInput[] | DocumentConsentUncheckedCreateWithoutStudentInput[]
+    connectOrCreate?: DocumentConsentCreateOrConnectWithoutStudentInput | DocumentConsentCreateOrConnectWithoutStudentInput[]
+    upsert?: DocumentConsentUpsertWithWhereUniqueWithoutStudentInput | DocumentConsentUpsertWithWhereUniqueWithoutStudentInput[]
+    createMany?: DocumentConsentCreateManyStudentInputEnvelope
+    set?: DocumentConsentWhereUniqueInput | DocumentConsentWhereUniqueInput[]
+    disconnect?: DocumentConsentWhereUniqueInput | DocumentConsentWhereUniqueInput[]
+    delete?: DocumentConsentWhereUniqueInput | DocumentConsentWhereUniqueInput[]
+    connect?: DocumentConsentWhereUniqueInput | DocumentConsentWhereUniqueInput[]
+    update?: DocumentConsentUpdateWithWhereUniqueWithoutStudentInput | DocumentConsentUpdateWithWhereUniqueWithoutStudentInput[]
+    updateMany?: DocumentConsentUpdateManyWithWhereWithoutStudentInput | DocumentConsentUpdateManyWithWhereWithoutStudentInput[]
+    deleteMany?: DocumentConsentScalarWhereInput | DocumentConsentScalarWhereInput[]
   }
 
   export type StudentCreateNestedManyWithoutPlansInput = {
@@ -18263,6 +19584,20 @@ export namespace Prisma {
     upsert?: GalleryEventUpsertWithoutPhotosInput
     connect?: GalleryEventWhereUniqueInput
     update?: XOR<XOR<GalleryEventUpdateToOneWithWhereWithoutPhotosInput, GalleryEventUpdateWithoutPhotosInput>, GalleryEventUncheckedUpdateWithoutPhotosInput>
+  }
+
+  export type StudentCreateNestedOneWithoutConsentsInput = {
+    create?: XOR<StudentCreateWithoutConsentsInput, StudentUncheckedCreateWithoutConsentsInput>
+    connectOrCreate?: StudentCreateOrConnectWithoutConsentsInput
+    connect?: StudentWhereUniqueInput
+  }
+
+  export type StudentUpdateOneRequiredWithoutConsentsNestedInput = {
+    create?: XOR<StudentCreateWithoutConsentsInput, StudentUncheckedCreateWithoutConsentsInput>
+    connectOrCreate?: StudentCreateOrConnectWithoutConsentsInput
+    upsert?: StudentUpsertWithoutConsentsInput
+    connect?: StudentWhereUniqueInput
+    update?: XOR<XOR<StudentUpdateToOneWithWhereWithoutConsentsInput, StudentUpdateWithoutConsentsInput>, StudentUncheckedUpdateWithoutConsentsInput>
   }
 
   export type NestedIntFilter<$PrismaModel = never> = {
@@ -18745,6 +20080,29 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type DocumentConsentCreateWithoutStudentInput = {
+    documentKey: string
+    documentVersion: string
+    acceptedAt?: Date | string
+  }
+
+  export type DocumentConsentUncheckedCreateWithoutStudentInput = {
+    id?: number
+    documentKey: string
+    documentVersion: string
+    acceptedAt?: Date | string
+  }
+
+  export type DocumentConsentCreateOrConnectWithoutStudentInput = {
+    where: DocumentConsentWhereUniqueInput
+    create: XOR<DocumentConsentCreateWithoutStudentInput, DocumentConsentUncheckedCreateWithoutStudentInput>
+  }
+
+  export type DocumentConsentCreateManyStudentInputEnvelope = {
+    data: DocumentConsentCreateManyStudentInput | DocumentConsentCreateManyStudentInput[]
+    skipDuplicates?: boolean
+  }
+
   export type PlanUpsertWithWhereUniqueWithoutStudentsInput = {
     where: PlanWhereUniqueInput
     update: XOR<PlanUpdateWithoutStudentsInput, PlanUncheckedUpdateWithoutStudentsInput>
@@ -18924,6 +20282,33 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"DanceEvaluation"> | Date | string
   }
 
+  export type DocumentConsentUpsertWithWhereUniqueWithoutStudentInput = {
+    where: DocumentConsentWhereUniqueInput
+    update: XOR<DocumentConsentUpdateWithoutStudentInput, DocumentConsentUncheckedUpdateWithoutStudentInput>
+    create: XOR<DocumentConsentCreateWithoutStudentInput, DocumentConsentUncheckedCreateWithoutStudentInput>
+  }
+
+  export type DocumentConsentUpdateWithWhereUniqueWithoutStudentInput = {
+    where: DocumentConsentWhereUniqueInput
+    data: XOR<DocumentConsentUpdateWithoutStudentInput, DocumentConsentUncheckedUpdateWithoutStudentInput>
+  }
+
+  export type DocumentConsentUpdateManyWithWhereWithoutStudentInput = {
+    where: DocumentConsentScalarWhereInput
+    data: XOR<DocumentConsentUpdateManyMutationInput, DocumentConsentUncheckedUpdateManyWithoutStudentInput>
+  }
+
+  export type DocumentConsentScalarWhereInput = {
+    AND?: DocumentConsentScalarWhereInput | DocumentConsentScalarWhereInput[]
+    OR?: DocumentConsentScalarWhereInput[]
+    NOT?: DocumentConsentScalarWhereInput | DocumentConsentScalarWhereInput[]
+    id?: IntFilter<"DocumentConsent"> | number
+    studentId?: IntFilter<"DocumentConsent"> | number
+    documentKey?: StringFilter<"DocumentConsent"> | string
+    documentVersion?: StringFilter<"DocumentConsent"> | string
+    acceptedAt?: DateTimeFilter<"DocumentConsent"> | Date | string
+  }
+
   export type StudentCreateWithoutPlansInput = {
     name: string
     lastName: string
@@ -18948,6 +20333,7 @@ export namespace Prisma {
     attendances?: AttendanceCreateNestedManyWithoutStudentInput
     anamneses?: AnamnesisCreateNestedManyWithoutStudentInput
     danceEvaluations?: DanceEvaluationCreateNestedManyWithoutStudentInput
+    consents?: DocumentConsentCreateNestedManyWithoutStudentInput
   }
 
   export type StudentUncheckedCreateWithoutPlansInput = {
@@ -18975,6 +20361,7 @@ export namespace Prisma {
     attendances?: AttendanceUncheckedCreateNestedManyWithoutStudentInput
     anamneses?: AnamnesisUncheckedCreateNestedManyWithoutStudentInput
     danceEvaluations?: DanceEvaluationUncheckedCreateNestedManyWithoutStudentInput
+    consents?: DocumentConsentUncheckedCreateNestedManyWithoutStudentInput
   }
 
   export type StudentCreateOrConnectWithoutPlansInput = {
@@ -19217,6 +20604,7 @@ export namespace Prisma {
     attendances?: AttendanceCreateNestedManyWithoutStudentInput
     anamneses?: AnamnesisCreateNestedManyWithoutStudentInput
     danceEvaluations?: DanceEvaluationCreateNestedManyWithoutStudentInput
+    consents?: DocumentConsentCreateNestedManyWithoutStudentInput
   }
 
   export type StudentUncheckedCreateWithoutEnrollmentsInput = {
@@ -19244,6 +20632,7 @@ export namespace Prisma {
     attendances?: AttendanceUncheckedCreateNestedManyWithoutStudentInput
     anamneses?: AnamnesisUncheckedCreateNestedManyWithoutStudentInput
     danceEvaluations?: DanceEvaluationUncheckedCreateNestedManyWithoutStudentInput
+    consents?: DocumentConsentUncheckedCreateNestedManyWithoutStudentInput
   }
 
   export type StudentCreateOrConnectWithoutEnrollmentsInput = {
@@ -19308,6 +20697,7 @@ export namespace Prisma {
     attendances?: AttendanceUpdateManyWithoutStudentNestedInput
     anamneses?: AnamnesisUpdateManyWithoutStudentNestedInput
     danceEvaluations?: DanceEvaluationUpdateManyWithoutStudentNestedInput
+    consents?: DocumentConsentUpdateManyWithoutStudentNestedInput
   }
 
   export type StudentUncheckedUpdateWithoutEnrollmentsInput = {
@@ -19335,6 +20725,7 @@ export namespace Prisma {
     attendances?: AttendanceUncheckedUpdateManyWithoutStudentNestedInput
     anamneses?: AnamnesisUncheckedUpdateManyWithoutStudentNestedInput
     danceEvaluations?: DanceEvaluationUncheckedUpdateManyWithoutStudentNestedInput
+    consents?: DocumentConsentUncheckedUpdateManyWithoutStudentNestedInput
   }
 
   export type ClassUpsertWithoutEnrollmentsInput = {
@@ -19389,6 +20780,7 @@ export namespace Prisma {
     attendances?: AttendanceCreateNestedManyWithoutStudentInput
     anamneses?: AnamnesisCreateNestedManyWithoutStudentInput
     danceEvaluations?: DanceEvaluationCreateNestedManyWithoutStudentInput
+    consents?: DocumentConsentCreateNestedManyWithoutStudentInput
   }
 
   export type StudentUncheckedCreateWithoutPaymentsInput = {
@@ -19416,6 +20808,7 @@ export namespace Prisma {
     attendances?: AttendanceUncheckedCreateNestedManyWithoutStudentInput
     anamneses?: AnamnesisUncheckedCreateNestedManyWithoutStudentInput
     danceEvaluations?: DanceEvaluationUncheckedCreateNestedManyWithoutStudentInput
+    consents?: DocumentConsentUncheckedCreateNestedManyWithoutStudentInput
   }
 
   export type StudentCreateOrConnectWithoutPaymentsInput = {
@@ -19458,6 +20851,7 @@ export namespace Prisma {
     attendances?: AttendanceUpdateManyWithoutStudentNestedInput
     anamneses?: AnamnesisUpdateManyWithoutStudentNestedInput
     danceEvaluations?: DanceEvaluationUpdateManyWithoutStudentNestedInput
+    consents?: DocumentConsentUpdateManyWithoutStudentNestedInput
   }
 
   export type StudentUncheckedUpdateWithoutPaymentsInput = {
@@ -19485,6 +20879,7 @@ export namespace Prisma {
     attendances?: AttendanceUncheckedUpdateManyWithoutStudentNestedInput
     anamneses?: AnamnesisUncheckedUpdateManyWithoutStudentNestedInput
     danceEvaluations?: DanceEvaluationUncheckedUpdateManyWithoutStudentNestedInput
+    consents?: DocumentConsentUncheckedUpdateManyWithoutStudentNestedInput
   }
 
   export type StudentCreateWithoutAttendancesInput = {
@@ -19511,6 +20906,7 @@ export namespace Prisma {
     payments?: PaymentCreateNestedManyWithoutStudentInput
     anamneses?: AnamnesisCreateNestedManyWithoutStudentInput
     danceEvaluations?: DanceEvaluationCreateNestedManyWithoutStudentInput
+    consents?: DocumentConsentCreateNestedManyWithoutStudentInput
   }
 
   export type StudentUncheckedCreateWithoutAttendancesInput = {
@@ -19538,6 +20934,7 @@ export namespace Prisma {
     payments?: PaymentUncheckedCreateNestedManyWithoutStudentInput
     anamneses?: AnamnesisUncheckedCreateNestedManyWithoutStudentInput
     danceEvaluations?: DanceEvaluationUncheckedCreateNestedManyWithoutStudentInput
+    consents?: DocumentConsentUncheckedCreateNestedManyWithoutStudentInput
   }
 
   export type StudentCreateOrConnectWithoutAttendancesInput = {
@@ -19602,6 +20999,7 @@ export namespace Prisma {
     payments?: PaymentUpdateManyWithoutStudentNestedInput
     anamneses?: AnamnesisUpdateManyWithoutStudentNestedInput
     danceEvaluations?: DanceEvaluationUpdateManyWithoutStudentNestedInput
+    consents?: DocumentConsentUpdateManyWithoutStudentNestedInput
   }
 
   export type StudentUncheckedUpdateWithoutAttendancesInput = {
@@ -19629,6 +21027,7 @@ export namespace Prisma {
     payments?: PaymentUncheckedUpdateManyWithoutStudentNestedInput
     anamneses?: AnamnesisUncheckedUpdateManyWithoutStudentNestedInput
     danceEvaluations?: DanceEvaluationUncheckedUpdateManyWithoutStudentNestedInput
+    consents?: DocumentConsentUncheckedUpdateManyWithoutStudentNestedInput
   }
 
   export type ClassUpsertWithoutAttendancesInput = {
@@ -19683,6 +21082,7 @@ export namespace Prisma {
     payments?: PaymentCreateNestedManyWithoutStudentInput
     attendances?: AttendanceCreateNestedManyWithoutStudentInput
     danceEvaluations?: DanceEvaluationCreateNestedManyWithoutStudentInput
+    consents?: DocumentConsentCreateNestedManyWithoutStudentInput
   }
 
   export type StudentUncheckedCreateWithoutAnamnesesInput = {
@@ -19710,6 +21110,7 @@ export namespace Prisma {
     payments?: PaymentUncheckedCreateNestedManyWithoutStudentInput
     attendances?: AttendanceUncheckedCreateNestedManyWithoutStudentInput
     danceEvaluations?: DanceEvaluationUncheckedCreateNestedManyWithoutStudentInput
+    consents?: DocumentConsentUncheckedCreateNestedManyWithoutStudentInput
   }
 
   export type StudentCreateOrConnectWithoutAnamnesesInput = {
@@ -19752,6 +21153,7 @@ export namespace Prisma {
     payments?: PaymentUpdateManyWithoutStudentNestedInput
     attendances?: AttendanceUpdateManyWithoutStudentNestedInput
     danceEvaluations?: DanceEvaluationUpdateManyWithoutStudentNestedInput
+    consents?: DocumentConsentUpdateManyWithoutStudentNestedInput
   }
 
   export type StudentUncheckedUpdateWithoutAnamnesesInput = {
@@ -19779,6 +21181,7 @@ export namespace Prisma {
     payments?: PaymentUncheckedUpdateManyWithoutStudentNestedInput
     attendances?: AttendanceUncheckedUpdateManyWithoutStudentNestedInput
     danceEvaluations?: DanceEvaluationUncheckedUpdateManyWithoutStudentNestedInput
+    consents?: DocumentConsentUncheckedUpdateManyWithoutStudentNestedInput
   }
 
   export type StudentCreateWithoutDanceEvaluationsInput = {
@@ -19805,6 +21208,7 @@ export namespace Prisma {
     payments?: PaymentCreateNestedManyWithoutStudentInput
     attendances?: AttendanceCreateNestedManyWithoutStudentInput
     anamneses?: AnamnesisCreateNestedManyWithoutStudentInput
+    consents?: DocumentConsentCreateNestedManyWithoutStudentInput
   }
 
   export type StudentUncheckedCreateWithoutDanceEvaluationsInput = {
@@ -19832,6 +21236,7 @@ export namespace Prisma {
     payments?: PaymentUncheckedCreateNestedManyWithoutStudentInput
     attendances?: AttendanceUncheckedCreateNestedManyWithoutStudentInput
     anamneses?: AnamnesisUncheckedCreateNestedManyWithoutStudentInput
+    consents?: DocumentConsentUncheckedCreateNestedManyWithoutStudentInput
   }
 
   export type StudentCreateOrConnectWithoutDanceEvaluationsInput = {
@@ -19874,6 +21279,7 @@ export namespace Prisma {
     payments?: PaymentUpdateManyWithoutStudentNestedInput
     attendances?: AttendanceUpdateManyWithoutStudentNestedInput
     anamneses?: AnamnesisUpdateManyWithoutStudentNestedInput
+    consents?: DocumentConsentUpdateManyWithoutStudentNestedInput
   }
 
   export type StudentUncheckedUpdateWithoutDanceEvaluationsInput = {
@@ -19901,6 +21307,7 @@ export namespace Prisma {
     payments?: PaymentUncheckedUpdateManyWithoutStudentNestedInput
     attendances?: AttendanceUncheckedUpdateManyWithoutStudentNestedInput
     anamneses?: AnamnesisUncheckedUpdateManyWithoutStudentNestedInput
+    consents?: DocumentConsentUncheckedUpdateManyWithoutStudentNestedInput
   }
 
   export type GalleryPhotoCreateWithoutEventInput = {
@@ -20013,6 +21420,132 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type StudentCreateWithoutConsentsInput = {
+    name: string
+    lastName: string
+    email: string
+    phone?: string | null
+    nickname?: string | null
+    address?: string | null
+    city?: string | null
+    birthDate?: Date | string | null
+    profilePhoto?: Bytes | null
+    profilePhotoMime?: string | null
+    planStartDate?: Date | string | null
+    planEndDate?: Date | string | null
+    planType?: string
+    planStatus?: string
+    password: string
+    mustChangePassword?: boolean
+    qrToken?: string
+    createdAt?: Date | string
+    plans?: PlanCreateNestedManyWithoutStudentsInput
+    enrollments?: EnrollmentCreateNestedManyWithoutStudentInput
+    payments?: PaymentCreateNestedManyWithoutStudentInput
+    attendances?: AttendanceCreateNestedManyWithoutStudentInput
+    anamneses?: AnamnesisCreateNestedManyWithoutStudentInput
+    danceEvaluations?: DanceEvaluationCreateNestedManyWithoutStudentInput
+  }
+
+  export type StudentUncheckedCreateWithoutConsentsInput = {
+    id?: number
+    name: string
+    lastName: string
+    email: string
+    phone?: string | null
+    nickname?: string | null
+    address?: string | null
+    city?: string | null
+    birthDate?: Date | string | null
+    profilePhoto?: Bytes | null
+    profilePhotoMime?: string | null
+    planStartDate?: Date | string | null
+    planEndDate?: Date | string | null
+    planType?: string
+    planStatus?: string
+    password: string
+    mustChangePassword?: boolean
+    qrToken?: string
+    createdAt?: Date | string
+    plans?: PlanUncheckedCreateNestedManyWithoutStudentsInput
+    enrollments?: EnrollmentUncheckedCreateNestedManyWithoutStudentInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutStudentInput
+    attendances?: AttendanceUncheckedCreateNestedManyWithoutStudentInput
+    anamneses?: AnamnesisUncheckedCreateNestedManyWithoutStudentInput
+    danceEvaluations?: DanceEvaluationUncheckedCreateNestedManyWithoutStudentInput
+  }
+
+  export type StudentCreateOrConnectWithoutConsentsInput = {
+    where: StudentWhereUniqueInput
+    create: XOR<StudentCreateWithoutConsentsInput, StudentUncheckedCreateWithoutConsentsInput>
+  }
+
+  export type StudentUpsertWithoutConsentsInput = {
+    update: XOR<StudentUpdateWithoutConsentsInput, StudentUncheckedUpdateWithoutConsentsInput>
+    create: XOR<StudentCreateWithoutConsentsInput, StudentUncheckedCreateWithoutConsentsInput>
+    where?: StudentWhereInput
+  }
+
+  export type StudentUpdateToOneWithWhereWithoutConsentsInput = {
+    where?: StudentWhereInput
+    data: XOR<StudentUpdateWithoutConsentsInput, StudentUncheckedUpdateWithoutConsentsInput>
+  }
+
+  export type StudentUpdateWithoutConsentsInput = {
+    name?: StringFieldUpdateOperationsInput | string
+    lastName?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    nickname?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    birthDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    profilePhoto?: NullableBytesFieldUpdateOperationsInput | Bytes | null
+    profilePhotoMime?: NullableStringFieldUpdateOperationsInput | string | null
+    planStartDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    planEndDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    planType?: StringFieldUpdateOperationsInput | string
+    planStatus?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    mustChangePassword?: BoolFieldUpdateOperationsInput | boolean
+    qrToken?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    plans?: PlanUpdateManyWithoutStudentsNestedInput
+    enrollments?: EnrollmentUpdateManyWithoutStudentNestedInput
+    payments?: PaymentUpdateManyWithoutStudentNestedInput
+    attendances?: AttendanceUpdateManyWithoutStudentNestedInput
+    anamneses?: AnamnesisUpdateManyWithoutStudentNestedInput
+    danceEvaluations?: DanceEvaluationUpdateManyWithoutStudentNestedInput
+  }
+
+  export type StudentUncheckedUpdateWithoutConsentsInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    lastName?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    nickname?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    birthDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    profilePhoto?: NullableBytesFieldUpdateOperationsInput | Bytes | null
+    profilePhotoMime?: NullableStringFieldUpdateOperationsInput | string | null
+    planStartDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    planEndDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    planType?: StringFieldUpdateOperationsInput | string
+    planStatus?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    mustChangePassword?: BoolFieldUpdateOperationsInput | boolean
+    qrToken?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    plans?: PlanUncheckedUpdateManyWithoutStudentsNestedInput
+    enrollments?: EnrollmentUncheckedUpdateManyWithoutStudentNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutStudentNestedInput
+    attendances?: AttendanceUncheckedUpdateManyWithoutStudentNestedInput
+    anamneses?: AnamnesisUncheckedUpdateManyWithoutStudentNestedInput
+    danceEvaluations?: DanceEvaluationUncheckedUpdateManyWithoutStudentNestedInput
+  }
+
   export type EnrollmentCreateManyStudentInput = {
     id?: number
     classId: number
@@ -20060,6 +21593,13 @@ export namespace Prisma {
     observations?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+  }
+
+  export type DocumentConsentCreateManyStudentInput = {
+    id?: number
+    documentKey: string
+    documentVersion: string
+    acceptedAt?: Date | string
   }
 
   export type PlanUpdateWithoutStudentsInput = {
@@ -20236,6 +21776,26 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type DocumentConsentUpdateWithoutStudentInput = {
+    documentKey?: StringFieldUpdateOperationsInput | string
+    documentVersion?: StringFieldUpdateOperationsInput | string
+    acceptedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type DocumentConsentUncheckedUpdateWithoutStudentInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    documentKey?: StringFieldUpdateOperationsInput | string
+    documentVersion?: StringFieldUpdateOperationsInput | string
+    acceptedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type DocumentConsentUncheckedUpdateManyWithoutStudentInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    documentKey?: StringFieldUpdateOperationsInput | string
+    documentVersion?: StringFieldUpdateOperationsInput | string
+    acceptedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type StudentUpdateWithoutPlansInput = {
     name?: StringFieldUpdateOperationsInput | string
     lastName?: StringFieldUpdateOperationsInput | string
@@ -20260,6 +21820,7 @@ export namespace Prisma {
     attendances?: AttendanceUpdateManyWithoutStudentNestedInput
     anamneses?: AnamnesisUpdateManyWithoutStudentNestedInput
     danceEvaluations?: DanceEvaluationUpdateManyWithoutStudentNestedInput
+    consents?: DocumentConsentUpdateManyWithoutStudentNestedInput
   }
 
   export type StudentUncheckedUpdateWithoutPlansInput = {
@@ -20287,6 +21848,7 @@ export namespace Prisma {
     attendances?: AttendanceUncheckedUpdateManyWithoutStudentNestedInput
     anamneses?: AnamnesisUncheckedUpdateManyWithoutStudentNestedInput
     danceEvaluations?: DanceEvaluationUncheckedUpdateManyWithoutStudentNestedInput
+    consents?: DocumentConsentUncheckedUpdateManyWithoutStudentNestedInput
   }
 
   export type StudentUncheckedUpdateManyWithoutPlansInput = {

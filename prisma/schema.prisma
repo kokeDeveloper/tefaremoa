@@ -40,6 +40,7 @@ model Student {
   attendances       Attendance[]
   anamneses         Anamnesis[]
   danceEvaluations  DanceEvaluation[]
+  consents          DocumentConsent[]
 }
 
 enum DanceEvaluationModality {
@@ -196,4 +197,18 @@ model GalleryPhoto {
   sizeBytes Int?
   order     Int          @default(0)
   createdAt DateTime     @default(now())
+}
+
+// ── Consentimiento digital de documentos ─────────────────────────────────────
+
+model DocumentConsent {
+  id              Int      @id @default(autoincrement())
+  student         Student  @relation(fields: [studentId], references: [id])
+  studentId       Int
+  documentKey     String   // e.g. "compromiso_2s_2026"
+  documentVersion String   // ISO date of the document version accepted
+  acceptedAt      DateTime @default(now())
+
+  @@unique([studentId, documentKey])
+  @@index([documentKey])
 }

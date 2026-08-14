@@ -255,6 +255,14 @@ exports.Prisma.GalleryPhotoScalarFieldEnum = {
   createdAt: 'createdAt'
 };
 
+exports.Prisma.DocumentConsentScalarFieldEnum = {
+  id: 'id',
+  studentId: 'studentId',
+  documentKey: 'documentKey',
+  documentVersion: 'documentVersion',
+  acceptedAt: 'acceptedAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -342,6 +350,11 @@ exports.Prisma.GalleryPhotoOrderByRelevanceFieldEnum = {
   filename: 'filename',
   title: 'title'
 };
+
+exports.Prisma.DocumentConsentOrderByRelevanceFieldEnum = {
+  documentKey: 'documentKey',
+  documentVersion: 'documentVersion'
+};
 exports.AdminRole = exports.$Enums.AdminRole = {
   SUPERADMIN: 'SUPERADMIN',
   ADMIN: 'ADMIN',
@@ -365,7 +378,8 @@ exports.Prisma.ModelName = {
   Anamnesis: 'Anamnesis',
   DanceEvaluation: 'DanceEvaluation',
   GalleryEvent: 'GalleryEvent',
-  GalleryPhoto: 'GalleryPhoto'
+  GalleryPhoto: 'GalleryPhoto',
+  DocumentConsent: 'DocumentConsent'
 };
 
 /**

@@ -16,6 +16,7 @@ import { Sidebar, SidebarBody, SidebarLink } from "./components/sidebar";
   IconSchool,
   IconPhoto,
   IconUsers,
+  IconFileText,
 } from "@tabler/icons-react";
 import { motion, AnimatePresence } from "motion/react";
 import { PaymentReminderPanel } from "./components/payment-reminder-panel";
@@ -26,6 +27,7 @@ import { EvaluationEntrySection } from "./components/evaluation-entry-section";
 import { ClassesSection } from "./components/classes-section";
 import { AttendanceSection } from "./components/AttendanceSection";
 import GallerySection from "./components/gallery-section";
+import { ConsentsSection } from "./components/consents-section";
 import type { DashboardSummary } from "@/lib/dashboardMetrics";
 
 type SummaryFetchState = "idle" | "loading" | "error" | "loaded";
@@ -42,7 +44,7 @@ interface DashboardCardDefinition {
 export function AdminDashboard() {
   const searchParams = useSearchParams();
   const sectionParam = searchParams?.get("section")?.toLowerCase() ?? "dashboard";
-  const activeSection = sectionParam === "students" ? "students" : sectionParam === "alumnas" ? "alumnas" : sectionParam === "evaluations" ? "evaluations" : sectionParam === "classes" ? "classes" : sectionParam === "gallery" ? "gallery" : sectionParam === "attendance" ? "attendance" : "dashboard";
+  const activeSection = sectionParam === "students" ? "students" : sectionParam === "alumnas" ? "alumnas" : sectionParam === "evaluations" ? "evaluations" : sectionParam === "classes" ? "classes" : sectionParam === "gallery" ? "gallery" : sectionParam === "attendance" ? "attendance" : sectionParam === "consents" ? "consents" : "dashboard";
 
   const dashboardIconClass = cn(
     "h-5 w-5 shrink-0",
@@ -127,6 +129,12 @@ export function AdminDashboard() {
       href: "/admin?section=gallery",
       isActive: activeSection === "gallery",
       icon: <IconPhoto className={cn("h-5 w-5 shrink-0", activeSection === "gallery" ? "text-orange-600 dark:text-orange-300" : "text-neutral-700 dark:text-neutral-200")} />,
+    },
+    {
+      label: "Compromisos",
+      href: "/admin?section=consents",
+      isActive: activeSection === "consents",
+      icon: <IconFileText className={cn("h-5 w-5 shrink-0", activeSection === "consents" ? "text-orange-600 dark:text-orange-300" : "text-neutral-700 dark:text-neutral-200")} />,
     },
     {
       label: "Configuración",
@@ -292,6 +300,19 @@ export function AdminDashboard() {
               transition={{ duration: 0.18, ease: "easeOut" }}
             >
               <EvaluationEntrySection />
+            </motion.div>
+          )}
+
+          {activeSection === "consents" && (
+            <motion.div
+              key="consents"
+              className="flex w-full"
+              initial={{ opacity: 0, x: 12 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -12 }}
+              transition={{ duration: 0.18, ease: "easeOut" }}
+            >
+              <ConsentsSection />
             </motion.div>
           )}
         </AnimatePresence>

@@ -2,14 +2,15 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import { useRouter, useParams } from 'next/navigation'
 import Link from 'next/link'
-import { IconArrowLeft, IconUser, IconSchool, IconQrcode, IconCurrencyDollar, IconHeartRateMonitor } from '@tabler/icons-react'
+import { IconArrowLeft, IconUser, IconSchool, IconQrcode, IconCurrencyDollar, IconHeartRateMonitor, IconFileText } from '@tabler/icons-react'
 import StudentForm from '../components/StudentForm'
 import StudentEnrollmentsPanel from '../components/StudentEnrollmentsPanel'
 import StudentFinancesTab from '../components/StudentFinancesTab'
 import StudentAnamnesisTab from '../components/StudentAnamnesisTab'
+import StudentConsentsTab from '../components/StudentConsentsTab'
 import { cn } from '@/util/cn'
 
-type Tab = 'datos' | 'clases' | 'finanzas' | 'anamnesis'
+type Tab = 'datos' | 'clases' | 'finanzas' | 'anamnesis' | 'compromisos'
 
 export default function StudentDetailPage() {
   const params = useParams()
@@ -93,6 +94,9 @@ export default function StudentDetailPage() {
         <button onClick={() => setTab('anamnesis')} className={tabClass('anamnesis')}>
           <IconHeartRateMonitor size={15} /> Anamnesis
         </button>
+        <button onClick={() => setTab('compromisos')} className={tabClass('compromisos')}>
+          <IconFileText size={15} /> Compromisos
+        </button>
       </div>
 
       {/* Tab content */}
@@ -135,6 +139,10 @@ export default function StudentDetailPage() {
 
       {tab === 'anamnesis' && (
         <StudentAnamnesisTab studentId={student.id} />
+      )}
+
+      {tab === 'compromisos' && (
+        <StudentConsentsTab studentId={student.id} />
       )}
     </div>
   )
