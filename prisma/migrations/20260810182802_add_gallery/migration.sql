@@ -1,3 +1,12 @@
+-- DropForeignKey (must precede DropIndex on Linux/MySQL)
+ALTER TABLE `Anamnesis` DROP FOREIGN KEY `Anamnesis_studentId_fkey`;
+ALTER TABLE `Attendance` DROP FOREIGN KEY `Attendance_classId_fkey`;
+ALTER TABLE `Attendance` DROP FOREIGN KEY `Attendance_studentId_fkey`;
+ALTER TABLE `Class` DROP FOREIGN KEY `Class_instructorId_fkey`;
+ALTER TABLE `Enrollment` DROP FOREIGN KEY `Enrollment_classId_fkey`;
+ALTER TABLE `Enrollment` DROP FOREIGN KEY `Enrollment_studentId_fkey`;
+ALTER TABLE `Payment` DROP FOREIGN KEY `Payment_studentId_fkey`;
+
 -- DropIndex
 DROP INDEX `Anamnesis_studentId_fkey` ON `Anamnesis`;
 
