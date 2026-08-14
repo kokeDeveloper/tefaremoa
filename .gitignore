@@ -9,6 +9,8 @@ coverage/
 # Production
 build/
 dist/
+.next/
+tsconfig.tsbuildinfo
 
 # Misc
 .DS_Store
