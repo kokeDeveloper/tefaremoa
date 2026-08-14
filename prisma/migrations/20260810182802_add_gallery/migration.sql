@@ -1,23 +1,23 @@
 -- DropIndex
-DROP INDEX `Anamnesis_studentId_fkey` ON `anamnesis`;
+DROP INDEX `Anamnesis_studentId_fkey` ON `Anamnesis`;
 
 -- DropIndex
-DROP INDEX `Attendance_classId_fkey` ON `attendance`;
+DROP INDEX `Attendance_classId_fkey` ON `Attendance`;
 
 -- DropIndex
-DROP INDEX `Attendance_studentId_fkey` ON `attendance`;
+DROP INDEX `Attendance_studentId_fkey` ON `Attendance`;
 
 -- DropIndex
-DROP INDEX `Class_instructorId_fkey` ON `class`;
+DROP INDEX `Class_instructorId_fkey` ON `Class`;
 
 -- DropIndex
-DROP INDEX `Enrollment_classId_fkey` ON `enrollment`;
+DROP INDEX `Enrollment_classId_fkey` ON `Enrollment`;
 
 -- DropIndex
-DROP INDEX `Enrollment_studentId_fkey` ON `enrollment`;
+DROP INDEX `Enrollment_studentId_fkey` ON `Enrollment`;
 
 -- DropIndex
-DROP INDEX `Payment_studentId_fkey` ON `payment`;
+DROP INDEX `Payment_studentId_fkey` ON `Payment`;
 
 -- CreateTable
 CREATE TABLE `GalleryEvent` (
