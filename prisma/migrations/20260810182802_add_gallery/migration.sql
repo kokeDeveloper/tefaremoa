@@ -29,7 +29,7 @@ DROP INDEX `Enrollment_studentId_fkey` ON `Enrollment`;
 DROP INDEX `Payment_studentId_fkey` ON `Payment`;
 
 -- CreateTable
-CREATE TABLE `GalleryEvent` (
+CREATE TABLE IF NOT EXISTS `GalleryEvent` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `name` VARCHAR(191) NOT NULL,
     `description` TEXT NULL,
@@ -42,7 +42,7 @@ CREATE TABLE `GalleryEvent` (
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
-CREATE TABLE `GalleryPhoto` (
+CREATE TABLE IF NOT EXISTS `GalleryPhoto` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `eventId` INTEGER NOT NULL,
     `filename` VARCHAR(191) NOT NULL,
