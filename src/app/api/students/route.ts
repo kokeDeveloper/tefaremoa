@@ -19,10 +19,17 @@ export async function GET(req: Request) {
     const skip = Number(url.searchParams.get('skip') || 0);
     const take = Number(url.searchParams.get('take') || 20);
     const search = url.searchParams.get('search') || '';
+    const planStatus = url.searchParams.get('planStatus') || '';
 
-    const where = search
-      ? { OR: [{ name: { contains: search } }, { email: { contains: search } }, { lastName: { contains: search } }] }
-      : {};
+    const where: Record<string, unknown> = {}
+    if (search) {
+      where.OR = [
+        { name: { contains: search } },
+        { email: { contains: search } },
+        { lastName: { contains: search } },
+      ]
+    }
+    if (planStatus) where.planStatus = planStatus
 
     const [items, total] = await Promise.all([
       prisma.student.findMany({ where, skip, take, orderBy: { createdAt: 'desc' }, include: { _count: { select: { enrollments: true } } } }),

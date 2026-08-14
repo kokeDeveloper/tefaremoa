@@ -2,12 +2,14 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import { useRouter, useParams } from 'next/navigation'
 import Link from 'next/link'
-import { IconArrowLeft, IconUser, IconSchool, IconQrcode } from '@tabler/icons-react'
+import { IconArrowLeft, IconUser, IconSchool, IconQrcode, IconCurrencyDollar, IconHeartRateMonitor } from '@tabler/icons-react'
 import StudentForm from '../components/StudentForm'
 import StudentEnrollmentsPanel from '../components/StudentEnrollmentsPanel'
+import StudentFinancesTab from '../components/StudentFinancesTab'
+import StudentAnamnesisTab from '../components/StudentAnamnesisTab'
 import { cn } from '@/util/cn'
 
-type Tab = 'datos' | 'clases'
+type Tab = 'datos' | 'clases' | 'finanzas' | 'anamnesis'
 
 export default function StudentDetailPage() {
   const params = useParams()
@@ -73,7 +75,7 @@ export default function StudentDetailPage() {
       </div>
 
       {/* Tabs */}
-      <div className="border-b border-neutral-200 dark:border-neutral-700 flex">
+      <div className="border-b border-neutral-200 dark:border-neutral-700 flex flex-wrap">
         <button onClick={() => setTab('datos')} className={tabClass('datos')}>
           <IconUser size={15} /> Datos y plan
         </button>
@@ -84,6 +86,12 @@ export default function StudentDetailPage() {
               {student.enrollments.length}
             </span>
           )}
+        </button>
+        <button onClick={() => setTab('finanzas')} className={tabClass('finanzas')}>
+          <IconCurrencyDollar size={15} /> Finanzas
+        </button>
+        <button onClick={() => setTab('anamnesis')} className={tabClass('anamnesis')}>
+          <IconHeartRateMonitor size={15} /> Anamnesis
         </button>
       </div>
 
@@ -113,6 +121,20 @@ export default function StudentDetailPage() {
           enrollments={student.enrollments ?? []}
           onUpdated={fetchStudent}
         />
+      )}
+
+      {tab === 'finanzas' && (
+        <StudentFinancesTab
+          studentId={student.id}
+          planType={student.planType}
+          planStartDate={student.planStartDate}
+          planEndDate={student.planEndDate}
+          planStatus={student.planStatus}
+        />
+      )}
+
+      {tab === 'anamnesis' && (
+        <StudentAnamnesisTab studentId={student.id} />
       )}
     </div>
   )

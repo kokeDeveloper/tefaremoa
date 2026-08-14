@@ -2,6 +2,39 @@ import { NextResponse } from 'next/server';
 import { PrismaClient } from '@/app/generated/prisma';
 import { verifyToken } from '@/lib/jwt';
 
+export async function GET(req: Request) {
+  try {
+    const cookie = req.headers.get('cookie') || '';
+    const match = cookie.match(/token=([^;]+)/);
+    const token = match ? match[1] : null;
+    const payload = token ? verifyToken(token) : null;
+    if (!payload || payload.role === 'student') {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
+    const { searchParams } = new URL(req.url);
+    const studentIdParam = searchParams.get('studentId');
+    if (!studentIdParam) {
+      return NextResponse.json({ error: 'studentId requerido' }, { status: 400 });
+    }
+    const studentId = Number(studentIdParam);
+    if (!Number.isInteger(studentId) || studentId <= 0) {
+      return NextResponse.json({ error: 'studentId inválido' }, { status: 400 });
+    }
+
+    const records = await prisma.anamnesis.findMany({
+      where: { studentId },
+      orderBy: { createdAt: 'desc' },
+    });
+    return NextResponse.json(records);
+  } catch (error) {
+    console.error('anamnesis get error', error);
+    return NextResponse.json({ error: 'Error al obtener la anamnesis.' }, { status: 500 });
+  } finally {
+    await prisma.$disconnect();
+  }
+}
+
 const prisma = new PrismaClient();
 
 // Simple in-memory rate limit per IP: max 5 requests per minute
