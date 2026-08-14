@@ -47,6 +47,14 @@ export interface DashboardSummary {
         instructorName: string | null;
       }>;
     };
+    weeklyAttendance: {
+      total: number;
+      weekStart: string;
+      trend: {
+        previousTotal: number;
+        difference: number;
+      };
+    };
   };
 }
 
@@ -75,6 +83,13 @@ export async function getDashboardSummary(
   const monthStart = new Date(now.getFullYear(), now.getMonth(), 1);
   const nextMonthStart = new Date(now.getFullYear(), now.getMonth() + 1, 1);
   const previousMonthStart = new Date(monthStart.getFullYear(), monthStart.getMonth() - 1, 1);
+
+  // Monday of current week (getDay: 0=Sun,1=Mon,...)
+  const weekStart = new Date(now);
+  weekStart.setDate(now.getDate() - ((now.getDay() + 6) % 7));
+  weekStart.setHours(0, 0, 0, 0);
+  const prevWeekStart = new Date(weekStart);
+  prevWeekStart.setDate(weekStart.getDate() - 7);
 
   const [
     activeStudentsTotal,
@@ -161,6 +176,16 @@ export async function getDashboardSummary(
     }),
   ]);
 
+  // Attendance counts run after the main batch to keep peak DB connections at 7 (original)
+  let weeklyAttendanceTotal = 0;
+  let prevWeekAttendanceTotal = 0;
+  try {
+    [weeklyAttendanceTotal, prevWeekAttendanceTotal] = await Promise.all([
+      prisma.attendance.count({ where: { date: { gte: weekStart, lte: now } } }),
+      prisma.attendance.count({ where: { date: { gte: prevWeekStart, lt: weekStart } } }),
+    ]);
+  } catch { /* attendance metrics are non-critical */ }
+
   const revenueTotal = revenueCurrent._sum.amount ?? 0;
   const revenuePrevTotal = revenuePrevious._sum.amount ?? 0;
   const revenueDifference = revenueTotal - revenuePrevTotal;
@@ -209,6 +234,14 @@ export async function getDashboardSummary(
         horizonDays: workshopHorizonDays,
         nextWorkshop: workshopItems.length > 0 ? workshopItems[0] : null,
         items: workshopItems.slice(0, 5),
+      },
+      weeklyAttendance: {
+        total: weeklyAttendanceTotal,
+        weekStart: weekStart.toISOString(),
+        trend: {
+          previousTotal: prevWeekAttendanceTotal,
+          difference: weeklyAttendanceTotal - prevWeekAttendanceTotal,
+        },
       },
     },
   };

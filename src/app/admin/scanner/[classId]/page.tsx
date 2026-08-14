@@ -6,7 +6,7 @@ import { useParams, useRouter } from "next/navigation";
 import { cn } from "@/util/cn";
 import {
   IconArrowLeft, IconQrcode, IconUserCheck, IconAlertTriangle, IconX,
-  IconList, IconCamera, IconRefresh, IconCheck, IconMinus,
+  IconList, IconCamera, IconRefresh, IconCheck, IconMinus, IconCalendar,
 } from "@tabler/icons-react";
 
 const QrScannerCamera = dynamicImport(() => import("./QrScannerCamera"), { ssr: false });
@@ -32,6 +32,9 @@ type RosterEntry = {
   attendanceId: number | null;
 };
 
+type HistoryStudent = { id: number; name: string; lastName: string; presentDates: string[] };
+type HistoryData = { dates: string[]; students: HistoryStudent[] };
+
 // â”€â”€ Helpers â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 function nowTime() {
@@ -49,7 +52,7 @@ export default function ScannerPage() {
   const router = useRouter();
   const classId = Number(params.classId);
 
-  const [activeTab, setActiveTab] = useState<"scanner" | "lista">("scanner");
+  const [activeTab, setActiveTab] = useState<"scanner" | "lista" | "historial">("lista");
   const [classInfo, setClassInfo] = useState<ClassInfo | null>(null);
   const [loadingClass, setLoadingClass] = useState(true);
 
@@ -60,10 +63,19 @@ export default function ScannerPage() {
   const [scannerActive, setScannerActive] = useState(true);
   const listRef = useRef<HTMLDivElement>(null);
 
-  // â”€â”€ Lista manual state â”€â”€
+  // ── Lista manual state ──
+  const [selectedDate, setSelectedDate] = useState(() => new Date().toISOString().slice(0, 10));
   const [roster, setRoster] = useState<RosterEntry[]>([]);
   const [rosterLoading, setRosterLoading] = useState(false);
   const [toggling, setToggling] = useState<Set<number>>(new Set());
+
+  // ── Historial state ──
+  const [historyFrom, setHistoryFrom] = useState(() => {
+    const d = new Date(); d.setDate(d.getDate() - 30); return d.toISOString().slice(0, 10);
+  });
+  const [historyTo, setHistoryTo] = useState(() => new Date().toISOString().slice(0, 10));
+  const [historyData, setHistoryData] = useState<HistoryData | null>(null);
+  const [historyLoading, setHistoryLoading] = useState(false);
 
   // Load class info
   useEffect(() => {
@@ -85,18 +97,35 @@ export default function ScannerPage() {
     if (!classId) return;
     setRosterLoading(true);
     try {
-      const res = await fetch(`/api/classes/${classId}/roster`, { credentials: "include" });
+      const res = await fetch(`/api/classes/${classId}/roster?date=${selectedDate}`, { credentials: "include" });
       const data = await res.json();
       if (res.ok) setRoster(data);
     } catch { /* ignore */ } finally {
       setRosterLoading(false);
     }
-  }, [classId]);
+  }, [classId, selectedDate]);
 
   useEffect(() => {
     if (activeTab === "lista") loadRoster();
   }, [activeTab, loadRoster]);
+  const loadHistory = useCallback(async () => {
+    if (!classId) return;
+    setHistoryLoading(true);
+    try {
+      const res = await fetch(
+        `/api/attendance/history?classId=${classId}&from=${historyFrom}&to=${historyTo}`,
+        { credentials: "include" }
+      );
+      const data = await res.json();
+      if (res.ok) setHistoryData(data);
+    } catch { /* ignore */ } finally {
+      setHistoryLoading(false);
+    }
+  }, [classId, historyFrom, historyTo]);
 
+  useEffect(() => {
+    if (activeTab === "historial") loadHistory();
+  }, [activeTab, loadHistory]);
   // â”€â”€ Scanner handlers â”€â”€
 
   function addEntry(entry: Omit<ScannedEntry, "id" | "time">) {
@@ -108,7 +137,7 @@ export default function ScannerPage() {
 
   function handleScanResult(result: { ok: boolean; studentName: string; alreadyRecorded?: boolean; notEnrolled?: boolean; error?: string }) {
     if (result.ok) {
-      addEntry({ studentName: result.studentName, status: result.notEnrolled ? "warning" : "ok", message: result.notEnrolled ? "Sin inscripciÃ³n activa" : undefined });
+      addEntry({ studentName: result.studentName, status: result.notEnrolled ? "warning" : "ok", message: result.notEnrolled ? "Sin inscripción activa" : undefined });
     } else if (result.alreadyRecorded) {
       addEntry({ studentName: result.studentName || "?", status: "duplicate", message: "Ya registrada hoy" });
     } else {
@@ -130,7 +159,7 @@ export default function ScannerPage() {
       });
       const data = await res.json().catch(() => ({}));
       if (res.ok) {
-        addEntry({ studentName: `${data.student.name} ${data.student.lastName}`, status: data.notEnrolled ? "warning" : "ok", message: data.notEnrolled ? "Sin inscripciÃ³n activa" : undefined });
+        addEntry({ studentName: `${data.student.name} ${data.student.lastName}`, status: data.notEnrolled ? "warning" : "ok", message: data.notEnrolled ? "Sin inscripción activa" : undefined });
       } else if (res.status === 409) {
         addEntry({ studentName: `${data.student?.name ?? "?"} ${data.student?.lastName ?? ""}`.trim(), status: "duplicate", message: "Ya registrada hoy" });
       } else {
@@ -168,7 +197,7 @@ export default function ScannerPage() {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           credentials: "include",
-          body: JSON.stringify({ studentId: entry.studentId, classId }),
+          body: JSON.stringify({ studentId: entry.studentId, classId, date: selectedDate }),
         });
         const data = await res.json().catch(() => ({}));
         if (res.ok || res.status === 409) {
@@ -186,7 +215,7 @@ export default function ScannerPage() {
   // â”€â”€ Styles â”€â”€
 
   const STATUS_STYLES: Record<ScannedEntry["status"], string> = {
-    ok: "bg-emerald-500/15 border-emerald-500/40 text-emerald-300",
+    ok: "bg-orange-500/15 border-orange-500/40 text-orange-300",
     warning: "bg-amber-500/15 border-amber-500/40 text-amber-300",
     duplicate: "bg-neutral-700/60 border-neutral-600 text-neutral-400",
     error: "bg-red-500/15 border-red-500/40 text-red-300",
@@ -204,12 +233,12 @@ export default function ScannerPage() {
     <div className="min-h-screen bg-neutral-950 text-white flex flex-col">
       {/* â”€â”€ Header â”€â”€ */}
       <div className="bg-neutral-900 border-b border-neutral-800 px-4 py-3 flex items-center gap-3">
-        <button onClick={() => router.back()} className="text-neutral-400 hover:text-white transition-colors">
+        <button onClick={() => router.push('/admin?section=attendance')} className="text-neutral-400 hover:text-white transition-colors">
           <IconArrowLeft size={20} />
         </button>
         <div className="min-w-0 flex-1">
           {loadingClass ? (
-            <div className="text-sm text-neutral-400">Cargando claseâ€¦</div>
+            <div className="text-sm text-neutral-400">Cargando clase…</div>
           ) : classInfo ? (
             <>
               <h1 className="text-sm font-semibold truncate">{classInfo.name}</h1>
@@ -221,8 +250,12 @@ export default function ScannerPage() {
             <div className="text-sm text-red-400">Clase no encontrada</div>
           )}
         </div>
-        <span className="shrink-0 rounded-full bg-emerald-500/20 border border-emerald-500/40 px-2.5 py-0.5 text-xs text-emerald-300 font-medium">
-          {activeTab === "lista" ? presentCount : scanned.filter((s) => s.status === "ok" || s.status === "warning").length} presentes
+        <span className="shrink-0 rounded-full bg-orange-500/20 border border-orange-500/40 px-2.5 py-0.5 text-xs text-orange-300 font-medium">
+          {activeTab === "lista"
+            ? `${presentCount} presentes`
+            : activeTab === "historial"
+            ? `${historyData?.dates.length ?? 0} sesiones`
+            : `${scanned.filter((s) => s.status === "ok" || s.status === "warning").length} presentes`}
         </span>
       </div>
 
@@ -233,22 +266,33 @@ export default function ScannerPage() {
           className={cn(
             "flex flex-1 items-center justify-center gap-2 py-2.5 text-xs font-medium transition-colors border-b-2",
             activeTab === "scanner"
-              ? "border-emerald-500 text-emerald-400"
+              ? "border-orange-500 text-orange-400"
               : "border-transparent text-neutral-500 hover:text-neutral-300"
           )}
         >
-          <IconCamera size={15} /> EscÃ¡ner QR
+          <IconCamera size={15} /> Escáner QR
         </button>
         <button
           onClick={() => setActiveTab("lista")}
           className={cn(
             "flex flex-1 items-center justify-center gap-2 py-2.5 text-xs font-medium transition-colors border-b-2",
             activeTab === "lista"
-              ? "border-emerald-500 text-emerald-400"
+              ? "border-orange-500 text-orange-400"
               : "border-transparent text-neutral-500 hover:text-neutral-300"
           )}
         >
           <IconList size={15} /> Lista manual
+        </button>
+        <button
+          onClick={() => setActiveTab("historial")}
+          className={cn(
+            "flex flex-1 items-center justify-center gap-2 py-2.5 text-xs font-medium transition-colors border-b-2",
+            activeTab === "historial"
+              ? "border-orange-500 text-orange-400"
+              : "border-transparent text-neutral-500 hover:text-neutral-300"
+          )}
+        >
+          <IconCalendar size={15} /> Historial
         </button>
       </div>
 
@@ -261,7 +305,7 @@ export default function ScannerPage() {
               <button
                 className="absolute top-2 right-2 rounded-full bg-neutral-900/80 p-1.5 text-neutral-400 hover:text-white"
                 onClick={() => setScannerActive(false)}
-                title="Ocultar cÃ¡mara"
+                title="Ocultar cámara"
               >
                 <IconX size={16} />
               </button>
@@ -272,7 +316,7 @@ export default function ScannerPage() {
               className="w-full rounded-xl border border-neutral-700 py-3 text-sm text-neutral-400 hover:bg-neutral-800 transition-colors"
               onClick={() => setScannerActive(true)}
             >
-              Activar cÃ¡mara
+              Activar cámara
             </button>
           )}
           <form onSubmit={handleManualSubmit} className="flex gap-2">
@@ -280,18 +324,18 @@ export default function ScannerPage() {
               type="text"
               value={manualToken}
               onChange={(e) => setManualToken(e.target.value)}
-              placeholder="Ingresar token QR manualmenteâ€¦"
-              className="flex-1 rounded-lg bg-neutral-800 border border-neutral-700 px-3 py-2 text-sm text-white placeholder:text-neutral-500 focus:outline-none focus:ring-1 focus:ring-emerald-500"
+              placeholder="Ingresar token QR manualmente…"
+              className="flex-1 rounded-lg bg-neutral-800 border border-neutral-700 px-3 py-2 text-sm text-white placeholder:text-neutral-500 focus:outline-none focus:ring-1 focus:ring-orange-500"
             />
             <button
               type="submit"
               disabled={manualLoading || !manualToken.trim()}
               className={cn(
                 "rounded-lg px-4 py-2 text-sm font-medium transition-colors",
-                manualToken.trim() ? "bg-emerald-600 hover:bg-emerald-500 text-white" : "bg-neutral-700 text-neutral-500 cursor-not-allowed"
+                manualToken.trim() ? "bg-orange-600 hover:bg-orange-500 text-white" : "bg-neutral-700 text-neutral-500 cursor-not-allowed"
               )}
             >
-              {manualLoading ? "â€¦" : "OK"}
+              {manualLoading ? "…" : "OK"}
             </button>
           </form>
           {scanned.length > 0 && (
@@ -313,7 +357,7 @@ export default function ScannerPage() {
             </div>
           )}
           {scanned.length === 0 && !scannerActive && (
-            <p className="text-center text-sm text-neutral-600 py-8">Sin registros aÃºn.</p>
+            <p className="text-center text-sm text-neutral-600 py-8">Sin registros aún.</p>
           )}
         </div>
       )}
@@ -322,24 +366,32 @@ export default function ScannerPage() {
       {activeTab === "lista" && (
         <div className="flex-1 overflow-y-auto flex flex-col">
           {/* Toolbar */}
-          <div className="flex items-center justify-between px-4 py-3 border-b border-neutral-800/50">
-            <p className="text-xs text-neutral-500">
-              {rosterLoading ? "Cargandoâ€¦" : `${roster.length} alumnas inscriptas Â· ${presentCount} presentes`}
-            </p>
-            <button
-              onClick={loadRoster}
-              disabled={rosterLoading}
-              className="flex items-center gap-1.5 text-xs text-neutral-500 hover:text-neutral-200 transition-colors"
-            >
-              <IconRefresh size={13} className={rosterLoading ? "animate-spin" : ""} />
-              Actualizar
-            </button>
+          <div className="flex flex-col gap-2 px-4 py-3 border-b border-neutral-800/50">
+            <div className="flex items-center justify-between">
+              <p className="text-xs text-neutral-500">
+                {rosterLoading ? "Cargando…" : `${roster.length} alumnas inscriptas · ${presentCount} presentes`}
+              </p>
+              <button
+                onClick={loadRoster}
+                disabled={rosterLoading}
+                className="flex items-center gap-1.5 text-xs text-neutral-500 hover:text-neutral-200 transition-colors"
+              >
+                <IconRefresh size={13} className={rosterLoading ? "animate-spin" : ""} />
+                Actualizar
+              </button>
+            </div>
+            <input
+              type="date"
+              value={selectedDate}
+              onChange={(e) => setSelectedDate(e.target.value)}
+              className="w-full rounded-lg bg-neutral-800 border border-neutral-700 px-3 py-1.5 text-xs text-white focus:outline-none focus:ring-1 focus:ring-orange-500"
+            />
           </div>
 
           {/* Roster list */}
           {rosterLoading && roster.length === 0 ? (
             <div className="flex-1 flex items-center justify-center">
-              <p className="text-sm text-neutral-600">Cargando listaâ€¦</p>
+              <p className="text-sm text-neutral-600">Cargando lista…</p>
             </div>
           ) : roster.length === 0 ? (
             <div className="flex-1 flex items-center justify-center px-6 text-center">
@@ -354,7 +406,7 @@ export default function ScannerPage() {
                     <button
                       className={cn(
                         "w-full flex items-center gap-3 px-4 py-3 text-left transition-colors",
-                        entry.present ? "bg-emerald-950/30 hover:bg-emerald-950/50" : "hover:bg-neutral-900/60"
+                        entry.present ? "bg-orange-900/20 hover:bg-orange-900/30" : "hover:bg-neutral-900/60"
                       )}
                       onClick={() => toggleAttendance(entry)}
                       disabled={isToggling}
@@ -362,7 +414,7 @@ export default function ScannerPage() {
                       {/* Initials avatar */}
                       <div className={cn(
                         "h-9 w-9 shrink-0 rounded-full flex items-center justify-center text-xs font-bold",
-                        entry.present ? "bg-emerald-500/20 text-emerald-400" : "bg-neutral-800 text-neutral-500"
+                        entry.present ? "bg-orange-500/20 text-orange-400" : "bg-neutral-800 text-neutral-500"
                       )}>
                         {getInitials(entry.name, entry.lastName)}
                       </div>
@@ -379,12 +431,12 @@ export default function ScannerPage() {
                       <div className={cn(
                         "shrink-0 h-7 w-7 rounded-full flex items-center justify-center transition-all",
                         isToggling ? "bg-neutral-700" :
-                        entry.present ? "bg-emerald-500/20 border border-emerald-500/40" : "border border-neutral-700"
+                        entry.present ? "bg-orange-500/20 border border-orange-500/40" : "border border-neutral-700"
                       )}>
                         {isToggling ? (
                           <IconRefresh size={13} className="text-neutral-500 animate-spin" />
                         ) : entry.present ? (
-                          <IconCheck size={13} className="text-emerald-400" />
+                          <IconCheck size={13} className="text-orange-400" />
                         ) : (
                           <IconMinus size={13} className="text-neutral-600" />
                         )}
@@ -400,12 +452,124 @@ export default function ScannerPage() {
           {roster.length > 0 && (
             <div className="sticky bottom-0 bg-neutral-950 border-t border-neutral-800/50 px-4 py-3 flex items-center justify-between">
               <div className="flex items-center gap-3 text-xs text-neutral-500">
-                <span className="flex items-center gap-1"><span className="h-2 w-2 rounded-full bg-emerald-500" />{presentCount} presentes</span>
+                <span className="flex items-center gap-1"><span className="h-2 w-2 rounded-full bg-orange-500" />{presentCount} presentes</span>
                 <span className="flex items-center gap-1"><span className="h-2 w-2 rounded-full bg-neutral-700" />{roster.length - presentCount} ausentes</span>
               </div>
               <span className="text-xs font-medium text-neutral-400">
                 {roster.length > 0 ? Math.round((presentCount / roster.length) * 100) : 0}% asistencia
               </span>
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* ── Tab: Historial ── */}
+      {activeTab === "historial" && (
+        <div className="flex-1 overflow-hidden flex flex-col">
+          {/* Toolbar */}
+          <div className="flex flex-col gap-2 px-4 py-3 border-b border-neutral-800/50">
+            <div className="flex items-center gap-2">
+              <div className="flex-1">
+                <label className="text-xs text-neutral-500 block mb-1">Desde</label>
+                <input
+                  type="date"
+                  value={historyFrom}
+                  onChange={(e) => setHistoryFrom(e.target.value)}
+                  className="w-full rounded-lg bg-neutral-800 border border-neutral-700 px-3 py-1.5 text-xs text-white focus:outline-none focus:ring-1 focus:ring-orange-500"
+                />
+              </div>
+              <div className="flex-1">
+                <label className="text-xs text-neutral-500 block mb-1">Hasta</label>
+                <input
+                  type="date"
+                  value={historyTo}
+                  onChange={(e) => setHistoryTo(e.target.value)}
+                  className="w-full rounded-lg bg-neutral-800 border border-neutral-700 px-3 py-1.5 text-xs text-white focus:outline-none focus:ring-1 focus:ring-orange-500"
+                />
+              </div>
+              <button
+                onClick={loadHistory}
+                disabled={historyLoading}
+                className="mt-4 shrink-0 flex items-center gap-1 text-xs text-neutral-500 hover:text-neutral-200 transition-colors"
+                title="Recargar historial"
+              >
+                <IconRefresh size={14} className={historyLoading ? "animate-spin" : ""} />
+              </button>
+            </div>
+          </div>
+
+          {historyLoading && !historyData ? (
+            <div className="flex-1 flex items-center justify-center">
+              <p className="text-sm text-neutral-600">Cargando historial…</p>
+            </div>
+          ) : !historyData || historyData.dates.length === 0 ? (
+            <div className="flex-1 flex items-center justify-center px-6 text-center">
+              <p className="text-sm text-neutral-600">
+                {historyData ? "Sin registros en el período seleccionado." : "Selecciona un rango y recarga."}
+              </p>
+            </div>
+          ) : (
+            <div className="flex-1 overflow-auto">
+              <table className="text-xs border-collapse min-w-max">
+                <thead className="sticky top-0 z-20 bg-neutral-950">
+                  <tr className="border-b border-neutral-800">
+                    <th className="sticky left-0 z-30 bg-neutral-950 px-3 py-2 text-left text-neutral-500 font-medium min-w-[140px]">Alumna</th>
+                    {historyData.dates.map((d) => {
+                      const [, month, day] = d.split("-");
+                      return (
+                        <th key={d} className="px-1 py-2 text-center text-neutral-500 font-normal min-w-[32px] leading-tight">
+                          <span className="block font-semibold">{day}</span>
+                          <span className="block text-neutral-600 text-[10px]">/{month}</span>
+                        </th>
+                      );
+                    })}
+                    <th className="px-3 py-2 text-center text-neutral-500 font-medium">%</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {historyData.students.map((student) => {
+                    const presentSet = new Set(student.presentDates);
+                    const pct = historyData.dates.length > 0
+                      ? Math.round((student.presentDates.length / historyData.dates.length) * 100)
+                      : 0;
+                    return (
+                      <tr key={student.id} className="border-b border-neutral-800/40 hover:bg-neutral-900/40">
+                        <td className="sticky left-0 z-10 bg-neutral-950 px-3 py-2 font-medium text-neutral-300 min-w-[140px] max-w-[160px] truncate">
+                          {student.name} {student.lastName}
+                        </td>
+                        {historyData.dates.map((d) => (
+                          <td key={d} className="px-1 py-2 text-center">
+                            <span className={cn(
+                              "inline-block h-5 w-5 rounded-full",
+                              presentSet.has(d) ? "bg-orange-500/70" : "bg-neutral-800"
+                            )} />
+                          </td>
+                        ))}
+                        <td className={cn(
+                          "px-3 py-2 text-center font-semibold tabular-nums",
+                          pct >= 75 ? "text-orange-400" : pct >= 50 ? "text-amber-400" : "text-red-400"
+                        )}>
+                          {pct}%
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+                <tfoot>
+                  <tr className="border-t border-neutral-700 bg-neutral-950">
+                    <td className="sticky left-0 z-10 bg-neutral-950 px-3 py-2 text-neutral-500 font-medium">Total</td>
+                    {historyData.dates.map((d) => {
+                      const count = historyData.students.filter((s) => s.presentDates.includes(d)).length;
+                      return (
+                        <td key={d} className="px-1 py-2 text-center text-neutral-400 tabular-nums font-medium">
+                          {count}
+                        </td>
+                      );
+                    })}
+                    <td />
+                  </tr>
+                </tfoot>
+              </table>
             </div>
           )}
         </div>

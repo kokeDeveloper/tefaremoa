@@ -235,6 +235,26 @@ exports.Prisma.DanceEvaluationScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.GalleryEventScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  description: 'description',
+  eventDate: 'eventDate',
+  isPublished: 'isPublished',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.GalleryPhotoScalarFieldEnum = {
+  id: 'id',
+  eventId: 'eventId',
+  filename: 'filename',
+  title: 'title',
+  sizeBytes: 'sizeBytes',
+  order: 'order',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -312,6 +332,16 @@ exports.Prisma.DanceEvaluationOrderByRelevanceFieldEnum = {
   partnerName: 'partnerName',
   observations: 'observations'
 };
+
+exports.Prisma.GalleryEventOrderByRelevanceFieldEnum = {
+  name: 'name',
+  description: 'description'
+};
+
+exports.Prisma.GalleryPhotoOrderByRelevanceFieldEnum = {
+  filename: 'filename',
+  title: 'title'
+};
 exports.AdminRole = exports.$Enums.AdminRole = {
   SUPERADMIN: 'SUPERADMIN',
   ADMIN: 'ADMIN',
@@ -333,7 +363,9 @@ exports.Prisma.ModelName = {
   Attendance: 'Attendance',
   Admin: 'Admin',
   Anamnesis: 'Anamnesis',
-  DanceEvaluation: 'DanceEvaluation'
+  DanceEvaluation: 'DanceEvaluation',
+  GalleryEvent: 'GalleryEvent',
+  GalleryPhoto: 'GalleryPhoto'
 };
 
 /**

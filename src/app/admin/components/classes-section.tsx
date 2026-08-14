@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 import React, { useCallback, useEffect, useState } from 'react'
 import Button from '@/components/ui/Button'
 import Modal from '@/components/ui/Modal'
@@ -64,7 +64,7 @@ export function ClassesSection() {
           </div>
           {tab === 'classes' && (
             <Button
-              className="bg-emerald-600 text-white text-sm px-3 py-1.5 hover:bg-emerald-700 flex items-center gap-1"
+              className="bg-orange-600 text-white text-sm px-3 py-1.5 hover:bg-orange-700 flex items-center gap-1"
               onClick={() => { setEditingClass(null); setShowForm(true) }}
             >
               <IconPlus size={15} /> Nueva clase
@@ -78,7 +78,7 @@ export function ClassesSection() {
             onClick={() => setTab('classes')}
             className={`flex items-center gap-1.5 px-1 py-2.5 text-sm border-b-2 transition-colors mr-4 ${
               tab === 'classes'
-                ? 'border-emerald-500 text-emerald-700 dark:text-emerald-400 font-medium'
+                ? 'border-orange-500 text-orange-700 dark:text-orange-400 font-medium'
                 : 'border-transparent text-neutral-500 hover:text-neutral-800 dark:hover:text-neutral-200'
             }`}
           >
@@ -88,7 +88,7 @@ export function ClassesSection() {
             onClick={() => setTab('instructors')}
             className={`flex items-center gap-1.5 px-1 py-2.5 text-sm border-b-2 transition-colors ${
               tab === 'instructors'
-                ? 'border-emerald-500 text-emerald-700 dark:text-emerald-400 font-medium'
+                ? 'border-orange-500 text-orange-700 dark:text-orange-400 font-medium'
                 : 'border-transparent text-neutral-500 hover:text-neutral-800 dark:hover:text-neutral-200'
             }`}
           >

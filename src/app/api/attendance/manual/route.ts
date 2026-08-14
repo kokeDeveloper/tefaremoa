@@ -20,7 +20,7 @@ export async function POST(req: Request) {
     }
 
     const body = await req.json().catch(() => null);
-    const { studentId, classId } = body ?? {};
+    const { studentId, classId, date } = body ?? {};
 
     if (!studentId || !classId) {
       return NextResponse.json({ error: "studentId y classId son requeridos." }, { status: 400 });
@@ -31,6 +31,10 @@ export async function POST(req: Request) {
     if (!Number.isInteger(studentIdNum) || studentIdNum <= 0 ||
         !Number.isInteger(classIdNum) || classIdNum <= 0) {
       return NextResponse.json({ error: "IDs inválidos." }, { status: 400 });
+    }
+
+    if (date !== undefined && (typeof date !== "string" || isNaN(Date.parse(date)))) {
+      return NextResponse.json({ error: "Fecha inválida." }, { status: 400 });
     }
 
     const student = await prisma.student.findUnique({
@@ -49,10 +53,11 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "Clase no encontrada." }, { status: 404 });
     }
 
-    // Check duplicate today
-    const todayStart = new Date();
+    // Check duplicate for the target date
+    const base = date ? new Date(date) : new Date();
+    const todayStart = new Date(base);
     todayStart.setHours(0, 0, 0, 0);
-    const todayEnd = new Date();
+    const todayEnd = new Date(base);
     todayEnd.setHours(23, 59, 59, 999);
 
     const existing = await prisma.attendance.findFirst({
@@ -75,7 +80,7 @@ export async function POST(req: Request) {
     }
 
     const attendance = await prisma.attendance.create({
-      data: { studentId: studentIdNum, classId: classIdNum },
+      data: { studentId: studentIdNum, classId: classIdNum, ...(date ? { date: new Date(date) } : {}) },
     });
 
     return NextResponse.json({

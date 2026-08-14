@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
@@ -11,6 +11,7 @@ import {
   IconUserEdit,
   IconCamera,
   IconHeartPlus,
+  IconPhoto,
   IconLogout,
 } from "@tabler/icons-react";
 
@@ -74,7 +75,7 @@ function formatAmount(amount: number) {
 }
 
 const PLAN_STATUS_STYLES: Record<string, { label: string; classes: string }> = {
-  Active: { label: "Activo", classes: "bg-emerald-500/10 text-emerald-400 border-emerald-500/30" },
+  Active: { label: "Activo", classes: "bg-orange-500/10 text-orange-400 border-orange-500/30" },
   ExpiringSoon: { label: "Por vencer", classes: "bg-amber-500/10 text-amber-400 border-amber-500/30" },
   Expired: { label: "Vencido", classes: "bg-red-500/10 text-red-400 border-red-500/30" },
   NoPlan: { label: "Sin plan", classes: "bg-neutral-800 text-neutral-500 border-neutral-700" },
@@ -206,6 +207,12 @@ export default function StudentIndexPage() {
               onClick={() => { setMenuOpen(false); router.push("/admin/student-anamnesis"); }}
             >
               <IconHeartPlus size={15} className="text-orange-500/70 shrink-0" /> Ficha de salud
+            </button>
+            <button
+              className="flex w-full items-center gap-3 px-4 py-3 text-sm text-neutral-300 hover:bg-neutral-900 transition-colors border-t border-neutral-800/40"
+              onClick={() => { setMenuOpen(false); router.push("/admin/student-gallery"); }}
+            >
+              <IconPhoto size={15} className="text-orange-500/70 shrink-0" /> Galería exclusiva
             </button>
             <button
               className="flex w-full items-center gap-3 px-4 py-3 text-sm text-red-400/80 hover:bg-neutral-900 transition-colors border-t border-neutral-800/40"

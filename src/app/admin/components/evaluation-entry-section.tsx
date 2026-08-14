@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import React from 'react'
 import { cn } from '@/util/cn'
@@ -158,7 +158,7 @@ function RubricMatrix({
                         className={cn(
                           'flex cursor-pointer items-center justify-center rounded-md border px-2 py-2 transition',
                           checked
-                            ? 'border-emerald-500 bg-emerald-50 dark:bg-emerald-950/40'
+                            ? 'border-orange-500 bg-orange-50 dark:bg-orange-950/40'
                             : 'border-neutral-200 bg-white hover:bg-neutral-50 dark:border-neutral-700 dark:bg-neutral-950 dark:hover:bg-neutral-900'
                         )}
                       >
@@ -455,7 +455,7 @@ export function EvaluationEntrySection() {
             <div>
               <label className="text-sm font-medium text-neutral-700 dark:text-neutral-200">Alumna</label>
               <select
-                className="mt-1 w-full rounded border border-neutral-300 bg-white px-3 py-2 text-sm text-neutral-900 focus:border-emerald-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/40 dark:border-neutral-700 dark:bg-neutral-950 dark:text-neutral-100"
+                className="mt-1 w-full rounded border border-neutral-300 bg-white px-3 py-2 text-sm text-neutral-900 focus:border-orange-500 focus:outline-none focus:ring-2 focus:ring-orange-500/40 dark:border-neutral-700 dark:bg-neutral-950 dark:text-neutral-100"
                 value={selectedStudent?.id ?? ''}
                 onChange={(e) => {
                   const id = Number(e.target.value)
@@ -545,7 +545,7 @@ export function EvaluationEntrySection() {
 
         <form onSubmit={save} className="grid gap-6">
           {editingEvaluationId !== null && (
-            <div className="rounded-xl border border-emerald-500/30 bg-emerald-500/10 px-4 py-3 text-sm text-emerald-900 dark:text-emerald-100">
+            <div className="rounded-xl border border-orange-500/30 bg-orange-500/10 px-4 py-3 text-sm text-orange-900 dark:text-orange-100">
               Editando evaluación (ID #{editingEvaluationId}). Puedes modificar y guardar.
             </div>
           )}
@@ -559,7 +559,7 @@ export function EvaluationEntrySection() {
                   type="date"
                   value={evaluationDate}
                   onChange={(e) => setEvaluationDate(e.target.value)}
-                  className="mt-1 w-full rounded border border-neutral-300 bg-white px-3 py-2 text-sm text-neutral-900 focus:border-emerald-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/40 dark:border-neutral-700 dark:bg-neutral-950 dark:text-neutral-100"
+                  className="mt-1 w-full rounded border border-neutral-300 bg-white px-3 py-2 text-sm text-neutral-900 focus:border-orange-500 focus:outline-none focus:ring-2 focus:ring-orange-500/40 dark:border-neutral-700 dark:bg-neutral-950 dark:text-neutral-100"
                   required
                 />
               </div>
@@ -567,7 +567,7 @@ export function EvaluationEntrySection() {
               <div>
                 <label className="text-sm font-medium text-neutral-700 dark:text-neutral-200">Modalidad</label>
                 <select
-                  className="mt-1 w-full rounded border border-neutral-300 bg-white px-3 py-2 text-sm text-neutral-900 focus:border-emerald-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/40 dark:border-neutral-700 dark:bg-neutral-950 dark:text-neutral-100"
+                  className="mt-1 w-full rounded border border-neutral-300 bg-white px-3 py-2 text-sm text-neutral-900 focus:border-orange-500 focus:outline-none focus:ring-2 focus:ring-orange-500/40 dark:border-neutral-700 dark:bg-neutral-950 dark:text-neutral-100"
                   value={modality}
                   onChange={(e) => setModality(e.target.value as any)}
                 >
@@ -645,7 +645,7 @@ export function EvaluationEntrySection() {
               value={observations}
               onChange={(e) => setObservations(e.target.value)}
               placeholder="Escribe aquí las apreciaciones para la alumna…"
-              className="min-h-[140px] w-full rounded border border-neutral-300 bg-white px-3 py-2 text-sm text-neutral-900 focus:border-emerald-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/40 dark:border-neutral-700 dark:bg-neutral-950 dark:text-neutral-100"
+              className="min-h-[140px] w-full rounded border border-neutral-300 bg-white px-3 py-2 text-sm text-neutral-900 focus:border-orange-500 focus:outline-none focus:ring-2 focus:ring-orange-500/40 dark:border-neutral-700 dark:bg-neutral-950 dark:text-neutral-100"
             />
 
             {saveError && (
@@ -654,7 +654,7 @@ export function EvaluationEntrySection() {
               </div>
             )}
             {saveMessage && (
-              <div className="rounded border border-emerald-500/40 bg-emerald-500/10 px-3 py-2 text-sm text-emerald-900 dark:text-emerald-100">
+              <div className="rounded border border-orange-500/40 bg-orange-500/10 px-3 py-2 text-sm text-orange-900 dark:text-orange-100">
                 {saveMessage}
               </div>
             )}

@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 import React, { useCallback, useEffect, useState } from 'react'
 import Button from '@/components/ui/Button'
 import { IconTrash, IconUserPlus, IconX, IconScan } from '@tabler/icons-react'
@@ -148,9 +148,9 @@ export default function ClassDetail({ classId, onClose, onUpdated }: Props) {
         <div className="flex-1 overflow-y-auto px-5 py-4 flex flex-col gap-6">
           {/* Stats + Scanner link */}
           <div className="flex gap-4">
-            <div className="bg-emerald-50 dark:bg-emerald-900/20 rounded-lg px-4 py-3 flex-1 text-center">
+            <div className="bg-orange-50 dark:bg-orange-900/20 rounded-lg px-4 py-3 flex-1 text-center">
               <p className="text-xs text-neutral-500 dark:text-neutral-400">Inscritas</p>
-              <p className="text-xl font-bold text-emerald-700 dark:text-emerald-400">{cls._count.enrollments}</p>
+              <p className="text-xl font-bold text-orange-700 dark:text-orange-400">{cls._count.enrollments}</p>
             </div>
             <div className="bg-neutral-100 dark:bg-neutral-800 rounded-lg px-4 py-3 flex-1 text-center">
               <p className="text-xs text-neutral-500 dark:text-neutral-400">Capacidad</p>
@@ -186,7 +186,7 @@ export default function ClassDetail({ classId, onClose, onUpdated }: Props) {
                     placeholder="Buscar por nombre o correo…"
                     value={searchQuery}
                     onChange={(e) => handleSearch(e.target.value)}
-                    className="w-full pl-8 pr-3 py-2 text-sm rounded-md border border-neutral-300 dark:border-neutral-600 bg-white dark:bg-neutral-800 text-neutral-900 dark:text-neutral-100 focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                    className="w-full pl-8 pr-3 py-2 text-sm rounded-md border border-neutral-300 dark:border-neutral-600 bg-white dark:bg-neutral-800 text-neutral-900 dark:text-neutral-100 focus:outline-none focus:ring-2 focus:ring-orange-500"
                   />
                 </div>
               </div>
@@ -206,7 +206,7 @@ export default function ClassDetail({ classId, onClose, onUpdated }: Props) {
                           <span className="text-xs text-neutral-400 italic">Ya inscrita</span>
                         ) : (
                           <Button
-                            className="bg-emerald-600 text-white text-xs px-2 py-1 hover:bg-emerald-700 disabled:opacity-50"
+                            className="bg-orange-600 text-white text-xs px-2 py-1 hover:bg-orange-700 disabled:opacity-50"
                             onClick={() => handleEnroll(s.id)}
                             disabled={enrolling === s.id || cls._count.enrollments >= cls.capacity}
                           >
@@ -247,7 +247,7 @@ export default function ClassDetail({ classId, onClose, onUpdated }: Props) {
                       {e.student.planStatus && (
                         <span className={`text-xs px-2 py-0.5 rounded-full ${
                           e.student.planStatus === 'Active'
-                            ? 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400'
+                            ? 'bg-orange-100 text-orange-700 dark:bg-orange-900/30 dark:text-orange-400'
                             : 'bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400'
                         }`}>
                           {e.student.planStatus}
